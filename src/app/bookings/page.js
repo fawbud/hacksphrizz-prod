@@ -147,7 +147,7 @@ export default function BookingsPage() {
               You haven't made any train bookings. Start your journey today!
             </p>
             <button
-              onClick={() => router.push('/booking')}
+              onClick={() => router.push('/book')}
               className="bg-[#F27500] text-white px-8 py-3 rounded-lg hover:bg-[#d96600] transition-colors font-medium"
             >
               Book a Ticket

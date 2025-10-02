@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/context/AuthContext';
 import { supabase } from '@/lib/supabase';
+import Script from 'next/script';
 import Navbar from '@/components/Navbar';
 import StepTracker from '@/components/booking/StepTracker';
 import PassengerDetails from '@/components/booking/PassengerDetails';
@@ -166,8 +167,13 @@ export default function BookingPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <Navbar />
+    <>
+      <Script
+        src="https://wait.crowdhandler.com/js/latest/lite-validator/main.js?id=5b945cd137a611051bdeeb272d26ec267875dc11c069b06199678e790160fbfd"
+        strategy="beforeInteractive"
+      />
+      <div className="min-h-screen bg-gray-50">
+        <Navbar />
 
       <main className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Timer and Price Preview */}
@@ -230,6 +236,7 @@ export default function BookingPage() {
           )}
         </div>
       </main>
-    </div>
+      </div>
+    </>
   );
 }
