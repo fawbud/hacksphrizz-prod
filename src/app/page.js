@@ -27,7 +27,7 @@ export default function Home() {
               Book Your Train Tickets <span className="text-[#F27500]">Easily</span>
             </h1>
             <p className="text-xl text-gray-600 mb-12 max-w-2xl mx-auto">
-              Experience seamless train booking with TrainBooker. Fast, reliable, and convenient.
+              Experience seamless train booking with Quikyu. Fast, reliable, and convenient.
             </p>
             <div className="flex gap-4 justify-center">
               <Link

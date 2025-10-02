@@ -13,7 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata = {
-  title: "TrainBooker - Book Your Train Tickets",
+  title: "Quikyu - Book Your Train Tickets",
   description: "Book train tickets quickly and easily",
 };
 
