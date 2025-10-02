@@ -36,6 +36,10 @@ export default function RootLayout({ children }) {
             `,
           }}
         />
+        <Script
+        src="https://wait.crowdhandler.com/js/latest/lite-validator/main.js?id=5b945cd137a611051bdeeb272d26ec267875dc11c069b06199678e790160fbfd"
+        strategy="beforeInteractive"
+      />
       </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
