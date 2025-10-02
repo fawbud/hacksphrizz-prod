@@ -169,7 +169,7 @@ export default function BookingPage() {
   return (
     <>
       <Script
-        src="https://wait.crowdhandler.com/js/latest/lite-validator/main.js?id=5b945cd137a611051bdeeb272d26ec267875dc11c069b06199678e790160fbfd"
+        src="https://wait.crowdhandler.com/js/latest/lite-validator/main.js?id=5b945cd137a611051bdeeb272d26ec267875dc11c069b06199678e790160fbfd&spa=true"
         strategy="beforeInteractive"
       />
       <div className="min-h-screen bg-gray-50">
