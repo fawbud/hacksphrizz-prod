@@ -1,0 +1,22 @@
+{
+  "totalRecords": 87672,
+  "dateRange": "2016-01-01 to 2025-12-31",
+  "routes": [
+    "Jakarta-Surabaya",
+    "Jakarta-Yogyakarta",
+    "Jakarta-Bandung",
+    "Jakarta-Semarang",
+    "Jakarta-Solo",
+    "Surabaya-Malang",
+    "Bandung-Yogyakarta",
+    "Jakarta-Cirebon"
+  ],
+  "trainTypes": [
+    "Eksekutif",
+    "Bisnis",
+    "Ekonomi"
+  ],
+  "avgDailyBookingsPerRoute": 966,
+  "maxBookings": 5697,
+  "minBookings": 33
+}
