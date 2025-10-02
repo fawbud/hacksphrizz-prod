@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <title>Virtual Waiting Room</title>
+  <!-- CrowdHandler Main CSS -->
+ <link rel="stylesheet" href="https://wait.crowdhandler.com/css/latest/ch-main.css" crossorigin="anonymous">
+
+
+ <!-- Custom CSS -->
+ <link rel="stylesheet" href="https://www.quikyu.xyz/special-static/wr.css">
+
+
+ <meta name="robots" content="noindex" />
+</head>
+<body class="ch-loading">
+ <div class="ch-container">
+   <section class="ch-section ch-active" id="ch-active">
+     <div class="max-w-4xl mx-auto">
+       <div class="bg-white rounded-3xl shadow-xl p-12 border border-orange-100 text-center">
+
+
+         <!-- Clock Icon -->
+         <div class="clock-icon w-24 h-24 mx-auto mb-6"></div>
+
+
+         <!-- Header -->
+         <h2 class="title">You're in the Virtual Waiting Room</h2>
+         <p class="subtitle">Mohon tunggu sebentar, kami sedang memproses akses Anda</p>
+
+
+         <!-- Queue Position -->
+         <div class="queue-box mb-8">
+           <div class="queue-label">Posisi Anda di Antrean</div>
+           <div class="queue-number" id="ch-count">#1,247</div>
+           <div class="queue-total">dari 8,450 pengguna</div>
+         </div>
+
+
+         <!-- Progress Bar -->
+         <div class="progress-wrapper mb-8">
+           <div class="flex justify-between text-sm mb-2">
+             <span>Progress</span>
+             <span id="ch-estimated-wait">Estimasi: 2 menit 30 detik</span>
+           </div>
+           <div class="progress-bar-bg">
+             <div id="ch-progress" class="progress-bar-fill" style="width:35%"></div>
+           </div>
+         </div>
+
+
+         <!-- Info Cards -->
+         <div class="info-cards grid grid-cols-2 gap-4 mb-8">
+           <div class="info-card blue">
+             <div class="icon users-icon"></div>
+             <div class="label">Users Ahead</div>
+             <div class="value" id="ch-users-ahead">1,246</div>
+           </div>
+           <div class="info-card green">
+             <div class="icon trending-icon"></div>
+             <div class="label">Processing Rate</div>
+             <div class="value" id="ch-processing-rate">45/min</div>
+           </div>
+         </div>
+
+
+         <!-- Suspicious Behavior Alert -->
+         <div class="alert-box yellow mb-8">
+           <div class="flex items-start gap-3">
+             <div class="icon alert-icon"></div>
+             <div>
+               <div class="alert-title">AI Behavioral Tracking Aktif</div>
+               <div class="alert-text">Mendeteksi perilaku mencurigakan untuk Trust Scoring 2</div>
+             </div>
+           </div>
+         </div>
+
+
+         <!-- Smart Recommendation -->
+         <div class="alert-box green mb-8">
+           <div class="flex items-start gap-3">
+             <div class="icon sparkles-icon"></div>
+             <div>
+               <div class="alert-title">Smart Recommendation</div>
+               <div class="alert-text" id="ch-smart-recommendation">
+                 Rute Jakarta-Yogya diprediksi sold out. Coba alternatif: Jakarta-Solo (Rp 285K)
+               </div>
+             </div>
+           </div>
+         </div>
+
+
+         <!-- Continue Button -->
+         <button id="ch-continue-btn" class="continue-btn">
+           Lanjut ke Pembelian Tiket
+         </button>
+
+
+       </div>
+     </div>
+   </section>
+ </div>
+
+
+ <!-- CrowdHandler JS -->
+ <script src="https://wait.crowdhandler.com/js/latest/main.js?id=ch-public-key"></script>
+ <!-- Custom JS -->
+ <script src="https://www.quikyu.xyz/special-static/wr.js"></script>
+</body>
+</html>
