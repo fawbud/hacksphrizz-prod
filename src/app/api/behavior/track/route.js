@@ -1,5 +1,5 @@
-import { supabaseAdmin } from '../../../utils/supabase.js';
-import { calculateTrustScore, validateMetrics } from '../../../utils/scoring.js';
+import { supabaseAdmin } from '@/utils/supabase';
+import { calculateTrustScore, validateMetrics } from '@/utils/scoring';
 import { NextResponse } from 'next/server';
 
 export async function POST(request) {
