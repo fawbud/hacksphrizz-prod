@@ -76,17 +76,17 @@ export default function Home() {
               <div className="bg-gradient-to-br from-[#F27500] to-[#d96600] text-white p-8 rounded-xl">
                 <h2 className="text-2xl font-bold mb-4">Book a New Ticket</h2>
                 <p className="mb-6">Search for trains and book your journey</p>
-                <button className="bg-white text-[#F27500] px-6 py-2 rounded-lg hover:bg-gray-100 transition-colors">
-                  Search Trains
-                </button>
+                <Link href="/booking" className="inline-block bg-white text-[#F27500] px-6 py-2 rounded-lg hover:bg-gray-100 transition-colors">
+                  Book Ticket
+                </Link>
               </div>
 
               <div className="border-2 border-gray-200 p-8 rounded-xl">
                 <h2 className="text-2xl font-bold text-gray-900 mb-4">My Bookings</h2>
                 <p className="text-gray-600 mb-6">View and manage your tickets</p>
-                <button className="border-2 border-[#F27500] text-[#F27500] px-6 py-2 rounded-lg hover:bg-[#F27500] hover:text-white transition-colors">
+                <Link href="/bookings" className="inline-block border-2 border-[#F27500] text-[#F27500] px-6 py-2 rounded-lg hover:bg-[#F27500] hover:text-white transition-colors">
                   View Bookings
-                </button>
+                </Link>
               </div>
             </div>
 
