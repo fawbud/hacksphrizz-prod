@@ -1,6 +1,7 @@
 'use client';
 
 import { createContext, useContext, useEffect, useState } from 'react';
+import { usePathname } from 'next/navigation';
 
 const CrowdHandlerContext = createContext();
 
@@ -8,10 +9,14 @@ export function CrowdHandlerProvider({ children }) {
   const [isPromoted, setIsPromoted] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [gatekeeper, setGatekeeper] = useState(null);
+  const pathname = usePathname();
 
   useEffect(() => {
     const initializeCrowdHandler = async () => {
       try {
+        // Reset state when route changes
+        setIsLoading(true);
+
         // Only run on client side
         if (typeof window === 'undefined') {
           setIsLoading(false);
@@ -20,8 +25,10 @@ export function CrowdHandlerProvider({ children }) {
         }
 
         // Check if current page should be protected
-        const currentPath = window.location.pathname;
+        const currentPath = pathname || window.location.pathname;
         const isProtectedRoute = currentPath.startsWith('/book');
+
+        console.log('CrowdHandler: Route changed to:', currentPath, '| Protected:', isProtectedRoute);
 
         if (!isProtectedRoute) {
           console.log('CrowdHandler: Not a protected route, allowing access');
@@ -168,7 +175,7 @@ export function CrowdHandlerProvider({ children }) {
     };
 
     initializeCrowdHandler();
-  }, []);
+  }, [pathname]);
 
   const recordPerformance = async (options = {}) => {
     if (typeof window === 'undefined') return;
