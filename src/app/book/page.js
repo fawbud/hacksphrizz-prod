@@ -3,9 +3,10 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/context/AuthContext';
+import { useCrowdHandler } from '@/context/CrowdHandlerContext';
 import { supabase } from '@/lib/supabase';
-import Script from 'next/script';
 import Navbar from '@/components/Navbar';
+import ProtectedRoute from '@/components/ProtectedRoute';
 import StepTracker from '@/components/booking/StepTracker';
 import PassengerDetails from '@/components/booking/PassengerDetails';
 import SeatSelector from '@/components/booking/SeatSelector';
@@ -18,6 +19,7 @@ const TOTAL_TIME = 10 * 60 * 1000; // 10 minutes in milliseconds
 export default function BookingPage() {
   const router = useRouter();
   const { user, loading } = useAuth();
+  const { recordPerformance } = useCrowdHandler();
   const [currentStep, setCurrentStep] = useState(1);
   const [timeLeft, setTimeLeft] = useState(TOTAL_TIME);
   const [bookingData, setBookingData] = useState({
@@ -147,6 +149,13 @@ export default function BookingPage() {
       }
 
       alert('Booking completed successfully!');
+      
+      // Record performance for successful booking
+      await recordPerformance({
+        statusCode: 200,
+        sample: 1.0 // Record all successful bookings
+      });
+      
       router.push('/');
     } catch (error) {
       console.error('Error completing booking:', error);
@@ -167,11 +176,7 @@ export default function BookingPage() {
   }
 
   return (
-    <>
-      <Script
-        src="https://wait.crowdhandler.com/js/latest/lite-validator/main.js?id=5b945cd137a611051bdeeb272d26ec267875dc11c069b06199678e790160fbfd"
-        strategy="beforeInteractive"
-      />
+    <ProtectedRoute>
       <div className="min-h-screen bg-gray-50">
         <Navbar />
 
@@ -237,6 +242,6 @@ export default function BookingPage() {
         </div>
       </main>
       </div>
-    </>
+    </ProtectedRoute>
   );
 }
