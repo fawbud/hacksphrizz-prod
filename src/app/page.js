@@ -27,19 +27,26 @@ export default function Home() {
     {
       number: 3,
       title: "Trust Score Assessment",
-      description: "Initial trust score calculated on entry. Low-trust users (≤0.5) get captcha challenge in waiting room, preventing bots from reaching the form."
+      description: "Initial trust score calculated on entry. Low-trust users (≤0.5) get captcha challenge in waiting room to prevent bots from reaching the form."
     },
     {
       number: 4,
       title: "Form Interaction Analysis",
-      description: "AI monitors user behavior during multi-page form completion—mouse movements, typing patterns, and timing for real-time trust score adjustment."
+      description: "AI monitors user behavior during multi-page form completion, analyzing mouse movements, typing patterns, and interaction timing."
     },
     {
       number: 5,
       title: "Final Verification & Booking",
-      description: "Final trust score determines if additional captcha needed. Seamless completion for humans, friction for bots, with reliable booking confirmation."
+      description: "Final trust score determines if additional verification needed. Seamless completion for humans, friction for bots, with zero downtime."
     }
   ];
+
+  // ✅ Auto redirect kalau sudah login
+  useEffect(() => {
+    if (!loading && user) {
+      router.push('/dashboard');
+    }
+  }, [user, loading, router]);
 
   const nextStep = () => {
     setCurrentStep((prev) => (prev + 1) % steps.length);
@@ -48,13 +55,6 @@ export default function Home() {
   const prevStep = () => {
     setCurrentStep((prev) => (prev - 1 + steps.length) % steps.length);
   };
-
-  // ✅ Auto redirect kalau sudah login
-  useEffect(() => {
-    if (!loading && user) {
-      router.push('/dashboard');
-    }
-  }, [user, loading, router]);
 
   if (loading) {
     return (
@@ -153,10 +153,10 @@ export default function Home() {
 
           {/* Carousel Container */}
           <div className="relative">
-            {/* Left Arrow */}
+            {/* Left Button */}
             <button
               onClick={prevStep}
-              className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 lg:-translate-x-12 z-10 bg-white/20 hover:bg-white/30 backdrop-blur-sm rounded-full p-4 border border-white/30 transition-all"
+              className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 z-10 bg-white/20 hover:bg-white/30 backdrop-blur-sm rounded-full p-4 border border-white/30 transition-all"
               aria-label="Previous step"
             >
               <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -164,25 +164,34 @@ export default function Home() {
               </svg>
             </button>
 
-            {/* Card Display */}
-            <div className="overflow-hidden px-4">
-              <div className="max-w-2xl mx-auto">
-                <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-10 border border-white/20 transition-all duration-500 min-h-[300px] flex flex-col">
-                  <div className="w-20 h-20 bg-white rounded-full flex items-center justify-center text-brand text-3xl font-bold mb-6">
-                    {steps[currentStep].number}
+            {/* Cards Container */}
+            <div className="overflow-hidden">
+              <div
+                className="flex transition-transform duration-500 ease-in-out"
+                style={{ transform: `translateX(-${currentStep * 100}%)` }}
+              >
+                {steps.map((step, index) => (
+                  <div key={index} className="min-w-full px-4">
+                    <div className="max-w-2xl mx-auto">
+                      <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-12 border border-white/20 hover:bg-white/15 transition-all">
+                        <div className="w-20 h-20 bg-white rounded-full flex items-center justify-center text-brand text-3xl font-bold mb-8 mx-auto">
+                          {step.number}
+                        </div>
+                        <h3 className="text-3xl font-bold mb-6 text-center">{step.title}</h3>
+                        <p className="text-white/90 leading-relaxed text-lg text-center">
+                          {step.description}
+                        </p>
+                      </div>
+                    </div>
                   </div>
-                  <h3 className="text-3xl font-bold mb-6">{steps[currentStep].title}</h3>
-                  <p className="text-white/90 leading-relaxed text-lg flex-1">
-                    {steps[currentStep].description}
-                  </p>
-                </div>
+                ))}
               </div>
             </div>
 
-            {/* Right Arrow */}
+            {/* Right Button */}
             <button
               onClick={nextStep}
-              className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 lg:translate-x-12 z-10 bg-white/20 hover:bg-white/30 backdrop-blur-sm rounded-full p-4 border border-white/30 transition-all"
+              className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 z-10 bg-white/20 hover:bg-white/30 backdrop-blur-sm rounded-full p-4 border border-white/30 transition-all"
               aria-label="Next step"
             >
               <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -191,17 +200,15 @@ export default function Home() {
             </button>
           </div>
 
-          {/* Step Indicators */}
+          {/* Progress Indicators */}
           <div className="flex justify-center gap-3 mt-8">
             {steps.map((_, index) => (
               <button
                 key={index}
                 onClick={() => setCurrentStep(index)}
-                className={`transition-all ${
-                  index === currentStep
-                    ? 'w-12 h-3 bg-white'
-                    : 'w-3 h-3 bg-white/40 hover:bg-white/60'
-                } rounded-full`}
+                className={`h-2 rounded-full transition-all ${
+                  index === currentStep ? 'w-8 bg-white' : 'w-2 bg-white/40 hover:bg-white/60'
+                }`}
                 aria-label={`Go to step ${index + 1}`}
               />
             ))}
