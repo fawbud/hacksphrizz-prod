@@ -134,14 +134,34 @@ export function CrowdHandlerProvider({ children }) {
         if (!result.promoted) {
           console.log('CrowdHandler: User not promoted, using SDK redirect method');
           console.log('Validation result:', result);
-          
+
+          // Store train ID and route info in sessionStorage for waiting room
+          const urlParams = new URLSearchParams(window.location.search);
+          const trainId = urlParams.get('train');
+          const date = urlParams.get('date');
+
+          if (trainId) {
+            sessionStorage.setItem('ch_train_id', trainId);
+            console.log('Stored train ID for waiting room:', trainId);
+          }
+          if (date) {
+            sessionStorage.setItem('ch_train_date', date);
+          }
+
+          // Get original route info from URL for return link
+          const currentPath = window.location.pathname;
+          const searchParams = window.location.search;
+          if (currentPath && searchParams) {
+            sessionStorage.setItem('ch_return_url', currentPath + searchParams);
+          }
+
           // Use the SDK's built-in redirect method
           try {
             gate.redirectIfNotPromoted();
             return; // This should redirect and stop execution
           } catch (redirectError) {
             console.error('CrowdHandler redirect error:', redirectError);
-            
+
             // Fallback: manual redirect if SDK method fails
             if (result.targetURL) {
               console.log('CrowdHandler: Fallback redirect to:', result.targetURL);
