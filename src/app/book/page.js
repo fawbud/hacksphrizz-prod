@@ -384,10 +384,10 @@ function BookingPageContent() {
 
       {/* Captcha Modal */}
       {showCaptcha && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50">
           <div className="bg-white rounded-2xl p-8 max-w-md w-full mx-4">
-            <h3 className="text-xl font-bold text-gray-800 mb-4">Verifikasi Manusia</h3>
-            <p className="text-gray-600 mb-6">Silakan lengkapi verifikasi untuk melanjutkan.</p>
+            <h3 className="text-xl font-bold text-gray-800 mb-4">Human Verification</h3>
+            <p className="text-gray-600 mb-6">Complete verification to proceed.</p>
             <ReCAPTCHA
               ref={(ref) => setRecaptchaRef(ref)}
               sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY}
@@ -400,7 +400,7 @@ function BookingPageContent() {
               }}
               className="mt-4 text-gray-500 hover:text-gray-700"
             >
-              Batal
+              Cancel
             </button>
           </div>
         </div>

@@ -131,7 +131,7 @@ function TrainsPageContent() {
           <div className="mb-6">
             <Link
               href="/dashboard"
-              className="inline-flex items-center text-blue-600 hover:text-blue-700 mb-4 font-medium"
+              className="inline-flex items-center text-brand hover:text-brand-hover mb-4 font-medium"
             >
               <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
@@ -184,7 +184,7 @@ function TrainsPageContent() {
                   onClick={() => setSelectedDate(dateStr)}
                   className={`px-6 py-3 rounded-xl whitespace-nowrap font-medium transition ${
                     isSelected
-                      ? 'bg-blue-600 text-white shadow-lg'
+                      ? 'bg-brand text-white shadow-lg'
                       : 'bg-white text-gray-700 hover:bg-gray-50 border border-gray-200'
                   }`}
                 >
@@ -197,7 +197,7 @@ function TrainsPageContent() {
           {/* Loading State */}
           {loading && (
             <div className="text-center py-12">
-              <div className="inline-block animate-spin rounded-full h-12 w-12 border-4 border-blue-600 border-t-transparent"></div>
+              <div className="inline-block animate-spin rounded-full h-12 w-12 border-4 border-brand border-t-transparent"></div>
               <p className="mt-4 text-gray-600">Mencari kereta tersedia...</p>
             </div>
           )}
@@ -210,7 +210,7 @@ function TrainsPageContent() {
               <p className="text-gray-600 mb-4">{error}</p>
               <button
                 onClick={fetchTrains}
-                className="bg-blue-600 text-white px-6 py-2 rounded-lg font-medium hover:bg-blue-700 transition"
+                className="bg-brand text-white px-6 py-2 rounded-lg font-medium hover:bg-brand-hover transition"
               >
                 Coba Lagi
               </button>
@@ -234,7 +234,7 @@ function TrainsPageContent() {
                     <div className="flex-1">
                       <div className="flex items-start justify-between mb-4">
                         <div>
-                          <div className="inline-block bg-purple-600 text-white px-3 py-1 rounded-lg text-sm font-semibold mb-2">
+                          <div className="inline-block bg-yellow-400 text-white px-3 py-1 rounded-lg text-sm font-semibold mb-2">
                             {train.train_class}
                           </div>
                           <h3 className="text-lg font-bold text-gray-800">
@@ -296,7 +296,7 @@ function TrainsPageContent() {
                     <div className="lg:text-right flex lg:flex-col items-center lg:items-end justify-between lg:justify-center gap-4">
                       <div>
                         <div className="text-sm text-gray-600 mb-1">Mulai dari</div>
-                        <div className="text-2xl font-bold text-blue-600">
+                        <div className="text-2xl font-bold text-brand">
                           Rp{train.base_price.toLocaleString('id-ID')}
                         </div>
                         <div className="text-xs text-gray-500 mt-1">/ Penumpang</div>
@@ -305,7 +305,7 @@ function TrainsPageContent() {
                       {train.available_seats > 0 ? (
                         <button
                           onClick={() => handleSelect(train.id)}
-                          className="bg-blue-600 text-white px-8 py-3 rounded-xl font-semibold hover:bg-blue-700 transition shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 whitespace-nowrap"
+                          className="bg-brand text-white px-8 py-3 rounded-xl font-semibold hover:bg-brand-hover transition shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 whitespace-nowrap"
                         >
                           Pilih
                         </button>
@@ -322,7 +322,7 @@ function TrainsPageContent() {
 
                   {/* Expandable Details */}
                   <details className="mt-4">
-                    <summary className="text-blue-600 font-medium cursor-pointer hover:text-blue-700 text-sm">
+                    <summary className="text-brand font-medium cursor-pointer hover:text-brand-hover text-sm">
                       Lihat Detail Subkelas
                     </summary>
                     <div className="mt-4 pt-4 border-t border-gray-200">
@@ -364,28 +364,28 @@ function TrainsPageContent() {
           )}
 
           {/* Info Footer */}
-          <div className="mt-8 bg-blue-50 rounded-2xl p-6 border border-blue-100">
+          <div className="mt-8 bg-gray-50 rounded-2xl p-6 border border-gray-100">
             <h3 className="font-semibold text-gray-800 mb-3 flex items-center gap-2">
-              <svg className="w-5 h-5 text-blue-600" fill="currentColor" viewBox="0 0 20 20">
+              <svg className="w-5 h-5 text-brand" fill="currentColor" viewBox="0 0 20 20">
                 <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
               </svg>
               Informasi Penting
             </h3>
             <ul className="space-y-2 text-sm text-gray-700">
               <li className="flex items-start gap-2">
-                <span className="text-blue-600 mt-0.5">•</span>
+                <span className="text-brand mt-0.5">•</span>
                 <span>Harga yang tertera adalah harga dasar per penumpang</span>
               </li>
               <li className="flex items-start gap-2">
-                <span className="text-blue-600 mt-0.5">•</span>
+                <span className="text-brand mt-0.5">•</span>
                 <span>Pastikan membawa identitas asli saat naik kereta</span>
               </li>
               <li className="flex items-start gap-2">
-                <span className="text-blue-600 mt-0.5">•</span>
+                <span className="text-brand mt-0.5">•</span>
                 <span>Check-in dibuka 90 menit sebelum keberangkatan</span>
               </li>
               <li className="flex items-start gap-2">
-                <span className="text-blue-600 mt-0.5">•</span>
+                <span className="text-brand mt-0.5">•</span>
                 <span>Pembatalan tiket dikenakan biaya sesuai ketentuan</span>
               </li>
             </ul>
@@ -395,10 +395,10 @@ function TrainsPageContent() {
 
       {/* Captcha Modal */}
       {showCaptcha && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50">
           <div className="bg-white rounded-2xl p-8 max-w-md w-full mx-4">
-            <h3 className="text-xl font-bold text-gray-800 mb-4">Verifikasi Manusia</h3>
-            <p className="text-gray-600 mb-6">Silakan lengkapi verifikasi untuk melanjutkan.</p>
+            <h3 className="text-xl font-bold text-gray-800 mb-4">Human Verification</h3>
+            <p className="text-gray-600 mb-6">Complete verification to proceed.</p>
             <ReCAPTCHA
               ref={(ref) => setRecaptchaRef(ref)}
               sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY}
@@ -411,7 +411,7 @@ function TrainsPageContent() {
               }}
               className="mt-4 text-gray-500 hover:text-gray-700"
             >
-              Batal
+              Cancel
             </button>
           </div>
         </div>

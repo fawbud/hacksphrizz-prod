@@ -31,12 +31,12 @@ export default function Navbar() {
 
           {/* System Status */}
           <div className="hidden md:flex items-center gap-6">
-            <div className="flex items-center gap-2 bg-orange-50 px-4 py-2 rounded-lg">
+            {/* <div className="flex items-center gap-2 bg-orange-50 px-4 py-2 rounded-lg">
               <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
               <span className="text-sm font-medium text-gray-700">
                 System Normal
               </span>
-            </div>
+            </div> */}
 
             {/* Auth Section */}
             {user ? (
@@ -50,7 +50,7 @@ export default function Navbar() {
                   onClick={handleSignOut}
                   className="bg-brand text-white px-6 py-2 rounded-lg hover:bg-brand-hover transition-colors"
                 >
-                  Keluar
+                  Logout
                 </button>
               </div>
             ) : (
@@ -59,13 +59,13 @@ export default function Navbar() {
                   href="/login"
                   className="text-gray-700 hover:text-brand transition-colors"
                 >
-                  Masuk
+                  Login
                 </Link>
                 <Link
                   href="/register"
                   className="bg-brand text-white px-6 py-2 rounded-lg hover:bg-brand-hover transition-colors"
                 >
-                  Daftar
+                  Register
                 </Link>
               </div>
             )}
