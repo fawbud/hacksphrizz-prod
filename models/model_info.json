@@ -1,10 +1,6 @@
 {
-  "model_name": "gradient_boosting",
+  "model_name": "enhanced_gradient_boosting_with_islamic_calendar",
   "feature_columns": [
-    "holiday_multiplier",
-    "weekly_multiplier",
-    "yearly_growth",
-    "covid_factor",
     "day_of_week",
     "month",
     "day",
@@ -15,21 +11,42 @@
     "is_sunday",
     "is_month_start",
     "is_month_end",
-    "holiday_strength",
-    "is_peak_holiday",
-    "is_major_holiday",
-    "train_priority",
+    "days_to_lebaran",
+    "days_from_lebaran",
+    "is_lebaran_week",
+    "is_lebaran_period",
+    "is_pre_lebaran",
+    "is_post_lebaran",
+    "days_to_idul_adha",
+    "is_idul_adha_week",
+    "is_idul_adha_period",
+    "days_to_christmas",
+    "days_to_new_year",
+    "is_christmas_period",
+    "is_year_end_holidays",
+    "is_independence_day",
+    "is_labor_day",
+    "is_chinese_new_year",
+    "is_school_holiday",
+    "is_mid_year_holiday",
+    "holiday_intensity",
+    "is_peak_travel_month",
+    "is_low_travel_month",
+    "holiday_multiplier",
+    "weekly_multiplier",
+    "yearly_growth",
+    "covid_factor",
     "holiday_weekend_interaction",
-    "route_train_interaction",
+    "route_popularity",
+    "train_priority",
     "bookings_lag_1",
-    "holiday_mult_lag_1",
     "bookings_lag_7",
-    "holiday_mult_lag_7",
     "bookings_lag_14",
-    "holiday_mult_lag_14",
     "bookings_lag_30",
+    "holiday_mult_lag_1",
+    "holiday_mult_lag_7",
+    "holiday_mult_lag_14",
     "holiday_mult_lag_30",
-    "bookings_lag_365",
     "bookings_rolling_mean_7",
     "bookings_rolling_std_7",
     "bookings_trend_7",
@@ -41,93 +58,253 @@
     "bookings_trend_30",
     "route",
     "train_type",
-    "route_popularity"
-  ],
-  "numeric_features": [
-    "holiday_multiplier",
-    "weekly_multiplier",
-    "yearly_growth",
-    "covid_factor",
-    "day_of_week",
-    "month",
-    "day",
-    "week_of_year",
-    "quarter",
-    "is_weekend",
-    "is_friday",
-    "is_sunday",
-    "is_month_start",
-    "is_month_end",
-    "holiday_strength",
-    "is_peak_holiday",
-    "is_major_holiday",
-    "train_priority",
-    "holiday_weekend_interaction",
-    "route_train_interaction",
-    "bookings_lag_1",
-    "holiday_mult_lag_1",
-    "bookings_lag_7",
-    "holiday_mult_lag_7",
-    "bookings_lag_14",
-    "holiday_mult_lag_14",
-    "bookings_lag_30",
-    "holiday_mult_lag_30",
-    "bookings_lag_365",
-    "bookings_rolling_mean_7",
-    "bookings_rolling_std_7",
-    "bookings_trend_7",
-    "bookings_rolling_mean_14",
-    "bookings_rolling_std_14",
-    "bookings_trend_14",
-    "bookings_rolling_mean_30",
-    "bookings_rolling_std_30",
-    "bookings_trend_30"
-  ],
-  "categorical_features": [
-    "route",
-    "train_type",
-    "route_popularity"
+    "route_train_interaction"
   ],
   "performance_metrics": {
-    "train": {
-      "mae": 12.540707229063731,
-      "mse": 358.0036462188211,
-      "rmse": 18.920984282505525,
-      "r2": 0.9994995040305189
+    "mae": 217.80052721389725,
+    "rmse": 366.60115539787114,
+    "r2": 0.8125676004329301,
+    "mape": 28.8222550425016
+  },
+  "islamic_calendar_features": true,
+  "training_date": "2025-10-03T08:57:22.746427",
+  "preprocessors": {
+    "route": "route_encoder.pkl",
+    "train_type": "train_type_encoder.pkl",
+    "route_train_interaction": "route_train_interaction_encoder.pkl"
+  },
+  "feature_importance": [
+    {
+      "feature": "bookings_lag_7",
+      "importance": 0.40969424926246106
     },
-    "test": {
-      "mae": 14.04509696351847,
-      "mse": 426.5212026538245,
-      "rmse": 20.652389756486404,
-      "r2": 0.9994070054387953
+    {
+      "feature": "bookings_lag_14",
+      "importance": 0.1471634048674621
+    },
+    {
+      "feature": "bookings_lag_1",
+      "importance": 0.06374988930959957
+    },
+    {
+      "feature": "days_to_christmas",
+      "importance": 0.03625544967468128
+    },
+    {
+      "feature": "route_train_interaction",
+      "importance": 0.030866753892494447
+    },
+    {
+      "feature": "bookings_lag_30",
+      "importance": 0.0278904922083724
+    },
+    {
+      "feature": "holiday_intensity",
+      "importance": 0.02541699846089657
+    },
+    {
+      "feature": "day_of_week",
+      "importance": 0.023825142182808814
+    },
+    {
+      "feature": "bookings_trend_30",
+      "importance": 0.017150751172902687
+    },
+    {
+      "feature": "bookings_trend_14",
+      "importance": 0.016353845982890164
+    },
+    {
+      "feature": "bookings_trend_7",
+      "importance": 0.0159153234546781
+    },
+    {
+      "feature": "bookings_rolling_std_30",
+      "importance": 0.014413326426179159
+    },
+    {
+      "feature": "bookings_rolling_mean_30",
+      "importance": 0.013701061492645876
+    },
+    {
+      "feature": "bookings_rolling_std_14",
+      "importance": 0.013651343263539253
+    },
+    {
+      "feature": "bookings_rolling_std_7",
+      "importance": 0.013019205060991398
+    },
+    {
+      "feature": "days_to_new_year",
+      "importance": 0.011330240409139223
+    },
+    {
+      "feature": "day",
+      "importance": 0.010799030931162636
+    },
+    {
+      "feature": "bookings_rolling_mean_14",
+      "importance": 0.010637764272222398
+    },
+    {
+      "feature": "bookings_rolling_mean_7",
+      "importance": 0.010265000954824181
+    },
+    {
+      "feature": "is_friday",
+      "importance": 0.009260439157736153
+    },
+    {
+      "feature": "days_from_lebaran",
+      "importance": 0.008578952972607053
+    },
+    {
+      "feature": "holiday_mult_lag_7",
+      "importance": 0.007268985364606042
+    },
+    {
+      "feature": "route",
+      "importance": 0.006175028041364042
+    },
+    {
+      "feature": "covid_factor",
+      "importance": 0.0061491636542012765
+    },
+    {
+      "feature": "is_lebaran_week",
+      "importance": 0.0056246329991934615
+    },
+    {
+      "feature": "days_to_idul_adha",
+      "importance": 0.005382793541631428
+    },
+    {
+      "feature": "route_popularity",
+      "importance": 0.005173754399973201
+    },
+    {
+      "feature": "days_to_lebaran",
+      "importance": 0.005103043707535262
+    },
+    {
+      "feature": "yearly_growth",
+      "importance": 0.004548520083891571
+    },
+    {
+      "feature": "week_of_year",
+      "importance": 0.00327681452522186
+    },
+    {
+      "feature": "train_priority",
+      "importance": 0.0029382080788832666
+    },
+    {
+      "feature": "holiday_mult_lag_30",
+      "importance": 0.001831099480354904
+    },
+    {
+      "feature": "holiday_mult_lag_1",
+      "importance": 0.0017986998541001157
+    },
+    {
+      "feature": "holiday_mult_lag_14",
+      "importance": 0.001647795508919607
+    },
+    {
+      "feature": "train_type",
+      "importance": 0.001564119770318844
+    },
+    {
+      "feature": "is_independence_day",
+      "importance": 0.0012660405549143956
+    },
+    {
+      "feature": "holiday_multiplier",
+      "importance": 0.0009421831302185494
+    },
+    {
+      "feature": "holiday_weekend_interaction",
+      "importance": 0.000886503431085811
+    },
+    {
+      "feature": "is_pre_lebaran",
+      "importance": 0.0008387170284623205
+    },
+    {
+      "feature": "is_sunday",
+      "importance": 0.0007778829480848997
+    },
+    {
+      "feature": "is_weekend",
+      "importance": 0.000707630231834165
+    },
+    {
+      "feature": "is_idul_adha_period",
+      "importance": 0.0006685787452743132
+    },
+    {
+      "feature": "is_low_travel_month",
+      "importance": 0.0005975200048614209
+    },
+    {
+      "feature": "is_idul_adha_week",
+      "importance": 0.0005744329513471058
+    },
+    {
+      "feature": "is_peak_travel_month",
+      "importance": 0.0005680082221351991
+    },
+    {
+      "feature": "month",
+      "importance": 0.0005217679957994881
+    },
+    {
+      "feature": "is_mid_year_holiday",
+      "importance": 0.0004529821478710615
+    },
+    {
+      "feature": "weekly_multiplier",
+      "importance": 0.0003450625297401966
+    },
+    {
+      "feature": "is_chinese_new_year",
+      "importance": 0.00034034824226993613
+    },
+    {
+      "feature": "is_post_lebaran",
+      "importance": 0.00033712782378195026
+    },
+    {
+      "feature": "quarter",
+      "importance": 0.000336386856341538
+    },
+    {
+      "feature": "is_school_holiday",
+      "importance": 0.0003094572519056358
+    },
+    {
+      "feature": "is_month_end",
+      "importance": 0.00028892252925909434
+    },
+    {
+      "feature": "is_labor_day",
+      "importance": 0.0002220362210917386
+    },
+    {
+      "feature": "is_lebaran_period",
+      "importance": 0.00021361367666903824
+    },
+    {
+      "feature": "is_month_start",
+      "importance": 0.0002120950559838266
+    },
+    {
+      "feature": "is_year_end_holidays",
+      "importance": 0.00010830273208483653
+    },
+    {
+      "feature": "is_christmas_period",
+      "importance": 6.30752684940871e-05
     }
-  },
-  "feature_importance": {
-    "bookings_trend_30": 0.46539858878059603,
-    "bookings_rolling_mean_30": 0.22686277671957666,
-    "bookings_rolling_std_30": 0.11794279137414809,
-    "bookings_rolling_std_7": 0.11411426154663205,
-    "bookings_rolling_mean_7": 0.022885780076026783,
-    "bookings_rolling_mean_14": 0.017318533064658564,
-    "bookings_trend_7": 0.012109184617987049,
-    "bookings_lag_7": 0.009943087902645314,
-    "bookings_lag_14": 0.006999296713646824,
-    "bookings_trend_14": 0.0035963230672252182,
-    "route_Jakarta-Bandung": 0.0011150413949179983,
-    "yearly_growth": 0.0005596548030497392,
-    "covid_factor": 0.0002767095108208925,
-    "train_priority": 0.00016975175135957462,
-    "bookings_lag_30": 0.00015244992553004,
-    "train_type_Ekonomi": 0.00013453569212850493,
-    "bookings_lag_1": 0.00011911319845344198,
-    "route_Jakarta-Surabaya": 5.6823803741436844e-05,
-    "bookings_rolling_std_14": 5.339543695518783e-05,
-    "holiday_strength": 3.677926979228609e-05
-  },
-  "training_date": "2025-10-02T22:08:52.131589",
-  "data_range": {
-    "start": "2016-12-31 00:00:00",
-    "end": "2025-12-31 00:00:00",
-    "total_records": 78912
-  }
+  ]
 }
