@@ -1,7 +1,7 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
+import { useState, useEffect, useRef } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { useAuth } from '@/context/AuthContext';
 import { useCrowdHandler } from '@/context/CrowdHandlerContext';
 import { supabase } from '@/lib/supabase';
@@ -13,15 +13,22 @@ import SeatSelector from '@/components/booking/SeatSelector';
 import ExtraProtection from '@/components/booking/ExtraProtection';
 import MealAndCab from '@/components/booking/MealAndCab';
 import Checkout from '@/components/booking/Checkout';
+import ReCAPTCHA from 'react-google-recaptcha';
 
 const TOTAL_TIME = 10 * 60 * 1000; // 10 minutes in milliseconds
 
 export default function BookingPage() {
   const router = useRouter();
-  const { user, loading } = useAuth();
   const { recordPerformance } = useCrowdHandler();
+  const searchParams = useSearchParams();
+  const { user, loading: authLoading } = useAuth();
   const [currentStep, setCurrentStep] = useState(1);
   const [timeLeft, setTimeLeft] = useState(TOTAL_TIME);
+  const [train, setTrain] = useState(null);
+  const [trainLoading, setTrainLoading] = useState(true);
+  const [showCaptcha, setShowCaptcha] = useState(false);
+  const [recaptchaRef, setRecaptchaRef] = useState(null);
+  const [pendingPaymentData, setPendingPaymentData] = useState(null);
   const [bookingData, setBookingData] = useState({
     passengers: [],
     selectedSeats: [],
@@ -36,15 +43,53 @@ export default function BookingPage() {
     payment: null,
   });
 
+  const trainId = searchParams.get('train');
+  const selectedDate = searchParams.get('date');
+
   // Redirect if not logged in
   useEffect(() => {
-    if (!loading && !user) {
+    if (!authLoading && !user) {
       router.push('/login');
     }
-  }, [user, loading, router]);
+  }, [user, authLoading, router]);
 
-  // Timer countdown
+  // Fetch train details
   useEffect(() => {
+    const fetchTrain = async () => {
+      if (!trainId) {
+        setTrainLoading(false);
+        router.push('/trains');
+        return;
+      }
+      try {
+        const { data, error } = await supabase
+          .from('trains')
+          .select('*')
+          .eq('id', trainId)
+          .single();
+
+        if (error || !data) {
+          console.error('Error fetching train:', error);
+          alert('Train not found. Redirecting to trains page.');
+          router.push('/trains');
+          return;
+        }
+        setTrain(data);
+      } catch (err) {
+        console.error('Error:', err);
+        router.push('/trains');
+      } finally {
+        setTrainLoading(false);
+      }
+    };
+
+    fetchTrain();
+  }, [trainId, router]);
+
+  // Timer countdown - start after user and train are ready
+  useEffect(() => {
+    if (authLoading || trainLoading || !user || !train) return;
+
     const timer = setInterval(() => {
       setTimeLeft((prev) => {
         if (prev <= 1000) {
@@ -58,7 +103,7 @@ export default function BookingPage() {
     }, 1000);
 
     return () => clearInterval(timer);
-  }, [router]);
+  }, [authLoading, trainLoading, user, train, router]);
 
   const formatTime = (milliseconds) => {
     const minutes = Math.floor(milliseconds / 60000);
@@ -67,7 +112,8 @@ export default function BookingPage() {
   };
 
   const calculateTotal = () => {
-    let total = 150000; // Base ticket price per passenger
+    if (!train) return 0;
+    let total = train.base_price;
     total *= bookingData.passengers.length || 0;
 
     if (bookingData.protections.personalAccident) {
@@ -101,16 +147,54 @@ export default function BookingPage() {
     }
   };
 
-  const handleComplete = async (paymentData) => {
-    try {
-      const finalBookingData = { ...bookingData, payment: paymentData };
-      const totalAmount = calculateTotal();
+  const handleRecaptchaVerify = async (token) => {
+    if (!token) return;
 
-      // Insert booking into database
+    try {
+      const verifyRes = await fetch('/api/verify-captcha', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ token, user_id: user.id }),
+      });
+      const verifyData = await verifyRes.json();
+
+      if (verifyData.success) {
+        setShowCaptcha(false);
+        recaptchaRef?.reset();
+
+        // Update trust score di Supabase
+        await fetch('/api/update-trust', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ user_id: user.id, trust_score: 0.4 }),
+        });
+
+        // Lanjutkan booking dengan paymentData yang tersimpan
+        if (pendingPaymentData) {
+          await completeBooking(pendingPaymentData);
+        }
+      } else {
+        console.error('reCAPTCHA Error:', verifyData['error-codes']);
+        alert('Verifikasi captcha gagal. Silakan coba lagi.');
+        recaptchaRef?.reset();
+      }
+    } catch (err) {
+      console.error(err);
+      alert('Terjadi kesalahan. Coba lagi.');
+      recaptchaRef?.reset();
+    }
+  };
+
+  const completeBooking = async (paymentData) => {
+    const finalBookingData = { ...bookingData, payment: paymentData };
+    const totalAmount = calculateTotal();
+
+    try {
       const { data: booking, error: bookingError } = await supabase
         .from('bookings')
         .insert({
           user_id: user.id,
+          train_id: train.id,
           total_amount: totalAmount,
           status: 'completed',
           personal_accident_protection: finalBookingData.protections.personalAccident,
@@ -124,12 +208,11 @@ export default function BookingPage() {
         .single();
 
       if (bookingError) {
-        console.error('Error creating booking:', bookingError);
-        alert('Failed to create booking. Please try again.');
+        console.error('Booking error details:', bookingError);
+        alert(`Failed to create booking: ${bookingError.message}. Please check console for details.`);
         return;
       }
 
-      // Insert passengers for this booking
       const passengersToInsert = finalBookingData.passengers.map((passenger, index) => ({
         booking_id: booking.id,
         ktp_number: passenger.ktpNumber,
@@ -143,8 +226,8 @@ export default function BookingPage() {
         .insert(passengersToInsert);
 
       if (passengersError) {
-        console.error('Error creating passengers:', passengersError);
-        alert('Failed to save passenger details. Please contact support.');
+        console.error('Passengers error details:', passengersError);
+        alert(`Failed to save passenger details: ${passengersError.message}. Please contact support.`);
         return;
       }
 
@@ -163,15 +246,34 @@ export default function BookingPage() {
     }
   };
 
-  if (loading) {
+  const handleComplete = async (paymentData) => {
+    if (!train) {
+      alert('Train information not available. Please try again.');
+      return;
+    }
+
+    // 1️⃣ Jalankan AI behavioral → hardcode dulu
+    const aiScore = 0.4; // nanti diganti AI
+    if (aiScore < 0.5) {
+      setPendingPaymentData(paymentData); // Simpan paymentData untuk digunakan setelah captcha
+      setShowCaptcha(true);
+      return;
+    }
+
+    // Jika trust score tinggi, langsung lanjutkan booking
+    await completeBooking(paymentData);
+  };
+
+  if (authLoading || trainLoading) {
     return (
       <div className="min-h-screen bg-white flex items-center justify-center">
+        <Navbar />
         <div className="text-[#F27500] text-xl">Loading...</div>
       </div>
     );
   }
 
-  if (!user) {
+  if (!user || !train) {
     return null;
   }
 
@@ -180,68 +282,129 @@ export default function BookingPage() {
       <div className="min-h-screen bg-gray-50">
         <Navbar />
 
-      <main className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* Timer and Price Preview */}
-        <div className="bg-white rounded-lg shadow-sm p-4 mb-6">
-          <div className="grid md:grid-cols-2 gap-4">
-            <div className="flex items-center justify-between md:justify-start md:gap-4">
-              <span className="text-gray-600">Time Remaining:</span>
-              <span className={`text-2xl font-bold ${timeLeft < 60000 ? 'text-red-600' : 'text-[#F27500]'}`}>
-                {formatTime(timeLeft)}
-              </span>
-            </div>
-            <div className="flex items-center justify-between md:justify-end md:gap-4">
-              <span className="text-gray-600">Total Price:</span>
-              <span className="text-2xl font-bold text-[#F27500]">
-                Rp {calculateTotal().toLocaleString()}
-              </span>
+        <main className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+          {/* Train Details Header */}
+          <div className="bg-white rounded-lg shadow-sm p-4 mb-4">
+            <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+              <div className="flex items-center gap-4">
+                <div className="text-center">
+                  <div className="text-2xl font-bold text-gray-800">
+                    {train.departure_time.substring(0, 5)}
+                  </div>
+                  <div className="text-sm text-gray-600">
+                    {train.departure_station_code}
+                  </div>
+                </div>
+                <div className="flex items-center">
+                  <div className="w-16 h-px bg-gray-300"></div>
+                </div>
+                <div className="text-center">
+                  <div className="text-2xl font-bold text-gray-800">
+                    {train.arrival_time.substring(0, 5)}
+                  </div>
+                  <div className="text-sm text-gray-600">
+                    {train.arrival_station_code}
+                  </div>
+                </div>
+              </div>
+              <div>
+                <h2 className="text-lg font-bold text-gray-800">
+                  {train.train_name} ({train.train_code})
+                </h2>
+                <p className="text-sm text-gray-600">
+                  {train.departure_station} → {train.arrival_station} • {selectedDate || 'Selected Date'}
+                </p>
+              </div>
             </div>
           </div>
-        </div>
 
-        {/* Step Tracker */}
-        <StepTracker currentStep={currentStep} onStepClick={handleStepClick} />
+          {/* Timer and Price Preview */}
+          <div className="bg-white rounded-lg shadow-sm p-4 mb-6">
+            <div className="grid md:grid-cols-2 gap-4">
+              <div className="flex items-center justify-between md:justify-start md:gap-4">
+                <span className="text-gray-600">Time Remaining:</span>
+                <span className={`text-2xl font-bold ${timeLeft < 60000 ? 'text-red-600' : 'text-[#F27500]'}`}>
+                  {formatTime(timeLeft)}
+                </span>
+              </div>
+              <div className="flex items-center justify-between md:justify-end md:gap-4">
+                <span className="text-gray-600">Total Price:</span>
+                <span className="text-2xl font-bold text-[#F27500]">
+                  Rp {calculateTotal().toLocaleString()}
+                </span>
+              </div>
+            </div>
+          </div>
 
-        {/* Step Content */}
-        <div className="bg-white rounded-lg shadow-sm p-8 mt-6">
-          {currentStep === 1 && (
-            <PassengerDetails
-              initialData={bookingData.passengers}
-              onNext={handleNext}
-            />
-          )}
-          {currentStep === 2 && (
-            <SeatSelector
-              passengers={bookingData.passengers}
-              initialData={bookingData.selectedSeats}
-              onNext={handleNext}
-              onBack={handleBack}
-            />
-          )}
-          {currentStep === 3 && (
-            <ExtraProtection
-              initialData={bookingData.protections}
-              onNext={handleNext}
-              onBack={handleBack}
-            />
-          )}
-          {currentStep === 4 && (
-            <MealAndCab
-              initialData={bookingData.extras}
-              onNext={handleNext}
-              onBack={handleBack}
-            />
-          )}
-          {currentStep === 5 && (
-            <Checkout
-              bookingData={bookingData}
-              onComplete={handleComplete}
-              onBack={handleBack}
-            />
-          )}
-        </div>
-      </main>
+          {/* Step Tracker */}
+          <StepTracker currentStep={currentStep} onStepClick={handleStepClick} />
+
+          {/* Step Content */}
+          <div className="bg-white rounded-lg shadow-sm p-8 mt-6">
+            {currentStep === 1 && (
+              <PassengerDetails
+                initialData={bookingData.passengers}
+                onNext={handleNext}
+              />
+            )}
+            {currentStep === 2 && (
+              <SeatSelector
+                passengers={bookingData.passengers}
+                initialData={bookingData.selectedSeats}
+                onNext={handleNext}
+                onBack={handleBack}
+                trainId={train.id}
+                availableSeats={train.available_seats}
+              />
+            )}
+            {currentStep === 3 && (
+              <ExtraProtection
+                initialData={bookingData.protections}
+                onNext={handleNext}
+                onBack={handleBack}
+              />
+            )}
+            {currentStep === 4 && (
+              <MealAndCab
+                initialData={bookingData.extras}
+                onNext={handleNext}
+                onBack={handleBack}
+              />
+            )}
+            {currentStep === 5 && (
+              <Checkout
+                bookingData={bookingData}
+                onComplete={handleComplete}
+                onBack={handleBack}
+              />
+            )}
+          </div>
+        </main>
       </div>
+
+      {/* Captcha Modal */}
+      {showCaptcha && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white rounded-2xl p-8 max-w-md w-full mx-4">
+            <h3 className="text-xl font-bold text-gray-800 mb-4">Verifikasi Manusia</h3>
+            <p className="text-gray-600 mb-6">Silakan lengkapi verifikasi untuk melanjutkan.</p>
+            <ReCAPTCHA
+              ref={(ref) => setRecaptchaRef(ref)}
+              sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY}
+              onChange={handleRecaptchaVerify}
+            />
+            <button
+              onClick={() => {
+                setShowCaptcha(false);
+                if (recaptchaRef) recaptchaRef.reset();
+              }}
+              className="mt-4 text-gray-500 hover:text-gray-700"
+            >
+              Batal
+            </button>
+          </div>
+        </div>
+      )}  
     </ProtectedRoute>
   );
 }
