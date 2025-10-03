@@ -5,12 +5,49 @@ import Navbar from '@/components/Navbar';
 import QueueStatusWidget from '@/components/QueueStatusWidget';
 import Link from 'next/link';
 import Image from 'next/image';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 
 export default function Home() {
   const { user, loading } = useAuth();
   const router = useRouter();
+  const [currentStep, setCurrentStep] = useState(0);
+
+  const steps = [
+    {
+      number: 1,
+      title: "AI Traffic Prediction",
+      description: "Historical data analysis predicts ticket surges, accounting for holidays, discounts, and special events to proactively prepare the system."
+    },
+    {
+      number: 2,
+      title: "Smart Waiting Room Activation",
+      description: "Virtual waiting room activates when thresholds are met with DNS-level redirect to high-load servers, keeping the main system stable."
+    },
+    {
+      number: 3,
+      title: "Trust Score Assessment",
+      description: "Initial trust score calculated on entry. Low-trust users (≤0.5) get captcha challenge in waiting room, preventing bots from reaching the form."
+    },
+    {
+      number: 4,
+      title: "Form Interaction Analysis",
+      description: "AI monitors user behavior during multi-page form completion—mouse movements, typing patterns, and timing for real-time trust score adjustment."
+    },
+    {
+      number: 5,
+      title: "Final Verification & Booking",
+      description: "Final trust score determines if additional captcha needed. Seamless completion for humans, friction for bots, with reliable booking confirmation."
+    }
+  ];
+
+  const nextStep = () => {
+    setCurrentStep((prev) => (prev + 1) % steps.length);
+  };
+
+  const prevStep = () => {
+    setCurrentStep((prev) => (prev - 1 + steps.length) % steps.length);
+  };
 
   // ✅ Auto redirect kalau sudah login
   useEffect(() => {
@@ -114,45 +151,60 @@ export default function Home() {
             Experience seamless train ticket booking with our intelligent multi-layer system
           </p>
 
-          <div className="grid md:grid-cols-3 gap-8">
-            {/* Step 1 */}
-            <div className="relative">
-              <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-8 h-full border border-white/20 hover:bg-white/15 transition-all">
-                <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center text-brand text-2xl font-bold mb-6">
-                  1
+          {/* Carousel Container */}
+          <div className="relative">
+            {/* Left Arrow */}
+            <button
+              onClick={prevStep}
+              className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 lg:-translate-x-12 z-10 bg-white/20 hover:bg-white/30 backdrop-blur-sm rounded-full p-4 border border-white/30 transition-all"
+              aria-label="Previous step"
+            >
+              <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+              </svg>
+            </button>
+
+            {/* Card Display */}
+            <div className="overflow-hidden px-4">
+              <div className="max-w-2xl mx-auto">
+                <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-10 border border-white/20 transition-all duration-500 min-h-[300px] flex flex-col">
+                  <div className="w-20 h-20 bg-white rounded-full flex items-center justify-center text-brand text-3xl font-bold mb-6">
+                    {steps[currentStep].number}
+                  </div>
+                  <h3 className="text-3xl font-bold mb-6">{steps[currentStep].title}</h3>
+                  <p className="text-white/90 leading-relaxed text-lg flex-1">
+                    {steps[currentStep].description}
+                  </p>
                 </div>
-                <h3 className="text-2xl font-bold mb-4">Smart Traffic Detection</h3>
-                <p className="text-white/90 leading-relaxed">
-                  Our AI predicts high-traffic moments and automatically activates the virtual waiting room to keep the system stable and fast.
-                </p>
               </div>
             </div>
 
-            {/* Step 2 */}
-            <div className="relative">
-              <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-8 h-full border border-white/20 hover:bg-white/15 transition-all">
-                <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center text-brand text-2xl font-bold mb-6">
-                  2
-                </div>
-                <h3 className="text-2xl font-bold mb-4">Bot Protection Layer</h3>
-                <p className="text-white/90 leading-relaxed">
-                  Trust score system intelligently detects bots while keeping human users flowing smoothly—captcha only when needed.
-                </p>
-              </div>
-            </div>
+            {/* Right Arrow */}
+            <button
+              onClick={nextStep}
+              className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 lg:translate-x-12 z-10 bg-white/20 hover:bg-white/30 backdrop-blur-sm rounded-full p-4 border border-white/30 transition-all"
+              aria-label="Next step"
+            >
+              <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+              </svg>
+            </button>
+          </div>
 
-            {/* Step 3 */}
-            <div className="relative">
-              <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-8 h-full border border-white/20 hover:bg-white/15 transition-all">
-                <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center text-brand text-2xl font-bold mb-6">
-                  3
-                </div>
-                <h3 className="text-2xl font-bold mb-4">Seamless Booking</h3>
-                <p className="text-white/90 leading-relaxed">
-                  Complete your booking on a reliable system with zero downtime. Fast, fair, and frustration-free experience for everyone.
-                </p>
-              </div>
-            </div>
+          {/* Step Indicators */}
+          <div className="flex justify-center gap-3 mt-8">
+            {steps.map((_, index) => (
+              <button
+                key={index}
+                onClick={() => setCurrentStep(index)}
+                className={`transition-all ${
+                  index === currentStep
+                    ? 'w-12 h-3 bg-white'
+                    : 'w-3 h-3 bg-white/40 hover:bg-white/60'
+                } rounded-full`}
+                aria-label={`Go to step ${index + 1}`}
+              />
+            ))}
           </div>
         </div>
       </section>
