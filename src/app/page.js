@@ -57,7 +57,7 @@ export default function Home() {
     setCurrentStep((prev) => (prev - 1 + steps.length) % steps.length);
   };
 
-  if (loading) {
+  if (loading || user) {
     return (
       <div className="min-h-screen bg-white flex items-center justify-center">
         <div className="text-brand text-xl">Loading...</div>
@@ -504,7 +504,7 @@ export default function Home() {
                   </Link>
                 </li>
                 <li>
-                  <Link href="/bookings" className="text-gray-400 hover:text-brand transition-colors">
+                  <Link href="/dashboard/my-bookings" className="text-gray-400 hover:text-brand transition-colors">
                     My Bookings
                   </Link>
                 </li>
