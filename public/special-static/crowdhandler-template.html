@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+   <meta charset="utf-8">
+   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <meta name="viewport" content="width=device-width, initial-scale=1">
+   <title>Quikyu - Virtual Waiting Room</title>
+   <link rel="stylesheet" href="https://wait.crowdhandler.com/css/latest/ch-main.css" crossorigin="anonymous">
+   <link rel="preconnect" href="https://fonts.googleapis.com">
+   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+   <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&display=swap" rel="stylesheet">
+   <link rel="stylesheet" href="https://www.quikyu.xyz/special-static/crowdhandler-template.css">
+   <meta name="robots" content="noindex" />
+</head>
+
+<body class="ch-loading">
+   <div class="ch-container">
+
+      <section class="ch-section ch-show" id="ch-logo">
+         <!-- Logo is configured in CrowdHandler dashboard -->
+      </section>
+
+      <section class="ch-section" id="ch-header">
+         <h2 id="ch-title">You're in the Virtual Waiting Room</h2>
+         <p id="ch-message" class="alert alert-info" role="alert">We're experiencing high demand for train bookings. Please wait while we get you onboard.</p>
+      </section>
+
+      <section class="ch-section" id="ch-captcha">
+         <p id="ch-captcha-message">Please complete the verification to proceed</p>
+         <div id="ch-captcha-form"></div>
+      </section>
+
+      <section class="ch-section" id="ch-blocked">
+         <p class="alert alert-danger" role="alert">Access has been blocked due to suspicious activity. Please contact support if you believe this is an error.</p>
+      </section>
+
+      <section class="ch-section" id="ch-room-full">
+         <p class="lead">🎫 The waiting room is currently at capacity. We'll let you in as soon as a spot becomes available.</p>
+      </section>
+
+      <section class="ch-section" id="ch-prelude">
+         <div id="ch-sooner">
+            <p class="lead">🚂 Ticket booking opens <br><strong id="ch-countdown">soon</strong></p>
+         </div>
+         <div id="ch-later">
+            <p class="lead">🚂 Ticket booking opens on <br><strong id="ch-datetime">checking date</strong></p>
+         </div>
+         <small>No need to refresh! You'll automatically receive a queue position when booking opens. Early arrivals get priority.</small>
+      </section>
+
+      <section class="ch-section" id="ch-active">
+         <h1>Your Position in Queue</h1>
+         <strong id="ch-count">calculating...</strong>
+
+         <div class="progress">
+            <div id="ch-progress" class="progress-bar progress-bar-pulse" role="progressbar" aria-valuenow="25"
+               aria-valuemin="0" aria-valuemax="100"></div>
+         </div>
+
+         <div id="ch-estimated-wait" class="ch-show">
+            ⏱️ Estimated wait time:
+            <span id="ch-estimated-placeholder">
+               <img src="https://wait.crowdhandler.com/img/ellipse-dots.gif" alt="Calculating..." />
+            </span>
+            <span id="ch-estimated-hours" class="ch-hide"><strong class="ch-number"></strong> hours</span>
+            <span id="ch-estimated-minutes" class="ch-hide"><strong class="ch-number"></strong> minutes</span>
+         </div>
+
+         <p id="ch-sessions-expire" class="ch-hide">🎫 You'll automatically advance to the front. Keep this window open and your device active.</p>
+         <p id="ch-sessions-no-expire" class="ch-hide">🎫 You'll automatically advance to the front. Once you reach the booking page, you'll have <span id="ch-sessions-expiry">15</span> minutes to complete your transaction.</p>
+      </section>
+
+      <section class="ch-section ch-hide" id="ch-stock">
+         <p id="ch-stock-available">🎫 Available Tickets: <span id="ch-stock-value">X</span></p>
+         <p id="ch-stock-unavailable" class="ch-hide">
+            All tickets are sold out. Please check back for future bookings!
+         </p>
+      </section>
+
+      <section class="ch-section ch-hide" id="ch-email-me">
+         <form>
+            <div class="ch-email-me-group">
+               <input id="ch-email-me-input" type="email" class="ch-email-me-input" placeholder="Enter your email address"
+                  aria-label="Enter email address">
+               <span class="input-group-btn">
+                  <button id="ch-email-me-btn-action" class="btn btn-default" type="submit">
+                     <span class="ch-show">Notify Me</span>
+                  </button>
+               </span>
+            </div>
+         </form>
+         <div id="ch-email-terms" class="ch-hide">
+            <p>📧 Your email will only be used to notify you when it's your turn. It will be deleted immediately after.</p>
+            <p><small>See crowdhandler.com/privacy for details.</small></p>
+         </div>
+         <div id="ch-email-notification" class="ch-hide">
+            <p>✅ Notification will be sent to <span class="ch-email-notification-message"></span></p>
+            <button id="ch-email-me-btn-reset" class="btn btn-default ch-email-me-btn-reset" type="button">
+               <span class="ch-show">Change Email</span>
+            </button>
+         </div>
+      </section>
+
+      <section class="ch-section" id="ch-priority">
+         <h3>🎟️ Have a Priority Code?</h3>
+         <form>
+            <div class="ch-priority-group">
+               <input id="ch-priority-input" type="text" class="ch-priority-input" placeholder="Enter priority code"
+                  aria-label="Enter priority code">
+               <span class="input-group-btn">
+                  <button id="ch-priority-btn-action" class="btn btn-default" type="submit">
+                     <span class="ch-show">Apply Code</span>
+                  </button>
+               </span>
+               <span id="ch-priority-success" class="ch-icon ch-hide ch-priority-group-add-item">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                     stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                     class="feather feather-check">
+                     <polyline points="20 6 9 17 4 12"></polyline>
+                  </svg>
+               </span>
+               <span id="ch-priority-error" class="ch-icon ch-hide ch-priority-group-add-item">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                     stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                     class="feather feather-x">
+                     <line x1="18" y1="6" x2="6" y2="18"></line>
+                     <line x1="6" y1="6" x2="18" y2="18"></line>
+                  </svg>
+               </span>
+            </div>
+         </form>
+      </section>
+
+      <section class="ch-section ch-show" id="ch-footer">
+         <p>
+            <small>SECURED BY</small><br>
+            <a target="_blank" href="http://www.crowdhandler.com/?utm_source=CH_queue&utm_medium=referral"><img
+                  src="https://wait.crowdhandler.com/img/crowdhandler-logo--strip.svg"
+                  alt="CrowdHandler - Virtual Waiting Room Service"></a>
+         </p>
+         <p><small>Last check: <span id="ch-checkin"></span></small></p>
+
+         <p class="ch-token">
+            <small>Session ID: <code id="ch-token">tok_4ME******gXW</code></small>
+            <svg id="ch-token-copy" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+               fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+               <text class="checkmark" x="8" y="18">✓</text>
+               <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path>
+               <rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect>
+            </svg>
+         </p>
+      </section>
+   </div>
+
+   <script src="https://wait.crowdhandler.com/js/latest/main.js?id=ch-public-key"></script>
+</body>
+
+</html>
