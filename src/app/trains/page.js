@@ -6,6 +6,8 @@ import { useState, useEffect } from 'react';
 import { supabase } from '@/lib/supabase';
 import ReCAPTCHA from 'react-google-recaptcha';
 
+export const dynamic = 'force-dynamic';
+
 export default function Page() {
   const router = useRouter();
   const searchParams = useSearchParams();
