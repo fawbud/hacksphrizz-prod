@@ -3,7 +3,6 @@
 import { useAuth } from '@/context/AuthContext';
 import Navbar from '@/components/Navbar';
 import QueueStatusWidget from '@/components/QueueStatusWidget';
-import ProtectedRoute from '@/components/ProtectedRoute';
 import Link from 'next/link';
 
 export default function Home() {
@@ -18,8 +17,7 @@ export default function Home() {
   }
 
   return (
-    <ProtectedRoute>
-      <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-white">
         <Navbar />
         <QueueStatusWidget showWhenPromoted={true} />
 
@@ -114,7 +112,6 @@ export default function Home() {
           </div>
         </main>
       )}
-      </div>
-    </ProtectedRoute>
+    </div>
   );
 }
