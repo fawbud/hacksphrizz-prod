@@ -1,0 +1,2939 @@
+
+> hacksphere@0.1.0 dev
+> next dev --turbopack
+
+   ▲ Next.js 15.5.4 (Turbopack)
+   - Local:        http://localhost:3000
+   - Network:      http://10.38.103.167:3000
+   - Environments: .env.local
+
+ ✓ Starting...
+ ✓ Ready in 3.6s
+ ○ Compiling /api/simulation ...
+ ✓ Compiled /api/simulation in 3.6s
+🔄 Executing simulation command: status
+✅ Simulation status result: { running: false, message: 'No status file found' }
+ POST /api/simulation 200 in 8477ms
+🔄 Executing simulation command: start
+Simulation API error: [Error: Command failed: cd /Users/macbookair/Documents/Code/hacksphrizz && source venv/bin/activate && python /Users/macbookair/Documents/Code/hacksphrizz/scripts/simulation.py start
+2025-10-03 00:03:30,152 - INFO - Starting train booking demand simulation
+2025-10-03 00:03:30,156 - INFO - Original model backed up
+2025-10-03 00:03:44,893 - INFO - Generated 15 new records at 2025-10-03 00:03:30.156340
+2025-10-03 00:03:56,477 - WARNING - Holiday API error: HTTPSConnectionPool(host='dayoffapi.vercel.app', port=443): Read timed out. (read timeout=2). Using predefined holidays.
+2025-10-03 00:04:00,507 - WARNING - Holiday API error: HTTPSConnectionPool(host='dayoffapi.vercel.app', port=443): Max retries exceeded with url: /api?year=2025&country=ID (Caused by ConnectTimeoutError(<urllib3.connection.HTTPSConnection object at 0x112676990>, 'Connection to dayoffapi.vercel.app timed out. (connect timeout=2)')). Using predefined holidays.
+2025-10-03 00:04:04,648 - WARNING - Holiday API error: HTTPSConnectionPool(host='dayoffapi.vercel.app', port=443): Read timed out. (read timeout=2). Using predefined holidays.
+2025-10-03 00:04:08,674 - WARNING - Holiday API error: HTTPSConnectionPool(host='dayoffapi.vercel.app', port=443): Max retries exceeded with url: /api?year=2025&country=ID (Caused by ConnectTimeoutError(<urllib3.connection.HTTPSConnection object at 0x112675e50>, 'Connection to dayoffapi.vercel.app timed out. (connect timeout=2)')). Using predefined holidays.
+2025-10-03 00:04:12,707 - WARNING - Holiday API error: HTTPSConnectionPool(host='dayoffapi.vercel.app', port=443): Max retries exceeded with url: /api?year=2025&country=ID (Caused by ConnectTimeoutError(<urllib3.connection.HTTPSConnection object at 0x112675a90>, 'Connection to dayoffapi.vercel.app timed out. (connect timeout=2)')). Using predefined holidays.
+2025-10-03 00:04:17,535 - WARNING - Holiday API error: HTTPSConnectionPool(host='dayoffapi.vercel.app', port=443): Read timed out. (read timeout=2). Using predefined holidays.
+2025-10-03 00:04:25,297 - INFO - Generated 15 new records at 2025-10-03 00:03:49.906977
+] {
+  code: null,
+  killed: true,
+  signal: 'SIGTERM',
+  cmd: 'cd /Users/macbookair/Documents/Code/hacksphrizz && source venv/bin/activate && python /Users/macbookair/Documents/Code/hacksphrizz/scripts/simulation.py start',
+  stdout: '',
+  stderr: '2025-10-03 00:03:30,152 - INFO - Starting train booking demand simulation\n' +
+    '2025-10-03 00:03:30,156 - INFO - Original model backed up\n' +
+    '2025-10-03 00:03:44,893 - INFO - Generated 15 new records at 2025-10-03 00:03:30.156340\n' +
+    "2025-10-03 00:03:56,477 - WARNING - Holiday API error: HTTPSConnectionPool(host='dayoffapi.vercel.app', port=443): Read timed out. (read timeout=2). Using predefined holidays.\n" +
+    "2025-10-03 00:04:00,507 - WARNING - Holiday API error: HTTPSConnectionPool(host='dayoffapi.vercel.app', port=443): Max retries exceeded with url: /api?year=2025&country=ID (Caused by ConnectTimeoutError(<urllib3.connection.HTTPSConnection object at 0x112676990>, 'Connection to dayoffapi.vercel.app timed out. (connect timeout=2)')). Using predefined holidays.\n" +
+    "2025-10-03 00:04:04,648 - WARNING - Holiday API error: HTTPSConnectionPool(host='dayoffapi.vercel.app', port=443): Read timed out. (read timeout=2). Using predefined holidays.\n" +
+    "2025-10-03 00:04:08,674 - WARNING - Holiday API error: HTTPSConnectionPool(host='dayoffapi.vercel.app', port=443): Max retries exceeded with url: /api?year=2025&country=ID (Caused by ConnectTimeoutError(<urllib3.connection.HTTPSConnection object at 0x112675e50>, 'Connection to dayoffapi.vercel.app timed out. (connect timeout=2)')). Using predefined holidays.\n" +
+    "2025-10-03 00:04:12,707 - WARNING - Holiday API error: HTTPSConnectionPool(host='dayoffapi.vercel.app', port=443): Max retries exceeded with url: /api?year=2025&country=ID (Caused by ConnectTimeoutError(<urllib3.connection.HTTPSConnection object at 0x112675a90>, 'Connection to dayoffapi.vercel.app timed out. (connect timeout=2)')). Using predefined holidays.\n" +
+    "2025-10-03 00:04:17,535 - WARNING - Holiday API error: HTTPSConnectionPool(host='dayoffapi.vercel.app', port=443): Read timed out. (read timeout=2). Using predefined holidays.\n" +
+    '2025-10-03 00:04:25,297 - INFO - Generated 15 new records at 2025-10-03 00:03:49.906977\n'
+}
+ POST /api/simulation 500 in 61092ms
+🔄 Executing simulation command: status
+✅ Simulation status result: {
+  running: true,
+  start_time: '2025-10-03T00:03:30.152463',
+  last_update: '2025-10-03T00:05:28.410714',
+  generation_count: 4,
+  training_count: 0,
+  pid: 83042
+}
+ POST /api/simulation 200 in 3462ms
+ ○ Compiling /api/prediction ...
+ ✓ Compiled /api/prediction in 3.2s
+Prediction API error: [Error: Command failed: cd /Users/macbookair/Documents/Code/hacksphrizz && source venv/bin/activate && python temp_predict.py
+Using original model and data
+] {
+  code: 1,
+  killed: false,
+  signal: null,
+  cmd: 'cd /Users/macbookair/Documents/Code/hacksphrizz && source venv/bin/activate && python temp_predict.py',
+  stdout: '{\n' +
+    `  "error": "'Date'",\n` +
+    '  "model_type": "original",\n' +
+    '  "message": "Prediction failed"\n' +
+    '}\n',
+  stderr: 'Using original model and data\n'
+}
+ POST /api/prediction 500 in 7872ms
+Prediction API error: [Error: Command failed: cd /Users/macbookair/Documents/Code/hacksphrizz && source venv/bin/activate && python temp_predict.py
+Using original model and data
+] {
+  code: 1,
+  killed: false,
+  signal: null,
+  cmd: 'cd /Users/macbookair/Documents/Code/hacksphrizz && source venv/bin/activate && python temp_predict.py',
+  stdout: '{\n' +
+    `  "error": "'Date'",\n` +
+    '  "model_type": "original",\n' +
+    '  "message": "Prediction failed"\n' +
+    '}\n',
+  stderr: 'Using original model and data\n'
+}
+ POST /api/prediction 500 in 3876ms
+Prediction API error: [Error: Command failed: cd /Users/macbookair/Documents/Code/hacksphrizz && source venv/bin/activate && python temp_predict.py
+Using original model and data
+] {
+  code: 1,
+  killed: false,
+  signal: null,
+  cmd: 'cd /Users/macbookair/Documents/Code/hacksphrizz && source venv/bin/activate && python temp_predict.py',
+  stdout: '{\n' +
+    `  "error": "'>=' not supported between instances of 'Timestamp' and 'str'",\n` +
+    '  "model_type": "original",\n' +
+    '  "message": "Prediction failed"\n' +
+    '}\n',
+  stderr: 'Using original model and data\n'
+}
+ POST /api/prediction 500 in 3603ms
+Prediction API error: [Error: Command failed: cd /Users/macbookair/Documents/Code/hacksphrizz && source venv/bin/activate && python temp_predict.py
+] {
+  code: 1,
+  killed: false,
+  signal: null,
+  cmd: 'cd /Users/macbookair/Documents/Code/hacksphrizz && source venv/bin/activate && python temp_predict.py',
+  stdout: '{"success": false, "error": "The feature names should match those that were passed during fit.\\nFeature names unseen at fit time:\\n- Bookings_Lag1\\n- Bookings_Lag30\\n- Bookings_Lag7\\n- DayOfWeek\\n- DayOfYear\\n- ...\\nFeature names seen at fit time, yet now missing:\\n- bookings_lag_1\\n- bookings_lag_14\\n- bookings_lag_30\\n- bookings_lag_365\\n- bookings_lag_7\\n- ...\\n", "model_type": "original", "message": "Prediction failed"}\n',
+  stderr: ''
+}
+ POST /api/prediction 500 in 3118ms
+Prediction API error: [Error: Command failed: cd /Users/macbookair/Documents/Code/hacksphrizz && source venv/bin/activate && python temp_predict_final.py
+Traceback (most recent call last):
+  File "/Users/macbookair/Documents/Code/hacksphrizz/temp_predict_final.py", line 158, in <module>
+    predictions = model.predict(X_future)
+  File "/Users/macbookair/Documents/Code/hacksphrizz/venv/lib/python3.13/site-packages/sklearn/ensemble/_gb.py", line 2148, in predict
+    X = validate_data(
+        self, X, dtype=DTYPE, order="C", accept_sparse="csr", reset=False
+    )
+  File "/Users/macbookair/Documents/Code/hacksphrizz/venv/lib/python3.13/site-packages/sklearn/utils/validation.py", line 2929, in validate_data
+    _check_feature_names(_estimator, X, reset=reset)
+    ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/macbookair/Documents/Code/hacksphrizz/venv/lib/python3.13/site-packages/sklearn/utils/validation.py", line 2787, in _check_feature_names
+    raise ValueError(message)
+ValueError: The feature names should match those that were passed during fit.
+Feature names unseen at fit time:
+- route
+- route_popularity
+- train_type
+Feature names seen at fit time, yet now missing:
+- route_Bandung-Yogyakarta
+- route_Jakarta-Bandung
+- route_Jakarta-Cirebon
+- route_Jakarta-Semarang
+- route_Jakarta-Solo
+- ...
+
+] {
+  code: 1,
+  killed: false,
+  signal: null,
+  cmd: 'cd /Users/macbookair/Documents/Code/hacksphrizz && source venv/bin/activate && python temp_predict_final.py',
+  stdout: '',
+  stderr: 'Traceback (most recent call last):\n' +
+    '  File "/Users/macbookair/Documents/Code/hacksphrizz/temp_predict_final.py", line 158, in <module>\n' +
+    '    predictions = model.predict(X_future)\n' +
+    '  File "/Users/macbookair/Documents/Code/hacksphrizz/venv/lib/python3.13/site-packages/sklearn/ensemble/_gb.py", line 2148, in predict\n' +
+    '    X = validate_data(\n' +
+    '        self, X, dtype=DTYPE, order="C", accept_sparse="csr", reset=False\n' +
+    '    )\n' +
+    '  File "/Users/macbookair/Documents/Code/hacksphrizz/venv/lib/python3.13/site-packages/sklearn/utils/validation.py", line 2929, in validate_data\n' +
+    '    _check_feature_names(_estimator, X, reset=reset)\n' +
+    '    ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n' +
+    '  File "/Users/macbookair/Documents/Code/hacksphrizz/venv/lib/python3.13/site-packages/sklearn/utils/validation.py", line 2787, in _check_feature_names\n' +
+    '    raise ValueError(message)\n' +
+    'ValueError: The feature names should match those that were passed during fit.\n' +
+    'Feature names unseen at fit time:\n' +
+    '- route\n' +
+    '- route_popularity\n' +
+    '- train_type\n' +
+    'Feature names seen at fit time, yet now missing:\n' +
+    '- route_Bandung-Yogyakarta\n' +
+    '- route_Jakarta-Bandung\n' +
+    '- route_Jakarta-Cirebon\n' +
+    '- route_Jakarta-Semarang\n' +
+    '- route_Jakarta-Solo\n' +
+    '- ...\n' +
+    '\n'
+}
+ POST /api/prediction 500 in 11638ms
+ ○ Compiling /simulation ...
+ ✓ Compiled /simulation in 4.8s
+ GET /simulation?id=1f95007f-d12d-4e9b-8473-d1d270bf7229&vscodeBrowserReqId=1759425965077 200 in 5162ms
+ GET /api/simulation 200 in 2924ms
+🔄 Executing simulation command: status
+✅ Simulation status result: {
+  running: true,
+  start_time: '2025-10-03T00:03:30.152463',
+  last_update: '2025-10-03T00:23:19.303761',
+  generation_count: 29,
+  training_count: 0,
+  pid: 83042
+}
+ POST /api/simulation 200 in 1999ms
+ GET /api/simulation 200 in 2725ms
+ GET /api/simulation 200 in 1622ms
+ GET /api/simulation 200 in 1570ms
+ GET /api/simulation 200 in 1575ms
+ GET /api/simulation 200 in 1705ms
+ GET /api/simulation 200 in 1560ms
+ GET /api/simulation 200 in 1464ms
+ GET /api/simulation 200 in 1662ms
+ GET /api/simulation 200 in 2925ms
+ GET /api/simulation 200 in 3248ms
+ GET /api/simulation 200 in 2876ms
+ GET /api/simulation 200 in 2447ms
+ GET /simulation 200 in 539ms
+ GET /api/simulation 200 in 5471ms
+🔄 Executing simulation command: start
+[Error: spawn python ENOENT] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'spawn python',
+  path: 'python',
+  spawnargs: [Array]
+}
+ ⨯ uncaughtException: [Error: spawn python ENOENT] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'spawn python',
+  path: 'python',
+  spawnargs: [Array]
+}
+ ⨯ uncaughtException:  [Error: spawn python ENOENT] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'spawn python',
+  path: 'python',
+  spawnargs: [Array]
+}
+ GET /api/simulation 200 in 3101ms
+ GET /api/simulation 200 in 2588ms
+ GET /api/simulation 200 in 1832ms
+ POST /api/simulation 200 in 4632ms
+ GET /api/simulation 200 in 1565ms
+ GET /api/simulation 200 in 1500ms
+ GET /api/simulation 200 in 1584ms
+🔄 Executing simulation command: start
+[Error: spawn python ENOENT] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'spawn python',
+  path: 'python',
+  spawnargs: [Array]
+}
+ ⨯ uncaughtException: [Error: spawn python ENOENT] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'spawn python',
+  path: 'python',
+  spawnargs: [Array]
+}
+ ⨯ uncaughtException:  [Error: spawn python ENOENT] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'spawn python',
+  path: 'python',
+  spawnargs: [Array]
+}
+ GET /api/simulation 200 in 1600ms
+ POST /api/simulation 200 in 3685ms
+ GET /api/simulation 200 in 1889ms
+ GET /api/simulation 200 in 1703ms
+ GET /api/simulation 200 in 1596ms
+ GET /api/simulation 200 in 2046ms
+ GET /api/simulation 200 in 1739ms
+ GET /api/simulation 200 in 1606ms
+ GET /api/simulation 200 in 1455ms
+Prediction API error: [Error: Command failed: cd /Users/macbookair/Documents/Code/hacksphrizz && source venv/bin/activate && python temp_predict_final.py
+Traceback (most recent call last):
+  File "/Users/macbookair/Documents/Code/hacksphrizz/temp_predict_final.py", line 158, in <module>
+    predictions = model.predict(X_future)
+  File "/Users/macbookair/Documents/Code/hacksphrizz/venv/lib/python3.13/site-packages/sklearn/ensemble/_gb.py", line 2148, in predict
+    X = validate_data(
+        self, X, dtype=DTYPE, order="C", accept_sparse="csr", reset=False
+    )
+  File "/Users/macbookair/Documents/Code/hacksphrizz/venv/lib/python3.13/site-packages/sklearn/utils/validation.py", line 2929, in validate_data
+    _check_feature_names(_estimator, X, reset=reset)
+    ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/macbookair/Documents/Code/hacksphrizz/venv/lib/python3.13/site-packages/sklearn/utils/validation.py", line 2787, in _check_feature_names
+    raise ValueError(message)
+ValueError: The feature names should match those that were passed during fit.
+Feature names unseen at fit time:
+- route
+- route_popularity
+- train_type
+Feature names seen at fit time, yet now missing:
+- route_Bandung-Yogyakarta
+- route_Jakarta-Bandung
+- route_Jakarta-Cirebon
+- route_Jakarta-Semarang
+- route_Jakarta-Solo
+- ...
+
+] {
+  code: 1,
+  killed: false,
+  signal: null,
+  cmd: 'cd /Users/macbookair/Documents/Code/hacksphrizz && source venv/bin/activate && python temp_predict_final.py',
+  stdout: '',
+  stderr: 'Traceback (most recent call last):\n' +
+    '  File "/Users/macbookair/Documents/Code/hacksphrizz/temp_predict_final.py", line 158, in <module>\n' +
+    '    predictions = model.predict(X_future)\n' +
+    '  File "/Users/macbookair/Documents/Code/hacksphrizz/venv/lib/python3.13/site-packages/sklearn/ensemble/_gb.py", line 2148, in predict\n' +
+    '    X = validate_data(\n' +
+    '        self, X, dtype=DTYPE, order="C", accept_sparse="csr", reset=False\n' +
+    '    )\n' +
+    '  File "/Users/macbookair/Documents/Code/hacksphrizz/venv/lib/python3.13/site-packages/sklearn/utils/validation.py", line 2929, in validate_data\n' +
+    '    _check_feature_names(_estimator, X, reset=reset)\n' +
+    '    ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n' +
+    '  File "/Users/macbookair/Documents/Code/hacksphrizz/venv/lib/python3.13/site-packages/sklearn/utils/validation.py", line 2787, in _check_feature_names\n' +
+    '    raise ValueError(message)\n' +
+    'ValueError: The feature names should match those that were passed during fit.\n' +
+    'Feature names unseen at fit time:\n' +
+    '- route\n' +
+    '- route_popularity\n' +
+    '- train_type\n' +
+    'Feature names seen at fit time, yet now missing:\n' +
+    '- route_Bandung-Yogyakarta\n' +
+    '- route_Jakarta-Bandung\n' +
+    '- route_Jakarta-Cirebon\n' +
+    '- route_Jakarta-Semarang\n' +
+    '- route_Jakarta-Solo\n' +
+    '- ...\n' +
+    '\n'
+}
+ POST /api/prediction 500 in 10656ms
+ GET /api/simulation 200 in 1658ms
+ GET /api/simulation 200 in 1518ms
+ GET /api/simulation 200 in 1575ms
+ GET /api/simulation 200 in 1593ms
+ GET /api/simulation 200 in 1611ms
+ GET /api/simulation 200 in 1656ms
+Prediction API error: [Error: Command failed: cd /Users/macbookair/Documents/Code/hacksphrizz && source venv/bin/activate && python temp_predict_final.py
+Traceback (most recent call last):
+  File "/Users/macbookair/Documents/Code/hacksphrizz/temp_predict_final.py", line 158, in <module>
+    predictions = model.predict(X_future)
+  File "/Users/macbookair/Documents/Code/hacksphrizz/venv/lib/python3.13/site-packages/sklearn/ensemble/_gb.py", line 2148, in predict
+    X = validate_data(
+        self, X, dtype=DTYPE, order="C", accept_sparse="csr", reset=False
+    )
+  File "/Users/macbookair/Documents/Code/hacksphrizz/venv/lib/python3.13/site-packages/sklearn/utils/validation.py", line 2929, in validate_data
+    _check_feature_names(_estimator, X, reset=reset)
+    ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/macbookair/Documents/Code/hacksphrizz/venv/lib/python3.13/site-packages/sklearn/utils/validation.py", line 2787, in _check_feature_names
+    raise ValueError(message)
+ValueError: The feature names should match those that were passed during fit.
+Feature names unseen at fit time:
+- route
+- route_popularity
+- train_type
+Feature names seen at fit time, yet now missing:
+- route_Bandung-Yogyakarta
+- route_Jakarta-Bandung
+- route_Jakarta-Cirebon
+- route_Jakarta-Semarang
+- route_Jakarta-Solo
+- ...
+
+] {
+  code: 1,
+  killed: false,
+  signal: null,
+  cmd: 'cd /Users/macbookair/Documents/Code/hacksphrizz && source venv/bin/activate && python temp_predict_final.py',
+  stdout: '',
+  stderr: 'Traceback (most recent call last):\n' +
+    '  File "/Users/macbookair/Documents/Code/hacksphrizz/temp_predict_final.py", line 158, in <module>\n' +
+    '    predictions = model.predict(X_future)\n' +
+    '  File "/Users/macbookair/Documents/Code/hacksphrizz/venv/lib/python3.13/site-packages/sklearn/ensemble/_gb.py", line 2148, in predict\n' +
+    '    X = validate_data(\n' +
+    '        self, X, dtype=DTYPE, order="C", accept_sparse="csr", reset=False\n' +
+    '    )\n' +
+    '  File "/Users/macbookair/Documents/Code/hacksphrizz/venv/lib/python3.13/site-packages/sklearn/utils/validation.py", line 2929, in validate_data\n' +
+    '    _check_feature_names(_estimator, X, reset=reset)\n' +
+    '    ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n' +
+    '  File "/Users/macbookair/Documents/Code/hacksphrizz/venv/lib/python3.13/site-packages/sklearn/utils/validation.py", line 2787, in _check_feature_names\n' +
+    '    raise ValueError(message)\n' +
+    'ValueError: The feature names should match those that were passed during fit.\n' +
+    'Feature names unseen at fit time:\n' +
+    '- route\n' +
+    '- route_popularity\n' +
+    '- train_type\n' +
+    'Feature names seen at fit time, yet now missing:\n' +
+    '- route_Bandung-Yogyakarta\n' +
+    '- route_Jakarta-Bandung\n' +
+    '- route_Jakarta-Cirebon\n' +
+    '- route_Jakarta-Semarang\n' +
+    '- route_Jakarta-Solo\n' +
+    '- ...\n' +
+    '\n'
+}
+ POST /api/prediction 500 in 10721ms
+ GET /api/simulation 200 in 1403ms
+ GET /api/simulation 200 in 1473ms
+ GET /api/simulation 200 in 1863ms
+ GET /api/simulation 200 in 1501ms
+ GET /api/simulation 200 in 1569ms
+ GET /api/simulation 200 in 1489ms
+ GET /api/simulation 200 in 1642ms
+ GET /api/simulation 200 in 1434ms
+ GET /api/simulation 200 in 1430ms
+ GET /api/simulation 200 in 1483ms
+ GET /api/simulation 200 in 1415ms
+ GET /api/simulation 200 in 1481ms
+🔄 Executing simulation command: start
+[Error: spawn python ENOENT] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'spawn python',
+  path: 'python',
+  spawnargs: [Array]
+}
+ ⨯ uncaughtException: [Error: spawn python ENOENT] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'spawn python',
+  path: 'python',
+  spawnargs: [Array]
+}
+ ⨯ uncaughtException:  [Error: spawn python ENOENT] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'spawn python',
+  path: 'python',
+  spawnargs: [Array]
+}
+ GET /api/simulation 200 in 1639ms
+ POST /api/simulation 200 in 3488ms
+ GET /api/simulation 200 in 1479ms
+ GET /api/simulation 200 in 1361ms
+ GET /api/simulation 200 in 1461ms
+ GET /api/simulation 200 in 1697ms
+ GET /api/simulation 200 in 1505ms
+ GET /api/simulation 200 in 1432ms
+ GET /api/simulation 200 in 1552ms
+Prediction API error: [Error: Command failed: cd /Users/macbookair/Documents/Code/hacksphrizz && source venv/bin/activate && python temp_predict_final.py
+Traceback (most recent call last):
+  File "/Users/macbookair/Documents/Code/hacksphrizz/temp_predict_final.py", line 158, in <module>
+    predictions = model.predict(X_future)
+  File "/Users/macbookair/Documents/Code/hacksphrizz/venv/lib/python3.13/site-packages/sklearn/ensemble/_gb.py", line 2148, in predict
+    X = validate_data(
+        self, X, dtype=DTYPE, order="C", accept_sparse="csr", reset=False
+    )
+  File "/Users/macbookair/Documents/Code/hacksphrizz/venv/lib/python3.13/site-packages/sklearn/utils/validation.py", line 2929, in validate_data
+    _check_feature_names(_estimator, X, reset=reset)
+    ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/macbookair/Documents/Code/hacksphrizz/venv/lib/python3.13/site-packages/sklearn/utils/validation.py", line 2787, in _check_feature_names
+    raise ValueError(message)
+ValueError: The feature names should match those that were passed during fit.
+Feature names unseen at fit time:
+- route
+- route_popularity
+- train_type
+Feature names seen at fit time, yet now missing:
+- route_Bandung-Yogyakarta
+- route_Jakarta-Bandung
+- route_Jakarta-Cirebon
+- route_Jakarta-Semarang
+- route_Jakarta-Solo
+- ...
+
+] {
+  code: 1,
+  killed: false,
+  signal: null,
+  cmd: 'cd /Users/macbookair/Documents/Code/hacksphrizz && source venv/bin/activate && python temp_predict_final.py',
+  stdout: '',
+  stderr: 'Traceback (most recent call last):\n' +
+    '  File "/Users/macbookair/Documents/Code/hacksphrizz/temp_predict_final.py", line 158, in <module>\n' +
+    '    predictions = model.predict(X_future)\n' +
+    '  File "/Users/macbookair/Documents/Code/hacksphrizz/venv/lib/python3.13/site-packages/sklearn/ensemble/_gb.py", line 2148, in predict\n' +
+    '    X = validate_data(\n' +
+    '        self, X, dtype=DTYPE, order="C", accept_sparse="csr", reset=False\n' +
+    '    )\n' +
+    '  File "/Users/macbookair/Documents/Code/hacksphrizz/venv/lib/python3.13/site-packages/sklearn/utils/validation.py", line 2929, in validate_data\n' +
+    '    _check_feature_names(_estimator, X, reset=reset)\n' +
+    '    ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n' +
+    '  File "/Users/macbookair/Documents/Code/hacksphrizz/venv/lib/python3.13/site-packages/sklearn/utils/validation.py", line 2787, in _check_feature_names\n' +
+    '    raise ValueError(message)\n' +
+    'ValueError: The feature names should match those that were passed during fit.\n' +
+    'Feature names unseen at fit time:\n' +
+    '- route\n' +
+    '- route_popularity\n' +
+    '- train_type\n' +
+    'Feature names seen at fit time, yet now missing:\n' +
+    '- route_Bandung-Yogyakarta\n' +
+    '- route_Jakarta-Bandung\n' +
+    '- route_Jakarta-Cirebon\n' +
+    '- route_Jakarta-Semarang\n' +
+    '- route_Jakarta-Solo\n' +
+    '- ...\n' +
+    '\n'
+}
+ POST /api/prediction 500 in 10306ms
+ GET /api/simulation 200 in 1523ms
+ GET /api/simulation 200 in 1421ms
+ GET /api/simulation 200 in 1360ms
+ GET /api/simulation 200 in 1382ms
+ GET /api/simulation 200 in 1530ms
+ GET /api/simulation 200 in 1341ms
+ GET /api/simulation 200 in 1388ms
+ GET /api/simulation 200 in 1499ms
+ GET /api/simulation 200 in 1514ms
+ GET /api/simulation 200 in 2300ms
+ GET /api/simulation 200 in 1616ms
+ GET /api/simulation 200 in 2163ms
+ GET /api/simulation 200 in 2327ms
+ GET /api/simulation 200 in 2593ms
+ GET /api/simulation 200 in 1447ms
+ GET /api/simulation 200 in 1776ms
+ GET /api/simulation 200 in 1595ms
+ GET /api/simulation 200 in 1836ms
+ GET /api/simulation 200 in 1430ms
+ GET /api/simulation 200 in 1427ms
+ GET /api/simulation 200 in 1325ms
+ GET /api/simulation 200 in 1421ms
+ GET /api/simulation 200 in 1618ms
+ GET /api/simulation 200 in 1390ms
+ GET /api/simulation 200 in 1419ms
+ GET /api/simulation 200 in 1565ms
+ GET /api/simulation 200 in 1411ms
+ GET /api/simulation 200 in 1446ms
+ GET /api/simulation 200 in 1501ms
+ GET /api/simulation 200 in 1384ms
+ GET /api/simulation 200 in 1343ms
+ GET /api/simulation 200 in 1361ms
+ GET /api/simulation 200 in 1491ms
+ GET /api/simulation 200 in 1374ms
+ GET /api/simulation 200 in 1429ms
+ GET /api/simulation 200 in 1413ms
+ GET /api/simulation 200 in 1332ms
+ GET /api/simulation 200 in 1426ms
+ GET /api/simulation 200 in 1440ms
+ GET /api/simulation 200 in 1336ms
+ GET /api/simulation 200 in 1390ms
+ GET /api/simulation 200 in 1363ms
+ GET /api/simulation 200 in 1336ms
+ GET /api/simulation 200 in 1377ms
+ GET /api/simulation 200 in 1334ms
+ GET /api/simulation 200 in 1358ms
+ GET /api/simulation 200 in 1296ms
+ GET /api/simulation 200 in 1364ms
+ GET /api/simulation 200 in 1283ms
+ GET /api/simulation 200 in 1401ms
+ GET /api/simulation 200 in 1314ms
+ GET /api/simulation 200 in 1383ms
+ GET /api/simulation 200 in 1407ms
+ GET /api/simulation 200 in 1342ms
+ GET /api/simulation 200 in 1359ms
+ GET /api/simulation 200 in 1360ms
+ GET /api/simulation 200 in 1327ms
+ GET /api/simulation 200 in 1343ms
+ GET /api/simulation 200 in 1375ms
+ GET /api/simulation 200 in 1387ms
+ GET /api/simulation 200 in 1299ms
+ GET /api/simulation 200 in 1368ms
+ GET /api/simulation 200 in 1301ms
+ GET /api/simulation 200 in 1396ms
+ GET /api/simulation 200 in 1410ms
+ GET /api/simulation 200 in 1314ms
+ GET /api/simulation 200 in 1433ms
+ GET /api/simulation 200 in 1373ms
+ GET /api/simulation 200 in 1293ms
+ GET /api/simulation 200 in 1292ms
+ GET /api/simulation 200 in 1324ms
+ GET /api/simulation 200 in 1354ms
+ GET /api/simulation 200 in 1313ms
+ GET /api/simulation 200 in 1367ms
+ GET /api/simulation 200 in 1434ms
+ GET /api/simulation 200 in 1337ms
+ GET /api/simulation 200 in 1372ms
+ GET /api/simulation 200 in 1350ms
+ GET /api/simulation 200 in 1361ms
+ GET /api/simulation 200 in 1398ms
+ GET /api/simulation 200 in 1308ms
+ GET /api/simulation 200 in 1352ms
+ GET /api/simulation 200 in 1414ms
+ GET /api/simulation 200 in 1372ms
+ GET /api/simulation 200 in 1318ms
+ GET /api/simulation 200 in 1414ms
+ GET /api/simulation 200 in 1320ms
+ GET /api/simulation 200 in 1351ms
+ GET /api/simulation 200 in 1450ms
+ GET /api/simulation 200 in 1419ms
+ GET /api/simulation 200 in 1365ms
+ GET /api/simulation 200 in 1341ms
+ GET /api/simulation 200 in 1349ms
+ GET /api/simulation 200 in 1386ms
+ GET /api/simulation 200 in 1381ms
+ GET /api/simulation 200 in 1357ms
+ GET /api/simulation 200 in 1453ms
+ GET /api/simulation 200 in 1388ms
+ GET /api/simulation 200 in 1349ms
+ GET /api/simulation 200 in 1374ms
+ GET /api/simulation 200 in 1425ms
+ GET /api/simulation 200 in 1329ms
+ GET /api/simulation 200 in 1341ms
+ GET /api/simulation 200 in 1341ms
+ GET /api/simulation 200 in 1361ms
+ GET /api/simulation 200 in 1348ms
+ GET /api/simulation 200 in 1367ms
+ GET /api/simulation 200 in 1511ms
+ GET /api/simulation 200 in 1336ms
+ GET /api/simulation 200 in 1487ms
+ GET /api/simulation 200 in 1316ms
+ GET /api/simulation 200 in 1291ms
+ GET /api/simulation 200 in 1515ms
+ GET /api/simulation 200 in 1395ms
+ GET /api/simulation 200 in 1316ms
+ GET /api/simulation 200 in 1312ms
+ GET /api/simulation 200 in 1319ms
+ GET /api/simulation 200 in 1395ms
+ GET /api/simulation 200 in 1297ms
+ GET /api/simulation 200 in 1390ms
+ GET /api/simulation 200 in 1311ms
+ GET /api/simulation 200 in 1386ms
+ GET /api/simulation 200 in 1287ms
+ GET /api/simulation 200 in 1330ms
+ GET /api/simulation 200 in 1340ms
+ GET /api/simulation 200 in 1357ms
+ GET /api/simulation 200 in 1333ms
+ GET /api/simulation 200 in 1331ms
+ GET /api/simulation 200 in 1445ms
+ GET /api/simulation 200 in 1444ms
+ GET /api/simulation 200 in 1423ms
+ GET /api/simulation 200 in 1377ms
+ GET /api/simulation 200 in 1289ms
+ GET /api/simulation 200 in 1400ms
+ GET /api/simulation 200 in 1393ms
+ GET /api/simulation 200 in 1383ms
+ GET /api/simulation 200 in 1587ms
+ GET /api/simulation 200 in 1374ms
+ GET /api/simulation 200 in 1391ms
+ GET /api/simulation 200 in 1353ms
+ GET /api/simulation 200 in 1372ms
+ GET /api/simulation 200 in 1359ms
+ GET /api/simulation 200 in 1526ms
+ GET /api/simulation 200 in 1406ms
+ GET /api/simulation 200 in 1272ms
+ GET /api/simulation 200 in 1382ms
+ GET /api/simulation 200 in 1532ms
+ GET /api/simulation 200 in 1370ms
+ GET /api/simulation 200 in 1397ms
+ GET /api/simulation 200 in 1445ms
+ GET /api/simulation 200 in 1299ms
+ GET /api/simulation 200 in 1348ms
+ GET /api/simulation 200 in 1360ms
+ GET /api/simulation 200 in 1372ms
+ GET /api/simulation 200 in 1454ms
+ GET /api/simulation 200 in 1386ms
+ GET /api/simulation 200 in 1311ms
+ GET /api/simulation 200 in 1390ms
+ GET /api/simulation 200 in 1324ms
+ GET /api/simulation 200 in 1360ms
+ GET /api/simulation 200 in 1493ms
+ GET /api/simulation 200 in 1386ms
+ GET /api/simulation 200 in 1277ms
+ GET /api/simulation 200 in 1340ms
+ GET /api/simulation 200 in 1420ms
+ GET /api/simulation 200 in 1353ms
+ GET /api/simulation 200 in 1321ms
+ GET /api/simulation 200 in 1385ms
+ GET /api/simulation 200 in 1303ms
+ GET /api/simulation 200 in 1403ms
+ GET /api/simulation 200 in 1320ms
+ GET /api/simulation 200 in 1358ms
+ GET /api/simulation 200 in 1372ms
+ GET /api/simulation 200 in 1334ms
+ GET /api/simulation 200 in 1287ms
+ GET /api/simulation 200 in 1387ms
+ GET /api/simulation 200 in 1284ms
+ GET /api/simulation 200 in 1359ms
+ GET /api/simulation 200 in 1365ms
+ GET /api/simulation 200 in 1290ms
+ GET /api/simulation 200 in 1363ms
+ GET /api/simulation 200 in 1400ms
+ GET /api/simulation 200 in 1295ms
+ GET /api/simulation 200 in 1417ms
+ GET /api/simulation 200 in 1508ms
+ GET /api/simulation 200 in 1350ms
+ GET /api/simulation 200 in 1321ms
+ GET /api/simulation 200 in 1431ms
+ GET /api/simulation 200 in 1329ms
+ GET /api/simulation 200 in 1391ms
+ GET /api/simulation 200 in 1306ms
+ GET /api/simulation 200 in 1380ms
+ GET /api/simulation 200 in 1345ms
+ GET /api/simulation 200 in 1384ms
+ GET /api/simulation 200 in 1610ms
+ GET /api/simulation 200 in 1364ms
+ GET /api/simulation 200 in 1343ms
+ GET /api/simulation 200 in 1401ms
+ GET /api/simulation 200 in 1312ms
+ GET /api/simulation 200 in 1407ms
+ GET /api/simulation 200 in 1452ms
+ GET /api/simulation 200 in 1395ms
+ GET /api/simulation 200 in 1333ms
+ GET /api/simulation 200 in 1324ms
+ GET /api/simulation 200 in 1266ms
+ GET /api/simulation 200 in 1397ms
+ GET /api/simulation 200 in 1269ms
+ GET /api/simulation 200 in 1377ms
+ GET /api/simulation 200 in 1590ms
+ GET /api/simulation 200 in 1398ms
+ GET /api/simulation 200 in 1323ms
+ GET /api/simulation 200 in 1424ms
+ GET /api/simulation 200 in 1313ms
+ GET /api/simulation 200 in 1416ms
+ GET /api/simulation 200 in 1330ms
+ GET /api/simulation 200 in 1347ms
+ GET /api/simulation 200 in 1268ms
+ GET /api/simulation 200 in 1401ms
+ GET /api/simulation 200 in 1251ms
+ GET /api/simulation 200 in 1376ms
+ GET /api/simulation 200 in 1318ms
+ GET /api/simulation 200 in 1371ms
+ GET /api/simulation 200 in 1328ms
+ GET /api/simulation 200 in 1356ms
+ GET /api/simulation 200 in 1394ms
+ GET /api/simulation 200 in 1359ms
+ GET /api/simulation 200 in 1328ms
+ GET /api/simulation 200 in 1432ms
+ GET /api/simulation 200 in 1394ms
+ GET /api/simulation 200 in 1449ms
+ GET /api/simulation 200 in 1257ms
+ GET /api/simulation 200 in 1394ms
+ GET /api/simulation 200 in 1500ms
+ GET /api/simulation 200 in 1391ms
+ GET /api/simulation 200 in 1345ms
+ GET /api/simulation 200 in 1374ms
+ GET /api/simulation 200 in 1311ms
+ GET /api/simulation 200 in 1373ms
+ GET /api/simulation 200 in 1358ms
+ GET /api/simulation 200 in 1343ms
+ GET /api/simulation 200 in 1305ms
+ GET /api/simulation 200 in 1762ms
+ GET /api/simulation 200 in 1361ms
+ GET /api/simulation 200 in 1401ms
+ GET /api/simulation 200 in 1412ms
+ GET /api/simulation 200 in 1394ms
+ GET /api/simulation 200 in 1329ms
+ GET /api/simulation 200 in 1382ms
+ GET /api/simulation 200 in 1249ms
+ GET /api/simulation 200 in 1366ms
+ GET /api/simulation 200 in 1362ms
+ GET /api/simulation 200 in 1354ms
+ GET /api/simulation 200 in 1314ms
+ GET /api/simulation 200 in 1441ms
+ GET /api/simulation 200 in 1319ms
+ GET /api/simulation 200 in 1408ms
+ GET /api/simulation 200 in 1301ms
+ GET /api/simulation 200 in 1340ms
+ GET /api/simulation 200 in 1377ms
+ GET /api/simulation 200 in 1438ms
+ GET /api/simulation 200 in 1355ms
+ GET /api/simulation 200 in 1391ms
+ GET /api/simulation 200 in 1290ms
+ GET /api/simulation 200 in 1385ms
+ GET /api/simulation 200 in 1285ms
+ GET /api/simulation 200 in 1358ms
+ GET /api/simulation 200 in 1308ms
+ GET /api/simulation 200 in 1393ms
+ GET /api/simulation 200 in 1342ms
+ GET /api/simulation 200 in 1341ms
+ GET /api/simulation 200 in 1337ms
+ GET /api/simulation 200 in 1379ms
+ GET /api/simulation 200 in 1275ms
+ GET /api/simulation 200 in 1360ms
+ GET /api/simulation 200 in 1315ms
+ GET /api/simulation 200 in 1380ms
+ GET /api/simulation 200 in 1291ms
+ GET /api/simulation 200 in 1384ms
+ GET /api/simulation 200 in 1289ms
+ GET /api/simulation 200 in 1326ms
+ GET /api/simulation 200 in 1591ms
+ GET /api/simulation 200 in 1385ms
+ GET /api/simulation 200 in 1352ms
+ GET /api/simulation 200 in 1378ms
+ GET /api/simulation 200 in 1352ms
+ GET /api/simulation 200 in 1355ms
+ GET /api/simulation 200 in 1299ms
+ GET /api/simulation 200 in 1388ms
+ GET /api/simulation 200 in 1270ms
+ GET /api/simulation 200 in 1380ms
+ GET /api/simulation 200 in 1274ms
+ GET /api/simulation 200 in 1515ms
+ GET /api/simulation 200 in 1532ms
+ GET /api/simulation 200 in 1589ms
+ GET /api/simulation 200 in 1404ms
+ GET /api/simulation 200 in 1372ms
+ GET /api/simulation 200 in 1307ms
+ GET /api/simulation 200 in 1442ms
+ GET /api/simulation 200 in 1366ms
+ GET /api/simulation 200 in 1388ms
+ GET /api/simulation 200 in 1270ms
+ GET /api/simulation 200 in 1395ms
+ GET /api/simulation 200 in 1295ms
+ GET /api/simulation 200 in 1500ms
+ GET /api/simulation 200 in 1409ms
+ GET /api/simulation 200 in 1493ms
+ GET /api/simulation 200 in 1337ms
+ GET /api/simulation 200 in 1459ms
+ GET /api/simulation 200 in 1339ms
+ GET /api/simulation 200 in 1387ms
+ GET /api/simulation 200 in 1314ms
+ GET /api/simulation 200 in 1401ms
+ GET /api/simulation 200 in 1293ms
+ GET /api/simulation 200 in 1535ms
+ GET /api/simulation 200 in 1321ms
+ GET /api/simulation 200 in 1368ms
+ GET /api/simulation 200 in 1296ms
+ GET /api/simulation 200 in 1379ms
+ GET /api/simulation 200 in 1294ms
+ GET /api/simulation 200 in 1348ms
+ GET /api/simulation 200 in 1335ms
+ GET /api/simulation 200 in 1345ms
+ GET /api/simulation 200 in 1313ms
+ GET /api/simulation 200 in 1377ms
+ GET /api/simulation 200 in 1284ms
+ GET /api/simulation 200 in 1425ms
+ GET /api/simulation 200 in 1277ms
+ GET /api/simulation 200 in 1372ms
+ GET /api/simulation 200 in 1398ms
+ GET /api/simulation 200 in 1383ms
+ GET /api/simulation 200 in 1275ms
+ GET /api/simulation 200 in 1540ms
+ GET /api/simulation 200 in 1341ms
+ GET /api/simulation 200 in 1340ms
+ GET /api/simulation 200 in 1309ms
+ GET /api/simulation 200 in 1368ms
+ GET /api/simulation 200 in 1328ms
+ GET /api/simulation 200 in 1353ms
+ GET /api/simulation 200 in 1312ms
+ GET /api/simulation 200 in 1493ms
+ GET /api/simulation 200 in 1373ms
+ GET /api/simulation 200 in 1330ms
+ GET /api/simulation 200 in 1309ms
+ GET /api/simulation 200 in 1429ms
+ GET /api/simulation 200 in 1309ms
+ GET /api/simulation 200 in 1515ms
+ GET /api/simulation 200 in 1564ms
+ GET /api/simulation 200 in 1336ms
+ GET /api/simulation 200 in 1306ms
+ GET /api/simulation 200 in 1351ms
+ GET /api/simulation 200 in 1286ms
+ GET /api/simulation 200 in 1361ms
+ GET /api/simulation 200 in 1331ms
+ GET /api/simulation 200 in 1372ms
+ GET /api/simulation 200 in 1292ms
+ GET /api/simulation 200 in 1360ms
+ GET /api/simulation 200 in 1271ms
+ GET /api/simulation 200 in 1402ms
+ GET /api/simulation 200 in 1282ms
+ GET /api/simulation 200 in 1371ms
+ GET /api/simulation 200 in 1255ms
+ GET /api/simulation 200 in 1395ms
+ GET /api/simulation 200 in 1308ms
+ GET /api/simulation 200 in 1357ms
+ GET /api/simulation 200 in 1367ms
+ GET /api/simulation 200 in 1352ms
+ GET /api/simulation 200 in 1326ms
+ GET /api/simulation 200 in 1342ms
+ GET /api/simulation 200 in 4679ms
+ GET /api/simulation 200 in 2281ms
+ GET /api/simulation 200 in 1928ms
+ GET /api/simulation 200 in 2151ms
+ GET /api/simulation 200 in 1492ms
+ GET /api/simulation 200 in 4389ms
+ GET /api/simulation 200 in 2933ms
+ GET /api/simulation 200 in 1946ms
+ GET /api/simulation 200 in 1528ms
+ GET /api/simulation 200 in 1727ms
+ GET /api/simulation 200 in 1472ms
+ GET /api/simulation 200 in 1418ms
+ GET /api/simulation 200 in 1427ms
+ GET /api/simulation 200 in 1434ms
+ GET /api/simulation 200 in 1368ms
+ GET /api/simulation 200 in 1417ms
+ GET /api/simulation 200 in 1591ms
+ GET /api/simulation 200 in 2210ms
+ GET /api/simulation 200 in 1552ms
+ GET /api/simulation 200 in 2150ms
+ GET /api/simulation 200 in 1491ms
+ GET /api/simulation 200 in 1677ms
+ GET /api/simulation 200 in 1389ms
+ GET /api/simulation 200 in 1388ms
+ GET /api/simulation 200 in 1378ms
+ GET /api/simulation 200 in 1538ms
+ GET /api/simulation 200 in 1495ms
+ GET /api/simulation 200 in 1378ms
+ GET /api/simulation 200 in 1337ms
+ GET /api/simulation 200 in 4554ms
+ GET /api/simulation 200 in 6041ms
+Status check error: [Error: Command failed: cd /Users/macbookair/Documents/Code/hacksphrizz && source venv/bin/activate && python /Users/macbookair/Documents/Code/hacksphrizz/scripts/simulation.py status
+] {
+  code: null,
+  killed: true,
+  signal: 'SIGTERM',
+  cmd: 'cd /Users/macbookair/Documents/Code/hacksphrizz && source venv/bin/activate && python /Users/macbookair/Documents/Code/hacksphrizz/scripts/simulation.py status',
+  stdout: '',
+  stderr: ''
+}
+ GET /api/simulation 500 in 10891ms
+ GET /api/simulation 200 in 3288ms
+ GET /api/simulation 200 in 3019ms
+ GET /api/simulation 200 in 3700ms
+ GET /api/simulation 200 in 3781ms
+ GET /api/simulation 200 in 2872ms
+ GET /api/simulation 200 in 2146ms
+ GET /api/simulation 200 in 1628ms
+ GET /api/simulation 200 in 1553ms
+ GET /api/simulation 200 in 1477ms
+ GET /api/simulation 200 in 1270ms
+ GET /api/simulation 200 in 1326ms
+ GET /api/simulation 200 in 1443ms
+ GET /api/simulation 200 in 1494ms
+ GET /api/simulation 200 in 1430ms
+ GET /api/simulation 200 in 1473ms
+ GET /api/simulation 200 in 1777ms
+ GET /api/simulation 200 in 1658ms
+ GET /api/simulation 200 in 1787ms
+ GET /api/simulation 200 in 1300ms
+ GET /api/simulation 200 in 1362ms
+Status check error: [Error: Command failed: cd /Users/macbookair/Documents/Code/hacksphrizz && source venv/bin/activate && python /Users/macbookair/Documents/Code/hacksphrizz/scripts/simulation.py status
+] {
+  code: null,
+  killed: true,
+  signal: 'SIGTERM',
+  cmd: 'cd /Users/macbookair/Documents/Code/hacksphrizz && source venv/bin/activate && python /Users/macbookair/Documents/Code/hacksphrizz/scripts/simulation.py status',
+  stdout: '{\n' +
+    '  "running": true,\n' +
+    '  "start_time": "2025-10-03T00:03:30.152463",\n' +
+    '  "last_update": "2025-10-03T00:55:22.101622",\n' +
+    '  "generation_count": 54,\n' +
+    '  "training_count": 0,\n' +
+    '  "pid": 83042\n' +
+    '}\n',
+  stderr: ''
+}
+ GET /api/simulation 500 in 502142ms
+ GET /api/simulation 200 in 1886ms
+ GET /api/simulation 200 in 1866ms
+ GET /api/simulation 200 in 2778ms
+ GET /api/simulation 200 in 5546ms
+ GET /api/simulation 200 in 4727ms
+ GET /api/simulation 200 in 2295ms
+ GET /api/simulation 200 in 2580ms
+ GET /api/simulation 200 in 4455ms
+ GET /api/simulation 200 in 1758ms
+ GET /api/simulation 200 in 1895ms
+ GET /api/simulation 200 in 1682ms
+ GET /api/simulation 200 in 2265ms
+ GET /api/simulation 200 in 1980ms
+ GET /api/simulation 200 in 1917ms
+ GET /api/simulation 200 in 1304ms
+ GET /api/simulation 200 in 1333ms
+ GET /api/simulation 200 in 1274ms
+ GET /api/simulation 200 in 1285ms
+ GET /api/simulation 200 in 1893ms
+ GET /api/simulation 200 in 1755ms
+ GET /api/simulation 200 in 2185ms
+ GET /api/simulation 200 in 2237ms
+ GET /api/simulation 200 in 1505ms
+ GET /api/simulation 200 in 1361ms
+ GET /api/simulation 200 in 1300ms
+ GET /api/simulation 200 in 1377ms
+ GET /api/simulation 200 in 1271ms
+ GET /api/simulation 200 in 1291ms
+ GET /api/simulation 200 in 1787ms
+ GET /api/simulation 200 in 1622ms
+ GET /api/simulation 200 in 1608ms
+ GET /api/simulation 200 in 1604ms
+ GET /api/simulation 200 in 1443ms
+ GET /api/simulation 200 in 1401ms
+ GET /api/simulation 200 in 1373ms
+ GET /api/simulation 200 in 1297ms
+ GET /api/simulation 200 in 1275ms
+ GET /api/simulation 200 in 1393ms
+ GET /api/simulation 200 in 1410ms
+ GET /api/simulation 200 in 1376ms
+ GET /api/simulation 200 in 1315ms
+ GET /api/simulation 200 in 1341ms
+ GET /api/simulation 200 in 1361ms
+ GET /api/simulation 200 in 1436ms
+ GET /api/simulation 200 in 1376ms
+ GET /api/simulation 200 in 1273ms
+Status check error: [Error: Command failed: cd /Users/macbookair/Documents/Code/hacksphrizz && source venv/bin/activate && python /Users/macbookair/Documents/Code/hacksphrizz/scripts/simulation.py status
+] {
+  code: null,
+  killed: true,
+  signal: 'SIGTERM',
+  cmd: 'cd /Users/macbookair/Documents/Code/hacksphrizz && source venv/bin/activate && python /Users/macbookair/Documents/Code/hacksphrizz/scripts/simulation.py status',
+  stdout: '{\n' +
+    '  "running": true,\n' +
+    '  "start_time": "2025-10-03T00:03:30.152463",\n' +
+    '  "last_update": "2025-10-03T00:55:22.101622",\n' +
+    '  "generation_count": 54,\n' +
+    '  "training_count": 0,\n' +
+    '  "pid": 83042\n' +
+    '}\n',
+  stderr: ''
+}
+ GET /api/simulation 500 in 500836ms
+ GET /api/simulation 200 in 2015ms
+ GET /api/simulation 200 in 2188ms
+ GET /api/simulation 200 in 1741ms
+ GET /api/simulation 200 in 1589ms
+ GET /api/simulation 200 in 1395ms
+ GET /api/simulation 200 in 1292ms
+ GET /api/simulation 200 in 1550ms
+ GET /api/simulation 200 in 1313ms
+ GET /api/simulation 200 in 1312ms
+ GET /api/simulation 200 in 1548ms
+ GET /api/simulation 200 in 1561ms
+ GET /api/simulation 200 in 1298ms
+ GET /api/simulation 200 in 1308ms
+ GET /api/simulation 200 in 1300ms
+ GET /api/simulation 200 in 1303ms
+ GET /api/simulation 200 in 1289ms
+ GET /api/simulation 200 in 1263ms
+ GET /api/simulation 200 in 1425ms
+Status check error: [Error: Command failed: cd /Users/macbookair/Documents/Code/hacksphrizz && source venv/bin/activate && python /Users/macbookair/Documents/Code/hacksphrizz/scripts/simulation.py status
+] {
+  code: null,
+  killed: true,
+  signal: 'SIGTERM',
+  cmd: 'cd /Users/macbookair/Documents/Code/hacksphrizz && source venv/bin/activate && python /Users/macbookair/Documents/Code/hacksphrizz/scripts/simulation.py status',
+  stdout: '{\n' +
+    '  "running": true,\n' +
+    '  "start_time": "2025-10-03T00:03:30.152463",\n' +
+    '  "last_update": "2025-10-03T00:55:22.101622",\n' +
+    '  "generation_count": 54,\n' +
+    '  "training_count": 0,\n' +
+    '  "pid": 83042\n' +
+    '}\n',
+  stderr: ''
+}
+ GET /api/simulation 500 in 499853ms
+ GET /api/simulation 200 in 2274ms
+ GET /api/simulation 200 in 4255ms
+ GET /api/simulation 200 in 4850ms
+ GET /api/simulation 200 in 4061ms
+ GET /api/simulation 200 in 3836ms
+ GET /api/simulation 200 in 3211ms
+ GET /api/simulation 200 in 2196ms
+ GET /api/simulation 200 in 1844ms
+ GET /api/simulation 200 in 2030ms
+ GET /api/simulation 200 in 1750ms
+ GET /api/simulation 200 in 1356ms
+ GET /api/simulation 200 in 1514ms
+ GET /api/simulation 200 in 1338ms
+ GET /api/simulation 200 in 1383ms
+ GET /api/simulation 200 in 1314ms
+ GET /api/simulation 200 in 1242ms
+ GET /api/simulation 200 in 1272ms
+ GET /api/simulation 200 in 1274ms
+ GET /api/simulation 200 in 1335ms
+ GET /api/simulation 200 in 500705ms
+ GET /api/simulation 200 in 1610ms
+ GET /api/simulation 200 in 1377ms
+ GET /api/simulation 200 in 1413ms
+ GET /api/simulation 200 in 1356ms
+ GET /api/simulation 200 in 1319ms
+ GET /api/simulation 200 in 1245ms
+ GET /api/simulation 200 in 1309ms
+ GET /api/simulation 200 in 1357ms
+ GET /api/simulation 200 in 1482ms
+ GET /api/simulation 200 in 1575ms
+ GET /api/simulation 200 in 1538ms
+ GET /api/simulation 200 in 1522ms
+ GET /api/simulation 200 in 1778ms
+ GET /api/simulation 200 in 1789ms
+ GET /api/simulation 200 in 1335ms
+ GET /api/simulation 200 in 1260ms
+ GET /api/simulation 200 in 1316ms
+ GET /api/simulation 200 in 1425ms
+ GET /api/simulation 200 in 1511ms
+ GET /api/simulation 200 in 1513ms
+ GET /api/simulation 200 in 1950ms
+ GET /api/simulation 200 in 1613ms
+ GET /api/simulation 200 in 1492ms
+ GET /api/simulation 200 in 1366ms
+ GET /api/simulation 200 in 1410ms
+ GET /api/simulation 200 in 1293ms
+ GET /api/simulation 200 in 1213ms
+ GET /api/simulation 200 in 1280ms
+ GET /api/simulation 200 in 2113ms
+ GET /api/simulation 200 in 1520ms
+ GET /api/simulation 200 in 1466ms
+ GET /api/simulation 200 in 1272ms
+ GET /api/simulation 200 in 1345ms
+ GET /api/simulation 200 in 1316ms
+ GET /api/simulation 200 in 1298ms
+ GET /api/simulation 200 in 1251ms
+ GET /api/simulation 200 in 1294ms
+ GET /api/simulation 200 in 1343ms
+ GET /api/simulation 200 in 1375ms
+ GET /api/simulation 200 in 1320ms
+ GET /api/simulation 200 in 1416ms
+ GET /api/simulation 200 in 1520ms
+ GET /api/simulation 200 in 1638ms
+ GET /api/simulation 200 in 1644ms
+ GET /api/simulation 200 in 1322ms
+ GET /api/simulation 200 in 1344ms
+Status check error: [Error: Command failed: cd /Users/macbookair/Documents/Code/hacksphrizz && source venv/bin/activate && python /Users/macbookair/Documents/Code/hacksphrizz/scripts/simulation.py status
+] {
+  code: null,
+  killed: true,
+  signal: 'SIGTERM',
+  cmd: 'cd /Users/macbookair/Documents/Code/hacksphrizz && source venv/bin/activate && python /Users/macbookair/Documents/Code/hacksphrizz/scripts/simulation.py status',
+  stdout: '{\n' +
+    '  "running": true,\n' +
+    '  "start_time": "2025-10-03T00:03:30.152463",\n' +
+    '  "last_update": "2025-10-03T00:55:22.101622",\n' +
+    '  "generation_count": 54,\n' +
+    '  "training_count": 0,\n' +
+    '  "pid": 83042\n' +
+    '}\n',
+  stderr: ''
+}
+ GET /api/simulation 500 in 500774ms
+ GET /api/simulation 200 in 1787ms
+ GET /api/simulation 200 in 3910ms
+ GET /api/simulation 200 in 4911ms
+ GET /api/simulation 200 in 5251ms
+ GET /api/simulation 200 in 2536ms
+ GET /api/simulation 200 in 1958ms
+ GET /api/simulation 200 in 2015ms
+ GET /api/simulation 200 in 2256ms
+ GET /api/simulation 200 in 1592ms
+ GET /api/simulation 200 in 1669ms
+ GET /api/simulation 200 in 1540ms
+ GET /api/simulation 200 in 1473ms
+ GET /api/simulation 200 in 1290ms
+ GET /api/simulation 200 in 1263ms
+ GET /api/simulation 200 in 1460ms
+ GET /api/simulation 200 in 1324ms
+ GET /api/simulation 200 in 1285ms
+ GET /api/simulation 200 in 1325ms
+ GET /api/simulation 200 in 1632ms
+ GET /api/simulation 200 in 3677ms
+ GET /api/simulation 200 in 3344ms
+ GET /api/simulation 200 in 2431ms
+ GET /api/simulation 200 in 2682ms
+ GET /api/simulation 200 in 1857ms
+ GET /api/simulation 200 in 2935ms
+ GET /api/simulation 200 in 3111ms
+ GET /api/simulation 200 in 3638ms
+ GET /api/simulation 200 in 2393ms
+ GET /api/simulation 200 in 1372ms
+ GET /api/simulation 200 in 2073ms
+ GET /api/simulation 200 in 1875ms
+ GET /api/simulation 200 in 2251ms
+ GET /api/simulation 200 in 1755ms
+ GET /api/simulation 200 in 1373ms
+ GET /api/simulation 200 in 1497ms
+ GET /api/simulation 200 in 1598ms
+ GET /api/simulation 200 in 1350ms
+ GET /api/simulation 200 in 1407ms
+ GET /api/simulation 200 in 1598ms
+ GET /api/simulation 200 in 1587ms
+ GET /api/simulation 200 in 1874ms
+ GET /api/simulation 200 in 1987ms
+ GET /api/simulation 200 in 2304ms
+ GET /api/simulation 200 in 4686ms
+ GET /api/simulation 200 in 4793ms
+ GET /api/simulation 200 in 2784ms
+ GET /api/simulation 200 in 1756ms
+Status check error: [Error: Command failed: cd /Users/macbookair/Documents/Code/hacksphrizz && source venv/bin/activate && python /Users/macbookair/Documents/Code/hacksphrizz/scripts/simulation.py status
+] {
+  code: null,
+  killed: true,
+  signal: 'SIGTERM',
+  cmd: 'cd /Users/macbookair/Documents/Code/hacksphrizz && source venv/bin/activate && python /Users/macbookair/Documents/Code/hacksphrizz/scripts/simulation.py status',
+  stdout: '{\n' +
+    '  "running": true,\n' +
+    '  "start_time": "2025-10-03T00:03:30.152463",\n' +
+    '  "last_update": "2025-10-03T03:31:39.392815",\n' +
+    '  "generation_count": 59,\n' +
+    '  "training_count": 0,\n' +
+    '  "pid": 83042\n' +
+    '}\n',
+  stderr: ''
+}
+ GET /api/simulation 500 in 338486ms
+ GET /api/simulation 200 in 2316ms
+ GET /api/simulation 200 in 1421ms
+ GET /api/simulation 200 in 1390ms
+ GET /api/simulation 200 in 1376ms
+ GET /api/simulation 200 in 1351ms
+ GET /api/simulation 200 in 1364ms
+ GET /api/simulation 200 in 1470ms
+ GET /api/simulation 200 in 2513ms
+ GET /api/simulation 200 in 2236ms
+ GET /api/simulation 200 in 1351ms
+ GET /api/simulation 200 in 1588ms
+ GET /api/simulation 200 in 1372ms
+ GET /api/simulation 200 in 1358ms
+ GET /api/simulation 200 in 1553ms
+ GET /api/simulation 200 in 1853ms
+ GET /api/simulation 200 in 2433ms
+ GET /api/simulation 200 in 2678ms
+ GET /api/simulation 200 in 1506ms
+Status check error: [Error: Command failed: cd /Users/macbookair/Documents/Code/hacksphrizz && source venv/bin/activate && python /Users/macbookair/Documents/Code/hacksphrizz/scripts/simulation.py status
+] {
+  code: null,
+  killed: true,
+  signal: 'SIGTERM',
+  cmd: 'cd /Users/macbookair/Documents/Code/hacksphrizz && source venv/bin/activate && python /Users/macbookair/Documents/Code/hacksphrizz/scripts/simulation.py status',
+  stdout: '{\n' +
+    '  "running": true,\n' +
+    '  "start_time": "2025-10-03T00:03:30.152463",\n' +
+    '  "last_update": "2025-10-03T03:31:39.392815",\n' +
+    '  "generation_count": 59,\n' +
+    '  "training_count": 0,\n' +
+    '  "pid": 83042\n' +
+    '}\n',
+  stderr: ''
+}
+ GET /api/simulation 500 in 500688ms
+ GET /api/simulation 200 in 2872ms
+ GET /api/simulation 200 in 3740ms
+ GET /api/simulation 200 in 1665ms
+ GET /api/simulation 200 in 1338ms
+ GET /api/simulation 200 in 1334ms
+ GET /api/simulation 200 in 1317ms
+ GET /api/simulation 200 in 1372ms
+ GET /api/simulation 200 in 2097ms
+ GET /api/simulation 200 in 1581ms
+ GET /api/simulation 200 in 1627ms
+ GET /api/simulation 200 in 1678ms
+ GET /api/simulation 200 in 1753ms
+ GET /api/simulation 200 in 2558ms
+ GET /api/simulation 200 in 2529ms
+ GET /api/simulation 200 in 1499ms
+ GET /api/simulation 200 in 1586ms
+ GET /api/simulation 200 in 1481ms
+ GET /api/simulation 200 in 1387ms
+ GET /api/simulation 200 in 1718ms
+ GET /api/simulation 200 in 3437ms
+ GET /api/simulation 200 in 3468ms
+ GET /api/simulation 200 in 2330ms
+ GET /api/simulation 200 in 2713ms
+ GET /api/simulation 200 in 2044ms
+ GET /api/simulation 200 in 1551ms
+ GET /api/simulation 200 in 1669ms
+ GET /api/simulation 200 in 2106ms
+ GET /api/simulation 200 in 1330ms
+ GET /api/simulation 200 in 1578ms
+ GET /api/simulation 200 in 1401ms
+ GET /api/simulation 200 in 1448ms
+ GET /api/simulation 200 in 2514ms
+ GET /api/simulation 200 in 1382ms
+ GET /api/simulation 200 in 1345ms
+ GET /api/simulation 200 in 1454ms
+ GET /api/simulation 200 in 1346ms
+ GET /api/simulation 200 in 1539ms
+ GET /api/simulation 200 in 1560ms
+ GET /api/simulation 200 in 1393ms
+ GET /api/simulation 200 in 1426ms
+ GET /api/simulation 200 in 1385ms
+ GET /api/simulation 200 in 1356ms
+ GET /api/simulation 200 in 1389ms
+ GET /api/simulation 200 in 1301ms
+ GET /api/simulation 200 in 1309ms
+ GET /api/simulation 200 in 1315ms
+ GET /api/simulation 200 in 1251ms
+Status check error: [Error: Command failed: cd /Users/macbookair/Documents/Code/hacksphrizz && source venv/bin/activate && python /Users/macbookair/Documents/Code/hacksphrizz/scripts/simulation.py status
+] {
+  code: null,
+  killed: true,
+  signal: 'SIGTERM',
+  cmd: 'cd /Users/macbookair/Documents/Code/hacksphrizz && source venv/bin/activate && python /Users/macbookair/Documents/Code/hacksphrizz/scripts/simulation.py status',
+  stdout: '{\n' +
+    '  "running": true,\n' +
+    '  "start_time": "2025-10-03T00:03:30.152463",\n' +
+    '  "last_update": "2025-10-03T03:31:39.392815",\n' +
+    '  "generation_count": 59,\n' +
+    '  "training_count": 0,\n' +
+    '  "pid": 83042\n' +
+    '}\n',
+  stderr: ''
+}
+ GET /api/simulation 500 in 340026ms
+ GET /api/simulation 200 in 2207ms
+ GET /api/simulation 200 in 1777ms
+ GET /api/simulation 200 in 2004ms
+ GET /api/simulation 200 in 1549ms
+ GET /api/simulation 200 in 1347ms
+ GET /api/simulation 200 in 1297ms
+ GET /api/simulation 200 in 1314ms
+ GET /api/simulation 200 in 1277ms
+ GET /api/simulation 200 in 1369ms
+ GET /api/simulation 200 in 1594ms
+ GET /api/simulation 200 in 1552ms
+ GET /api/simulation 200 in 1564ms
+ GET /api/simulation 200 in 1617ms
+ GET /api/simulation 200 in 2158ms
+ GET /api/simulation 200 in 3784ms
+ GET /api/simulation 200 in 3983ms
+ GET /api/simulation 200 in 2340ms
+ GET /api/simulation 200 in 1629ms
+ GET /api/simulation 200 in 1442ms
+ GET /api/simulation 200 in 1619ms
+ GET /api/simulation 200 in 2448ms
+ GET /api/simulation 200 in 1444ms
+ GET /api/simulation 200 in 1612ms
+ GET /api/simulation 200 in 1307ms
+ GET /api/simulation 200 in 1581ms
+ GET /api/simulation 200 in 1944ms
+ GET /api/simulation 200 in 2464ms
+ GET /api/simulation 200 in 1505ms
+ GET /api/simulation 200 in 1961ms
+ GET /api/simulation 200 in 2211ms
+ GET /api/simulation 200 in 3506ms
+ GET /api/simulation 200 in 5252ms
+ GET /api/simulation 200 in 4868ms
+ GET /api/simulation 200 in 4601ms
+ GET /api/simulation 200 in 3660ms
+ GET /api/simulation 200 in 2662ms
+ GET /api/simulation 200 in 4711ms
+ GET /api/simulation 200 in 6406ms
+ GET /api/simulation 200 in 4195ms
+ GET /api/simulation 200 in 7459ms
+ GET /api/simulation 200 in 3397ms
+ GET /api/simulation 200 in 2056ms
+ GET /api/simulation 200 in 1710ms
+ GET /api/simulation 200 in 1582ms
+ GET /api/simulation 200 in 2031ms
+ GET /api/simulation 200 in 2218ms
+ GET /api/simulation 200 in 1538ms
+ GET /simulation 200 in 733ms
+ GET /api/simulation 200 in 2139ms
+🔄 Executing simulation command: start
+[Error: spawn python ENOENT] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'spawn python',
+  path: 'python',
+  spawnargs: [Array]
+}
+ ⨯ uncaughtException: [Error: spawn python ENOENT] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'spawn python',
+  path: 'python',
+  spawnargs: [Array]
+}
+ ⨯ uncaughtException:  [Error: spawn python ENOENT] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'spawn python',
+  path: 'python',
+  spawnargs: [Array]
+}
+ GET /api/simulation 200 in 3135ms
+ GET /api/simulation 200 in 2096ms
+ POST /api/simulation 200 in 3446ms
+ GET /api/simulation 200 in 1752ms
+ GET /api/simulation 200 in 1683ms
+ GET /api/simulation 200 in 1672ms
+ GET /api/simulation 200 in 1516ms
+ GET /api/simulation 200 in 1383ms
+ GET /api/simulation 200 in 1541ms
+ GET /api/simulation 200 in 1467ms
+ GET /api/simulation 200 in 1806ms
+ GET /api/simulation 200 in 1501ms
+ GET /api/simulation 200 in 3595ms
+ GET /api/simulation 200 in 2539ms
+ GET /simulation 200 in 747ms
+🔄 Executing simulation command: start
+[Error: spawn python ENOENT] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'spawn python',
+  path: 'python',
+  spawnargs: [Array]
+}
+ ⨯ uncaughtException: [Error: spawn python ENOENT] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'spawn python',
+  path: 'python',
+  spawnargs: [Array]
+}
+ ⨯ uncaughtException:  [Error: spawn python ENOENT] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'spawn python',
+  path: 'python',
+  spawnargs: [Array]
+}
+ GET /api/simulation 200 in 2545ms
+ GET /api/simulation 200 in 3158ms
+ POST /api/simulation 200 in 5267ms
+ GET /api/simulation 200 in 3032ms
+ GET /api/simulation 200 in 3680ms
+ GET /api/simulation 200 in 3585ms
+ GET /api/simulation 200 in 2556ms
+ GET /api/simulation 200 in 2288ms
+🔄 Executing simulation command: start
+[Error: spawn python ENOENT] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'spawn python',
+  path: 'python',
+  spawnargs: [Array]
+}
+ ⨯ uncaughtException: [Error: spawn python ENOENT] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'spawn python',
+  path: 'python',
+  spawnargs: [Array]
+}
+ ⨯ uncaughtException:  [Error: spawn python ENOENT] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'spawn python',
+  path: 'python',
+  spawnargs: [Array]
+}
+ GET /api/simulation 200 in 1930ms
+ GET /api/simulation 200 in 2540ms
+ POST /api/simulation 200 in 3736ms
+ GET /api/simulation 200 in 1728ms
+ GET /api/simulation 200 in 1654ms
+ GET /api/simulation 200 in 1788ms
+ GET /api/simulation 200 in 1879ms
+ GET /api/simulation 200 in 1590ms
+ GET /api/simulation 200 in 1896ms
+ GET /api/simulation 200 in 1488ms
+ GET /api/simulation 200 in 2364ms
+ GET /api/simulation 200 in 2977ms
+ GET /api/simulation 200 in 1669ms
+ GET /api/simulation 200 in 1960ms
+ GET /api/simulation 200 in 1608ms
+ GET /api/simulation 200 in 1486ms
+ GET /api/simulation 200 in 1522ms
+ GET /api/simulation 200 in 1412ms
+ GET /api/simulation 200 in 1506ms
+ GET /api/simulation 200 in 1377ms
+ GET /api/simulation 200 in 1718ms
+ GET /api/simulation 200 in 2288ms
+ GET /api/simulation 200 in 1737ms
+ GET /api/simulation 200 in 1642ms
+ GET /api/simulation 200 in 1709ms
+ GET /api/simulation 200 in 1453ms
+ GET /api/simulation 200 in 1960ms
+ GET /api/simulation 200 in 1561ms
+ GET /api/simulation 200 in 1903ms
+ GET /api/simulation 200 in 1758ms
+ GET /api/simulation 200 in 1712ms
+ GET /api/simulation 200 in 1535ms
+ GET /api/simulation 200 in 1509ms
+ GET /api/simulation 200 in 1426ms
+ GET /api/simulation 200 in 1667ms
+ GET /api/simulation 200 in 1479ms
+ GET /api/simulation 200 in 1540ms
+ GET /api/simulation 200 in 1477ms
+ GET /api/simulation 200 in 1471ms
+ GET /api/simulation 200 in 1328ms
+ GET /api/simulation 200 in 1504ms
+ GET /api/simulation 200 in 1358ms
+ GET /api/simulation 200 in 1395ms
+ GET /api/simulation 200 in 1334ms
+ GET /api/simulation 200 in 1621ms
+ GET /api/simulation 200 in 1448ms
+ GET /api/simulation 200 in 1818ms
+ GET /api/simulation 200 in 1530ms
+ GET /api/simulation 200 in 2094ms
+ GET /api/simulation 200 in 2143ms
+ GET /api/simulation 200 in 1407ms
+ GET /api/simulation 200 in 1303ms
+ GET /api/simulation 200 in 1484ms
+ GET /api/simulation 200 in 1385ms
+ GET /api/simulation 200 in 1710ms
+ GET /api/simulation 200 in 2098ms
+ GET /api/simulation 200 in 1683ms
+ GET /api/simulation 200 in 1462ms
+ GET /api/simulation 200 in 1520ms
+ GET /api/simulation 200 in 1372ms
+ GET /api/simulation 200 in 1679ms
+ GET /api/simulation 200 in 1453ms
+ GET /api/simulation 200 in 1960ms
+ GET /api/simulation 200 in 1774ms
+ GET /api/simulation 200 in 1787ms
+ GET /api/simulation 200 in 1537ms
+ GET /api/simulation 200 in 1658ms
+ GET /api/simulation 200 in 1535ms
+ GET /api/simulation 200 in 1561ms
+ GET /api/simulation 200 in 1408ms
+ GET /api/simulation 200 in 1581ms
+ GET /api/simulation 200 in 1481ms
+ GET /api/simulation 200 in 2100ms
+ GET /api/simulation 200 in 1850ms
+ GET /api/simulation 200 in 2008ms
+ GET /api/simulation 200 in 2377ms
+ GET /api/simulation 200 in 1852ms
+ GET /api/simulation 200 in 1609ms
+ GET /api/simulation 200 in 2869ms
+ GET /api/simulation 200 in 2485ms
+ GET /api/simulation 200 in 2735ms
+ GET /api/simulation 200 in 2609ms
+ GET /api/simulation 200 in 2686ms
+ GET /api/simulation 200 in 2642ms
+ GET /api/simulation 200 in 2210ms
+ GET /api/simulation 200 in 2557ms
+ GET /api/simulation 200 in 4573ms
+ GET /api/simulation 200 in 4890ms
+ GET /api/simulation 200 in 3334ms
+ GET /api/simulation 200 in 5832ms
+ GET /api/simulation 200 in 11113ms
+ GET /api/simulation 200 in 8977ms
+ GET /api/simulation 200 in 9738ms
+ GET /api/simulation 200 in 3832ms
+ GET /api/simulation 200 in 4109ms
+ GET /api/simulation 200 in 4129ms
+ GET /api/simulation 200 in 4731ms
+ GET /api/simulation 200 in 5198ms
+ GET /api/simulation 200 in 4292ms
+ GET /api/simulation 200 in 2035ms
+ GET /api/simulation 200 in 1775ms
+ GET /api/simulation 200 in 2337ms
+ GET /api/simulation 200 in 1807ms
+ GET /api/simulation 200 in 2446ms
+ GET /api/simulation 200 in 2396ms
+ GET /api/simulation 200 in 2196ms
+ GET /api/simulation 200 in 2019ms
+ GET /api/simulation 200 in 2156ms
+ GET /api/simulation 200 in 2017ms
+ GET /api/simulation 200 in 4352ms
+ GET /api/simulation 200 in 1638ms
+ GET /api/simulation 200 in 2447ms
+ GET /api/simulation 200 in 2565ms
+ GET /api/simulation 200 in 3172ms
+ GET /api/simulation 200 in 2152ms
+ GET /api/simulation 200 in 2482ms
+ GET /api/simulation 200 in 2926ms
+ GET /api/simulation 200 in 2344ms
+ GET /api/simulation 200 in 2183ms
+ GET /api/simulation 200 in 2774ms
+ GET /api/simulation 200 in 7386ms
+ GET /api/simulation 200 in 6129ms
+ GET /api/simulation 200 in 4696ms
+ GET /api/simulation 200 in 2120ms
+ GET /api/simulation 200 in 2041ms
+ GET /api/simulation 200 in 3875ms
+ GET /api/simulation 200 in 2869ms
+ GET /api/simulation 200 in 1975ms
+ GET /api/simulation 200 in 3131ms
+ GET /api/simulation 200 in 3186ms
+ GET /api/simulation 200 in 4404ms
+ GET /api/simulation 200 in 2860ms
+ GET /api/simulation 200 in 2342ms
+ GET /api/simulation 200 in 1740ms
+ GET /api/simulation 200 in 2723ms
+ GET /api/simulation 200 in 2646ms
+ GET /api/simulation 200 in 2048ms
+ GET /api/simulation 200 in 3946ms
+ GET /api/simulation 200 in 4698ms
+ GET /api/simulation 200 in 3365ms
+ GET /api/simulation 200 in 2767ms
+ GET /api/simulation 200 in 1799ms
+ GET /api/simulation 200 in 1564ms
+ GET /api/simulation 200 in 2306ms
+ GET /api/simulation 200 in 2210ms
+ GET /api/simulation 200 in 2064ms
+ GET /api/simulation 200 in 1949ms
+ GET /api/simulation 200 in 1915ms
+ GET /api/simulation 200 in 1782ms
+ GET /api/simulation 200 in 1913ms
+ GET /api/simulation 200 in 1776ms
+ GET /api/simulation 200 in 2227ms
+ GET /api/simulation 200 in 2175ms
+ GET /api/simulation 200 in 2605ms
+ GET /api/simulation 200 in 2568ms
+ GET /api/simulation 200 in 2203ms
+ GET /api/simulation 200 in 2955ms
+ ⨯ ./src/app/api/simulation/route.js:48:8
+Parsing ecmascript source code failed
+[0m [90m 46 |[39m       })[33m;[39m
+ [90m 47 |[39m     }
+[31m[1m>[22m[39m[90m 48 |[39m       })[33m;[39m
+ [90m    |[39m        [31m[1m^[22m[39m
+ [90m 49 |[39m       
+ [90m 50 |[39m       pythonProcess[33m.[39munref()[33m;[39m [90m// Allow parent to exit independently[39m
+ [90m 51 |[39m       [0m
+
+Expected a semicolon
+
+
+ ⨯ ./src/app/api/simulation/route.js:48:8
+Parsing ecmascript source code failed
+[0m [90m 46 |[39m       })[33m;[39m
+ [90m 47 |[39m     }
+[31m[1m>[22m[39m[90m 48 |[39m       })[33m;[39m
+ [90m    |[39m        [31m[1m^[22m[39m
+ [90m 49 |[39m       
+ [90m 50 |[39m       pythonProcess[33m.[39munref()[33m;[39m [90m// Allow parent to exit independently[39m
+ [90m 51 |[39m       [0m
+
+Expected a semicolon
+
+
+ ○ Compiling /_error ...
+ ⨯ ./src/app/api/simulation/route.js:48:8
+Parsing ecmascript source code failed
+[0m [90m 46 |[39m       })[33m;[39m
+ [90m 47 |[39m     }
+[31m[1m>[22m[39m[90m 48 |[39m       })[33m;[39m
+ [90m    |[39m        [31m[1m^[22m[39m
+ [90m 49 |[39m       
+ [90m 50 |[39m       pythonProcess[33m.[39munref()[33m;[39m [90m// Allow parent to exit independently[39m
+ [90m 51 |[39m       [0m
+
+Expected a semicolon
+
+
+ ✓ Compiled /_error in 3.4s
+ GET /api/simulation 500 in 2456ms
+ GET /api/simulation 500 in 7502ms
+ GET /api/simulation 500 in 6781ms
+ ⨯ ./src/app/api/simulation/route.js:48:8
+Parsing ecmascript source code failed
+[0m [90m 46 |[39m       })[33m;[39m
+ [90m 47 |[39m     }
+[31m[1m>[22m[39m[90m 48 |[39m       })[33m;[39m
+ [90m    |[39m        [31m[1m^[22m[39m
+ [90m 49 |[39m       
+ [90m 50 |[39m       pythonProcess[33m.[39munref()[33m;[39m [90m// Allow parent to exit independently[39m
+ [90m 51 |[39m       [0m
+
+Expected a semicolon
+
+
+ GET /api/simulation 500 in 47ms
+ ⨯ ./src/app/api/simulation/route.js:48:8
+Parsing ecmascript source code failed
+[0m [90m 46 |[39m       })[33m;[39m
+ [90m 47 |[39m     }
+[31m[1m>[22m[39m[90m 48 |[39m       })[33m;[39m
+ [90m    |[39m        [31m[1m^[22m[39m
+ [90m 49 |[39m       
+ [90m 50 |[39m       pythonProcess[33m.[39munref()[33m;[39m [90m// Allow parent to exit independently[39m
+ [90m 51 |[39m       [0m
+
+Expected a semicolon
+
+
+ GET /api/simulation 500 in 81ms
+ ⨯ ./src/app/api/simulation/route.js:48:8
+Parsing ecmascript source code failed
+[0m [90m 46 |[39m       })[33m;[39m
+ [90m 47 |[39m     }
+[31m[1m>[22m[39m[90m 48 |[39m       })[33m;[39m
+ [90m    |[39m        [31m[1m^[22m[39m
+ [90m 49 |[39m       
+ [90m 50 |[39m       pythonProcess[33m.[39munref()[33m;[39m [90m// Allow parent to exit independently[39m
+ [90m 51 |[39m       [0m
+
+Expected a semicolon
+
+
+ GET /api/simulation 500 in 88ms
+ ⨯ ./src/app/api/simulation/route.js:48:8
+Parsing ecmascript source code failed
+[0m [90m 46 |[39m       })[33m;[39m
+ [90m 47 |[39m     }
+[31m[1m>[22m[39m[90m 48 |[39m       })[33m;[39m
+ [90m    |[39m        [31m[1m^[22m[39m
+ [90m 49 |[39m       
+ [90m 50 |[39m       pythonProcess[33m.[39munref()[33m;[39m [90m// Allow parent to exit independently[39m
+ [90m 51 |[39m       [0m
+
+Expected a semicolon
+
+
+ GET /api/simulation 500 in 123ms
+ ⨯ ./src/app/api/simulation/route.js:48:8
+Parsing ecmascript source code failed
+[0m [90m 46 |[39m       })[33m;[39m
+ [90m 47 |[39m     }
+[31m[1m>[22m[39m[90m 48 |[39m       })[33m;[39m
+ [90m    |[39m        [31m[1m^[22m[39m
+ [90m 49 |[39m       
+ [90m 50 |[39m       pythonProcess[33m.[39munref()[33m;[39m [90m// Allow parent to exit independently[39m
+ [90m 51 |[39m       [0m
+
+Expected a semicolon
+
+
+ GET /api/simulation 500 in 180ms
+ ⨯ ./src/app/api/simulation/route.js:48:8
+Parsing ecmascript source code failed
+[0m [90m 46 |[39m       })[33m;[39m
+ [90m 47 |[39m     }
+[31m[1m>[22m[39m[90m 48 |[39m       })[33m;[39m
+ [90m    |[39m        [31m[1m^[22m[39m
+ [90m 49 |[39m       
+ [90m 50 |[39m       pythonProcess[33m.[39munref()[33m;[39m [90m// Allow parent to exit independently[39m
+ [90m 51 |[39m       [0m
+
+Expected a semicolon
+
+
+ GET /api/simulation 500 in 1495ms
+ ⨯ ./src/app/api/simulation/route.js:48:8
+Parsing ecmascript source code failed
+[0m [90m 46 |[39m       })[33m;[39m
+ [90m 47 |[39m     }
+[31m[1m>[22m[39m[90m 48 |[39m       })[33m;[39m
+ [90m    |[39m        [31m[1m^[22m[39m
+ [90m 49 |[39m       
+ [90m 50 |[39m       pythonProcess[33m.[39munref()[33m;[39m [90m// Allow parent to exit independently[39m
+ [90m 51 |[39m       [0m
+
+Expected a semicolon
+
+
+ GET /api/simulation 500 in 1825ms
+ ⨯ ./src/app/api/simulation/route.js:48:8
+Parsing ecmascript source code failed
+[0m [90m 46 |[39m       })[33m;[39m
+ [90m 47 |[39m     }
+[31m[1m>[22m[39m[90m 48 |[39m       })[33m;[39m
+ [90m    |[39m        [31m[1m^[22m[39m
+ [90m 49 |[39m       
+ [90m 50 |[39m       pythonProcess[33m.[39munref()[33m;[39m [90m// Allow parent to exit independently[39m
+ [90m 51 |[39m       [0m
+
+Expected a semicolon
+
+
+ GET /api/simulation 500 in 193ms
+ ⨯ ./src/app/api/simulation/route.js:48:8
+Parsing ecmascript source code failed
+[0m [90m 46 |[39m       })[33m;[39m
+ [90m 47 |[39m     }
+[31m[1m>[22m[39m[90m 48 |[39m       })[33m;[39m
+ [90m    |[39m        [31m[1m^[22m[39m
+ [90m 49 |[39m       
+ [90m 50 |[39m       pythonProcess[33m.[39munref()[33m;[39m [90m// Allow parent to exit independently[39m
+ [90m 51 |[39m       [0m
+
+Expected a semicolon
+
+
+ GET /api/simulation 500 in 280ms
+ ⨯ ./src/app/api/simulation/route.js:48:8
+Parsing ecmascript source code failed
+[0m [90m 46 |[39m       })[33m;[39m
+ [90m 47 |[39m     }
+[31m[1m>[22m[39m[90m 48 |[39m       })[33m;[39m
+ [90m    |[39m        [31m[1m^[22m[39m
+ [90m 49 |[39m       
+ [90m 50 |[39m       pythonProcess[33m.[39munref()[33m;[39m [90m// Allow parent to exit independently[39m
+ [90m 51 |[39m       [0m
+
+Expected a semicolon
+
+
+ ⨯ ./src/app/api/simulation/route.js:48:8
+Parsing ecmascript source code failed
+[0m [90m 46 |[39m       })[33m;[39m
+ [90m 47 |[39m     }
+[31m[1m>[22m[39m[90m 48 |[39m       })[33m;[39m
+ [90m    |[39m        [31m[1m^[22m[39m
+ [90m 49 |[39m       
+ [90m 50 |[39m       pythonProcess[33m.[39munref()[33m;[39m [90m// Allow parent to exit independently[39m
+ [90m 51 |[39m       [0m
+
+Expected a semicolon
+
+
+ GET /api/simulation 500 in 1810ms
+ GET /api/simulation 500 in 1107ms
+ ⨯ ./src/app/api/simulation/route.js:48:8
+Parsing ecmascript source code failed
+[0m [90m 46 |[39m       })[33m;[39m
+ [90m 47 |[39m     }
+[31m[1m>[22m[39m[90m 48 |[39m       })[33m;[39m
+ [90m    |[39m        [31m[1m^[22m[39m
+ [90m 49 |[39m       
+ [90m 50 |[39m       pythonProcess[33m.[39munref()[33m;[39m [90m// Allow parent to exit independently[39m
+ [90m 51 |[39m       [0m
+
+Expected a semicolon
+
+
+ GET /api/simulation 500 in 208ms
+ ⨯ ./src/app/api/simulation/route.js:48:8
+Parsing ecmascript source code failed
+[0m [90m 46 |[39m       })[33m;[39m
+ [90m 47 |[39m     }
+[31m[1m>[22m[39m[90m 48 |[39m       })[33m;[39m
+ [90m    |[39m        [31m[1m^[22m[39m
+ [90m 49 |[39m       
+ [90m 50 |[39m       pythonProcess[33m.[39munref()[33m;[39m [90m// Allow parent to exit independently[39m
+ [90m 51 |[39m       [0m
+
+Expected a semicolon
+
+
+ GET /api/simulation 500 in 64ms
+ ⨯ ./src/app/api/simulation/route.js:95:6
+Parsing ecmascript source code failed
+[0m [90m 93 |[39m [90m    });[39m
+ [90m 94 |[39m [90m    */[39m
+[31m[1m>[22m[39m[90m 95 |[39m     })[33m;[39m
+ [90m    |[39m      [31m[1m^[22m[39m
+ [90m 96 |[39m
+ [90m 97 |[39m     [36mif[39m (stderr [33m&&[39m [33m![39mstderr[33m.[39mincludes([32m'warning'[39m)) {
+ [90m 98 |[39m       console[33m.[39merror([32m'Simulation stderr:'[39m[33m,[39m stderr)[33m;[39m[0m
+
+Expected a semicolon
+
+
+ GET /api/simulation 500 in 138ms
+ ⨯ ./src/app/api/simulation/route.js:95:6
+Parsing ecmascript source code failed
+[0m [90m 93 |[39m [90m    });[39m
+ [90m 94 |[39m [90m    */[39m
+[31m[1m>[22m[39m[90m 95 |[39m     })[33m;[39m
+ [90m    |[39m      [31m[1m^[22m[39m
+ [90m 96 |[39m
+ [90m 97 |[39m     [36mif[39m (stderr [33m&&[39m [33m![39mstderr[33m.[39mincludes([32m'warning'[39m)) {
+ [90m 98 |[39m       console[33m.[39merror([32m'Simulation stderr:'[39m[33m,[39m stderr)[33m;[39m[0m
+
+Expected a semicolon
+
+
+ GET /api/simulation 500 in 186ms
+ ⨯ ./src/app/api/simulation/route.js:95:6
+Parsing ecmascript source code failed
+[0m [90m 93 |[39m [90m    });[39m
+ [90m 94 |[39m [90m    */[39m
+[31m[1m>[22m[39m[90m 95 |[39m     })[33m;[39m
+ [90m    |[39m      [31m[1m^[22m[39m
+ [90m 96 |[39m
+ [90m 97 |[39m     [36mif[39m (stderr [33m&&[39m [33m![39mstderr[33m.[39mincludes([32m'warning'[39m)) {
+ [90m 98 |[39m       console[33m.[39merror([32m'Simulation stderr:'[39m[33m,[39m stderr)[33m;[39m[0m
+
+Expected a semicolon
+
+
+ GET /api/simulation 500 in 1261ms
+ ⨯ ./src/app/api/simulation/route.js:95:6
+Parsing ecmascript source code failed
+[0m [90m 93 |[39m [90m    });[39m
+ [90m 94 |[39m [90m    */[39m
+[31m[1m>[22m[39m[90m 95 |[39m     })[33m;[39m
+ [90m    |[39m      [31m[1m^[22m[39m
+ [90m 96 |[39m
+ [90m 97 |[39m     [36mif[39m (stderr [33m&&[39m [33m![39mstderr[33m.[39mincludes([32m'warning'[39m)) {
+ [90m 98 |[39m       console[33m.[39merror([32m'Simulation stderr:'[39m[33m,[39m stderr)[33m;[39m[0m
+
+Expected a semicolon
+
+
+ GET /api/simulation 500 in 258ms
+ ⨯ ./src/app/api/simulation/route.js:95:6
+Parsing ecmascript source code failed
+[0m [90m 93 |[39m [90m    });[39m
+ [90m 94 |[39m [90m    */[39m
+[31m[1m>[22m[39m[90m 95 |[39m     })[33m;[39m
+ [90m    |[39m      [31m[1m^[22m[39m
+ [90m 96 |[39m
+ [90m 97 |[39m     [36mif[39m (stderr [33m&&[39m [33m![39mstderr[33m.[39mincludes([32m'warning'[39m)) {
+ [90m 98 |[39m       console[33m.[39merror([32m'Simulation stderr:'[39m[33m,[39m stderr)[33m;[39m[0m
+
+Expected a semicolon
+
+
+ GET /api/simulation 500 in 177ms
+ ⨯ ./src/app/api/simulation/route.js:95:6
+Parsing ecmascript source code failed
+[0m [90m 93 |[39m [90m    });[39m
+ [90m 94 |[39m [90m    */[39m
+[31m[1m>[22m[39m[90m 95 |[39m     })[33m;[39m
+ [90m    |[39m      [31m[1m^[22m[39m
+ [90m 96 |[39m
+ [90m 97 |[39m     [36mif[39m (stderr [33m&&[39m [33m![39mstderr[33m.[39mincludes([32m'warning'[39m)) {
+ [90m 98 |[39m       console[33m.[39merror([32m'Simulation stderr:'[39m[33m,[39m stderr)[33m;[39m[0m
+
+Expected a semicolon
+
+
+ GET /api/simulation 500 in 415ms
+ ⨯ ./src/app/api/simulation/route.js:95:6
+Parsing ecmascript source code failed
+[0m [90m 93 |[39m [90m    });[39m
+ [90m 94 |[39m [90m    */[39m
+[31m[1m>[22m[39m[90m 95 |[39m     })[33m;[39m
+ [90m    |[39m      [31m[1m^[22m[39m
+ [90m 96 |[39m
+ [90m 97 |[39m     [36mif[39m (stderr [33m&&[39m [33m![39mstderr[33m.[39mincludes([32m'warning'[39m)) {
+ [90m 98 |[39m       console[33m.[39merror([32m'Simulation stderr:'[39m[33m,[39m stderr)[33m;[39m[0m
+
+Expected a semicolon
+
+
+ GET /api/simulation 500 in 169ms
+ ⨯ ./src/app/api/simulation/route.js:95:6
+Parsing ecmascript source code failed
+[0m [90m 93 |[39m [90m    });[39m
+ [90m 94 |[39m [90m    */[39m
+[31m[1m>[22m[39m[90m 95 |[39m     })[33m;[39m
+ [90m    |[39m      [31m[1m^[22m[39m
+ [90m 96 |[39m
+ [90m 97 |[39m     [36mif[39m (stderr [33m&&[39m [33m![39mstderr[33m.[39mincludes([32m'warning'[39m)) {
+ [90m 98 |[39m       console[33m.[39merror([32m'Simulation stderr:'[39m[33m,[39m stderr)[33m;[39m[0m
+
+Expected a semicolon
+
+
+ GET /api/simulation 500 in 257ms
+ ⨯ ./src/app/api/simulation/route.js:95:6
+Parsing ecmascript source code failed
+[0m [90m 93 |[39m [90m    });[39m
+ [90m 94 |[39m [90m    */[39m
+[31m[1m>[22m[39m[90m 95 |[39m     })[33m;[39m
+ [90m    |[39m      [31m[1m^[22m[39m
+ [90m 96 |[39m
+ [90m 97 |[39m     [36mif[39m (stderr [33m&&[39m [33m![39mstderr[33m.[39mincludes([32m'warning'[39m)) {
+ [90m 98 |[39m       console[33m.[39merror([32m'Simulation stderr:'[39m[33m,[39m stderr)[33m;[39m[0m
+
+Expected a semicolon
+
+
+ GET /api/simulation 500 in 81ms
+ ⨯ ./src/app/api/simulation/route.js:95:6
+Parsing ecmascript source code failed
+[0m [90m 93 |[39m [90m    });[39m
+ [90m 94 |[39m [90m    */[39m
+[31m[1m>[22m[39m[90m 95 |[39m     })[33m;[39m
+ [90m    |[39m      [31m[1m^[22m[39m
+ [90m 96 |[39m
+ [90m 97 |[39m     [36mif[39m (stderr [33m&&[39m [33m![39mstderr[33m.[39mincludes([32m'warning'[39m)) {
+ [90m 98 |[39m       console[33m.[39merror([32m'Simulation stderr:'[39m[33m,[39m stderr)[33m;[39m[0m
+
+Expected a semicolon
+
+
+ GET /api/simulation 500 in 74ms
+ ⨯ ./src/app/api/simulation/route.js:95:6
+Parsing ecmascript source code failed
+[0m [90m 93 |[39m [90m    });[39m
+ [90m 94 |[39m [90m    */[39m
+[31m[1m>[22m[39m[90m 95 |[39m     })[33m;[39m
+ [90m    |[39m      [31m[1m^[22m[39m
+ [90m 96 |[39m
+ [90m 97 |[39m     [36mif[39m (stderr [33m&&[39m [33m![39mstderr[33m.[39mincludes([32m'warning'[39m)) {
+ [90m 98 |[39m       console[33m.[39merror([32m'Simulation stderr:'[39m[33m,[39m stderr)[33m;[39m[0m
+
+Expected a semicolon
+
+
+ GET /api/simulation 500 in 167ms
+ ⨯ ./src/app/api/simulation/route.js:95:6
+Parsing ecmascript source code failed
+[0m [90m 93 |[39m [90m    });[39m
+ [90m 94 |[39m [90m    */[39m
+[31m[1m>[22m[39m[90m 95 |[39m     })[33m;[39m
+ [90m    |[39m      [31m[1m^[22m[39m
+ [90m 96 |[39m
+ [90m 97 |[39m     [36mif[39m (stderr [33m&&[39m [33m![39mstderr[33m.[39mincludes([32m'warning'[39m)) {
+ [90m 98 |[39m       console[33m.[39merror([32m'Simulation stderr:'[39m[33m,[39m stderr)[33m;[39m[0m
+
+Expected a semicolon
+
+
+ GET /api/simulation 500 in 92ms
+ ⨯ ./src/app/api/simulation/route.js:95:6
+Parsing ecmascript source code failed
+[0m [90m 93 |[39m [90m    });[39m
+ [90m 94 |[39m [90m    */[39m
+[31m[1m>[22m[39m[90m 95 |[39m     })[33m;[39m
+ [90m    |[39m      [31m[1m^[22m[39m
+ [90m 96 |[39m
+ [90m 97 |[39m     [36mif[39m (stderr [33m&&[39m [33m![39mstderr[33m.[39mincludes([32m'warning'[39m)) {
+ [90m 98 |[39m       console[33m.[39merror([32m'Simulation stderr:'[39m[33m,[39m stderr)[33m;[39m[0m
+
+Expected a semicolon
+
+
+ GET /api/simulation 500 in 116ms
+ ⨯ ./src/app/api/simulation/route.js:95:6
+Parsing ecmascript source code failed
+[0m [90m 93 |[39m [90m    });[39m
+ [90m 94 |[39m [90m    */[39m
+[31m[1m>[22m[39m[90m 95 |[39m     })[33m;[39m
+ [90m    |[39m      [31m[1m^[22m[39m
+ [90m 96 |[39m
+ [90m 97 |[39m     [36mif[39m (stderr [33m&&[39m [33m![39mstderr[33m.[39mincludes([32m'warning'[39m)) {
+ [90m 98 |[39m       console[33m.[39merror([32m'Simulation stderr:'[39m[33m,[39m stderr)[33m;[39m[0m
+
+Expected a semicolon
+
+
+ GET /api/simulation 500 in 62ms
+ ⨯ ./src/app/api/simulation/route.js:95:6
+Parsing ecmascript source code failed
+[0m [90m 93 |[39m [90m    });[39m
+ [90m 94 |[39m [90m    */[39m
+[31m[1m>[22m[39m[90m 95 |[39m     })[33m;[39m
+ [90m    |[39m      [31m[1m^[22m[39m
+ [90m 96 |[39m
+ [90m 97 |[39m     [36mif[39m (stderr [33m&&[39m [33m![39mstderr[33m.[39mincludes([32m'warning'[39m)) {
+ [90m 98 |[39m       console[33m.[39merror([32m'Simulation stderr:'[39m[33m,[39m stderr)[33m;[39m[0m
+
+Expected a semicolon
+
+
+ GET /api/simulation 500 in 118ms
+ ⨯ ./src/app/api/simulation/route.js:95:6
+Parsing ecmascript source code failed
+[0m [90m 93 |[39m [90m    });[39m
+ [90m 94 |[39m [90m    */[39m
+[31m[1m>[22m[39m[90m 95 |[39m     })[33m;[39m
+ [90m    |[39m      [31m[1m^[22m[39m
+ [90m 96 |[39m
+ [90m 97 |[39m     [36mif[39m (stderr [33m&&[39m [33m![39mstderr[33m.[39mincludes([32m'warning'[39m)) {
+ [90m 98 |[39m       console[33m.[39merror([32m'Simulation stderr:'[39m[33m,[39m stderr)[33m;[39m[0m
+
+Expected a semicolon
+
+
+ GET /api/simulation 500 in 99ms
+ ⨯ ./src/app/api/simulation/route.js:95:6
+Parsing ecmascript source code failed
+[0m [90m 93 |[39m [90m    });[39m
+ [90m 94 |[39m [90m    */[39m
+[31m[1m>[22m[39m[90m 95 |[39m     })[33m;[39m
+ [90m    |[39m      [31m[1m^[22m[39m
+ [90m 96 |[39m
+ [90m 97 |[39m     [36mif[39m (stderr [33m&&[39m [33m![39mstderr[33m.[39mincludes([32m'warning'[39m)) {
+ [90m 98 |[39m       console[33m.[39merror([32m'Simulation stderr:'[39m[33m,[39m stderr)[33m;[39m[0m
+
+Expected a semicolon
+
+
+ GET /api/simulation 500 in 248ms
+ ⨯ ./src/app/api/simulation/route.js:95:6
+Parsing ecmascript source code failed
+[0m [90m 93 |[39m [90m    });[39m
+ [90m 94 |[39m [90m    */[39m
+[31m[1m>[22m[39m[90m 95 |[39m     })[33m;[39m
+ [90m    |[39m      [31m[1m^[22m[39m
+ [90m 96 |[39m
+ [90m 97 |[39m     [36mif[39m (stderr [33m&&[39m [33m![39mstderr[33m.[39mincludes([32m'warning'[39m)) {
+ [90m 98 |[39m       console[33m.[39merror([32m'Simulation stderr:'[39m[33m,[39m stderr)[33m;[39m[0m
+
+Expected a semicolon
+
+
+ GET /api/simulation 500 in 109ms
+ ⨯ ./src/app/api/simulation/route.js:95:6
+Parsing ecmascript source code failed
+[0m [90m 93 |[39m [90m    });[39m
+ [90m 94 |[39m [90m    */[39m
+[31m[1m>[22m[39m[90m 95 |[39m     })[33m;[39m
+ [90m    |[39m      [31m[1m^[22m[39m
+ [90m 96 |[39m
+ [90m 97 |[39m     [36mif[39m (stderr [33m&&[39m [33m![39mstderr[33m.[39mincludes([32m'warning'[39m)) {
+ [90m 98 |[39m       console[33m.[39merror([32m'Simulation stderr:'[39m[33m,[39m stderr)[33m;[39m[0m
+
+Expected a semicolon
+
+
+ GET /api/simulation 500 in 213ms
+ ⨯ ./src/app/api/simulation/route.js:95:6
+Parsing ecmascript source code failed
+[0m [90m 93 |[39m [90m    });[39m
+ [90m 94 |[39m [90m    */[39m
+[31m[1m>[22m[39m[90m 95 |[39m     })[33m;[39m
+ [90m    |[39m      [31m[1m^[22m[39m
+ [90m 96 |[39m
+ [90m 97 |[39m     [36mif[39m (stderr [33m&&[39m [33m![39mstderr[33m.[39mincludes([32m'warning'[39m)) {
+ [90m 98 |[39m       console[33m.[39merror([32m'Simulation stderr:'[39m[33m,[39m stderr)[33m;[39m[0m
+
+Expected a semicolon
+
+
+ GET /api/simulation 500 in 96ms
+ ⨯ ./src/app/api/simulation/route.js:95:6
+Parsing ecmascript source code failed
+[0m [90m 93 |[39m [90m    });[39m
+ [90m 94 |[39m [90m    */[39m
+[31m[1m>[22m[39m[90m 95 |[39m     })[33m;[39m
+ [90m    |[39m      [31m[1m^[22m[39m
+ [90m 96 |[39m
+ [90m 97 |[39m     [36mif[39m (stderr [33m&&[39m [33m![39mstderr[33m.[39mincludes([32m'warning'[39m)) {
+ [90m 98 |[39m       console[33m.[39merror([32m'Simulation stderr:'[39m[33m,[39m stderr)[33m;[39m[0m
+
+Expected a semicolon
+
+
+ ⨯ ./src/app/api/simulation/route.js:95:6
+Parsing ecmascript source code failed
+[0m [90m 93 |[39m [90m    });[39m
+ [90m 94 |[39m [90m    */[39m
+[31m[1m>[22m[39m[90m 95 |[39m     })[33m;[39m
+ [90m    |[39m      [31m[1m^[22m[39m
+ [90m 96 |[39m
+ [90m 97 |[39m     [36mif[39m (stderr [33m&&[39m [33m![39mstderr[33m.[39mincludes([32m'warning'[39m)) {
+ [90m 98 |[39m       console[33m.[39merror([32m'Simulation stderr:'[39m[33m,[39m stderr)[33m;[39m[0m
+
+Expected a semicolon
+
+
+ GET /api/simulation 500 in 161ms
+ GET /api/simulation 500 in 326ms
+ ⨯ ./src/app/api/simulation/route.js:95:6
+Parsing ecmascript source code failed
+[0m [90m 93 |[39m [90m    });[39m
+ [90m 94 |[39m [90m    */[39m
+[31m[1m>[22m[39m[90m 95 |[39m     })[33m;[39m
+ [90m    |[39m      [31m[1m^[22m[39m
+ [90m 96 |[39m
+ [90m 97 |[39m     [36mif[39m (stderr [33m&&[39m [33m![39mstderr[33m.[39mincludes([32m'warning'[39m)) {
+ [90m 98 |[39m       console[33m.[39merror([32m'Simulation stderr:'[39m[33m,[39m stderr)[33m;[39m[0m
+
+Expected a semicolon
+
+
+ GET /api/simulation 500 in 88ms
+ ⨯ ./src/app/api/simulation/route.js:95:6
+Parsing ecmascript source code failed
+[0m [90m 93 |[39m [90m    });[39m
+ [90m 94 |[39m [90m    */[39m
+[31m[1m>[22m[39m[90m 95 |[39m     })[33m;[39m
+ [90m    |[39m      [31m[1m^[22m[39m
+ [90m 96 |[39m
+ [90m 97 |[39m     [36mif[39m (stderr [33m&&[39m [33m![39mstderr[33m.[39mincludes([32m'warning'[39m)) {
+ [90m 98 |[39m       console[33m.[39merror([32m'Simulation stderr:'[39m[33m,[39m stderr)[33m;[39m[0m
+
+Expected a semicolon
+
+
+ GET /api/simulation 500 in 3428ms
+ ⨯ ./src/app/api/simulation/route.js:95:6
+Parsing ecmascript source code failed
+[0m [90m 93 |[39m [90m    });[39m
+ [90m 94 |[39m [90m    */[39m
+[31m[1m>[22m[39m[90m 95 |[39m     })[33m;[39m
+ [90m    |[39m      [31m[1m^[22m[39m
+ [90m 96 |[39m
+ [90m 97 |[39m     [36mif[39m (stderr [33m&&[39m [33m![39mstderr[33m.[39mincludes([32m'warning'[39m)) {
+ [90m 98 |[39m       console[33m.[39merror([32m'Simulation stderr:'[39m[33m,[39m stderr)[33m;[39m[0m
+
+Expected a semicolon
+
+
+ GET /api/simulation 500 in 939ms
+ ⨯ ./src/app/api/simulation/route.js:95:6
+Parsing ecmascript source code failed
+[0m [90m 93 |[39m [90m    });[39m
+ [90m 94 |[39m [90m    */[39m
+[31m[1m>[22m[39m[90m 95 |[39m     })[33m;[39m
+ [90m    |[39m      [31m[1m^[22m[39m
+ [90m 96 |[39m
+ [90m 97 |[39m     [36mif[39m (stderr [33m&&[39m [33m![39mstderr[33m.[39mincludes([32m'warning'[39m)) {
+ [90m 98 |[39m       console[33m.[39merror([32m'Simulation stderr:'[39m[33m,[39m stderr)[33m;[39m[0m
+
+Expected a semicolon
+
+
+ GET /api/simulation 500 in 292ms
+ ⨯ ./src/app/api/simulation/route.js:95:6
+Parsing ecmascript source code failed
+[0m [90m 93 |[39m [90m    });[39m
+ [90m 94 |[39m [90m    */[39m
+[31m[1m>[22m[39m[90m 95 |[39m     })[33m;[39m
+ [90m    |[39m      [31m[1m^[22m[39m
+ [90m 96 |[39m
+ [90m 97 |[39m     [36mif[39m (stderr [33m&&[39m [33m![39mstderr[33m.[39mincludes([32m'warning'[39m)) {
+ [90m 98 |[39m       console[33m.[39merror([32m'Simulation stderr:'[39m[33m,[39m stderr)[33m;[39m[0m
+
+Expected a semicolon
+
+
+ GET /api/simulation 500 in 322ms
+ ⨯ ./src/app/api/simulation/route.js:95:6
+Parsing ecmascript source code failed
+[0m [90m 93 |[39m [90m    });[39m
+ [90m 94 |[39m [90m    */[39m
+[31m[1m>[22m[39m[90m 95 |[39m     })[33m;[39m
+ [90m    |[39m      [31m[1m^[22m[39m
+ [90m 96 |[39m
+ [90m 97 |[39m     [36mif[39m (stderr [33m&&[39m [33m![39mstderr[33m.[39mincludes([32m'warning'[39m)) {
+ [90m 98 |[39m       console[33m.[39merror([32m'Simulation stderr:'[39m[33m,[39m stderr)[33m;[39m[0m
+
+Expected a semicolon
+
+
+ GET /api/simulation 500 in 213ms
+ ⨯ ./src/app/api/simulation/route.js:95:6
+Parsing ecmascript source code failed
+[0m [90m 93 |[39m [90m    });[39m
+ [90m 94 |[39m [90m    */[39m
+[31m[1m>[22m[39m[90m 95 |[39m     })[33m;[39m
+ [90m    |[39m      [31m[1m^[22m[39m
+ [90m 96 |[39m
+ [90m 97 |[39m     [36mif[39m (stderr [33m&&[39m [33m![39mstderr[33m.[39mincludes([32m'warning'[39m)) {
+ [90m 98 |[39m       console[33m.[39merror([32m'Simulation stderr:'[39m[33m,[39m stderr)[33m;[39m[0m
+
+Expected a semicolon
+
+
+ GET /api/simulation 500 in 259ms
+ ⨯ ./src/app/api/simulation/route.js:95:6
+Parsing ecmascript source code failed
+[0m [90m 93 |[39m [90m    });[39m
+ [90m 94 |[39m [90m    */[39m
+[31m[1m>[22m[39m[90m 95 |[39m     })[33m;[39m
+ [90m    |[39m      [31m[1m^[22m[39m
+ [90m 96 |[39m
+ [90m 97 |[39m     [36mif[39m (stderr [33m&&[39m [33m![39mstderr[33m.[39mincludes([32m'warning'[39m)) {
+ [90m 98 |[39m       console[33m.[39merror([32m'Simulation stderr:'[39m[33m,[39m stderr)[33m;[39m[0m
+
+Expected a semicolon
+
+
+ GET /api/simulation 500 in 370ms
+ ⨯ ./src/app/api/simulation/route.js:95:6
+Parsing ecmascript source code failed
+[0m [90m 93 |[39m [90m    });[39m
+ [90m 94 |[39m [90m    */[39m
+[31m[1m>[22m[39m[90m 95 |[39m     })[33m;[39m
+ [90m    |[39m      [31m[1m^[22m[39m
+ [90m 96 |[39m
+ [90m 97 |[39m     [36mif[39m (stderr [33m&&[39m [33m![39mstderr[33m.[39mincludes([32m'warning'[39m)) {
+ [90m 98 |[39m       console[33m.[39merror([32m'Simulation stderr:'[39m[33m,[39m stderr)[33m;[39m[0m
+
+Expected a semicolon
+
+
+ GET /api/simulation 500 in 662ms
+ ⨯ ./src/app/api/simulation/route.js:95:6
+Parsing ecmascript source code failed
+[0m [90m 93 |[39m [90m    });[39m
+ [90m 94 |[39m [90m    */[39m
+[31m[1m>[22m[39m[90m 95 |[39m     })[33m;[39m
+ [90m    |[39m      [31m[1m^[22m[39m
+ [90m 96 |[39m
+ [90m 97 |[39m     [36mif[39m (stderr [33m&&[39m [33m![39mstderr[33m.[39mincludes([32m'warning'[39m)) {
+ [90m 98 |[39m       console[33m.[39merror([32m'Simulation stderr:'[39m[33m,[39m stderr)[33m;[39m[0m
+
+Expected a semicolon
+
+
+ GET /api/simulation 500 in 180ms
+ ⨯ ./src/app/api/simulation/route.js:95:6
+Parsing ecmascript source code failed
+[0m [90m 93 |[39m [90m    });[39m
+ [90m 94 |[39m [90m    */[39m
+[31m[1m>[22m[39m[90m 95 |[39m     })[33m;[39m
+ [90m    |[39m      [31m[1m^[22m[39m
+ [90m 96 |[39m
+ [90m 97 |[39m     [36mif[39m (stderr [33m&&[39m [33m![39mstderr[33m.[39mincludes([32m'warning'[39m)) {
+ [90m 98 |[39m       console[33m.[39merror([32m'Simulation stderr:'[39m[33m,[39m stderr)[33m;[39m[0m
+
+Expected a semicolon
+
+
+ GET /api/simulation 500 in 152ms
+ ⨯ ./src/app/api/simulation/route.js:95:6
+Parsing ecmascript source code failed
+[0m [90m 93 |[39m [90m    });[39m
+ [90m 94 |[39m [90m    */[39m
+[31m[1m>[22m[39m[90m 95 |[39m     })[33m;[39m
+ [90m    |[39m      [31m[1m^[22m[39m
+ [90m 96 |[39m
+ [90m 97 |[39m     [36mif[39m (stderr [33m&&[39m [33m![39mstderr[33m.[39mincludes([32m'warning'[39m)) {
+ [90m 98 |[39m       console[33m.[39merror([32m'Simulation stderr:'[39m[33m,[39m stderr)[33m;[39m[0m
+
+Expected a semicolon
+
+
+ GET /api/simulation 500 in 187ms
+ ⨯ ./src/app/api/simulation/route.js:95:6
+Parsing ecmascript source code failed
+[0m [90m 93 |[39m [90m    });[39m
+ [90m 94 |[39m [90m    */[39m
+[31m[1m>[22m[39m[90m 95 |[39m     })[33m;[39m
+ [90m    |[39m      [31m[1m^[22m[39m
+ [90m 96 |[39m
+ [90m 97 |[39m     [36mif[39m (stderr [33m&&[39m [33m![39mstderr[33m.[39mincludes([32m'warning'[39m)) {
+ [90m 98 |[39m       console[33m.[39merror([32m'Simulation stderr:'[39m[33m,[39m stderr)[33m;[39m[0m
+
+Expected a semicolon
+
+
+ GET /api/simulation 500 in 460ms
+ ⨯ ./src/app/api/simulation/route.js:95:6
+Parsing ecmascript source code failed
+[0m [90m 93 |[39m [90m    });[39m
+ [90m 94 |[39m [90m    */[39m
+[31m[1m>[22m[39m[90m 95 |[39m     })[33m;[39m
+ [90m    |[39m      [31m[1m^[22m[39m
+ [90m 96 |[39m
+ [90m 97 |[39m     [36mif[39m (stderr [33m&&[39m [33m![39mstderr[33m.[39mincludes([32m'warning'[39m)) {
+ [90m 98 |[39m       console[33m.[39merror([32m'Simulation stderr:'[39m[33m,[39m stderr)[33m;[39m[0m
+
+Expected a semicolon
+
+
+ GET /api/simulation 500 in 337ms
+ ⨯ ./src/app/api/simulation/route.js:95:6
+Parsing ecmascript source code failed
+[0m [90m 93 |[39m [90m    });[39m
+ [90m 94 |[39m [90m    */[39m
+[31m[1m>[22m[39m[90m 95 |[39m     })[33m;[39m
+ [90m    |[39m      [31m[1m^[22m[39m
+ [90m 96 |[39m
+ [90m 97 |[39m     [36mif[39m (stderr [33m&&[39m [33m![39mstderr[33m.[39mincludes([32m'warning'[39m)) {
+ [90m 98 |[39m       console[33m.[39merror([32m'Simulation stderr:'[39m[33m,[39m stderr)[33m;[39m[0m
+
+Expected a semicolon
+
+
+ GET /api/simulation 500 in 185ms
+ ⨯ ./src/app/api/simulation/route.js:95:6
+Parsing ecmascript source code failed
+[0m [90m 93 |[39m [90m    });[39m
+ [90m 94 |[39m [90m    */[39m
+[31m[1m>[22m[39m[90m 95 |[39m     })[33m;[39m
+ [90m    |[39m      [31m[1m^[22m[39m
+ [90m 96 |[39m
+ [90m 97 |[39m     [36mif[39m (stderr [33m&&[39m [33m![39mstderr[33m.[39mincludes([32m'warning'[39m)) {
+ [90m 98 |[39m       console[33m.[39merror([32m'Simulation stderr:'[39m[33m,[39m stderr)[33m;[39m[0m
+
+Expected a semicolon
+
+
+ GET /api/simulation 500 in 80ms
+ ⨯ ./src/app/api/simulation/route.js:95:6
+Parsing ecmascript source code failed
+[0m [90m 93 |[39m [90m    });[39m
+ [90m 94 |[39m [90m    */[39m
+[31m[1m>[22m[39m[90m 95 |[39m     })[33m;[39m
+ [90m    |[39m      [31m[1m^[22m[39m
+ [90m 96 |[39m
+ [90m 97 |[39m     [36mif[39m (stderr [33m&&[39m [33m![39mstderr[33m.[39mincludes([32m'warning'[39m)) {
+ [90m 98 |[39m       console[33m.[39merror([32m'Simulation stderr:'[39m[33m,[39m stderr)[33m;[39m[0m
+
+Expected a semicolon
+
+
+ GET /api/simulation 500 in 111ms
+ ⨯ ./src/app/api/simulation/route.js:95:6
+Parsing ecmascript source code failed
+[0m [90m 93 |[39m [90m    });[39m
+ [90m 94 |[39m [90m    */[39m
+[31m[1m>[22m[39m[90m 95 |[39m     })[33m;[39m
+ [90m    |[39m      [31m[1m^[22m[39m
+ [90m 96 |[39m
+ [90m 97 |[39m     [36mif[39m (stderr [33m&&[39m [33m![39mstderr[33m.[39mincludes([32m'warning'[39m)) {
+ [90m 98 |[39m       console[33m.[39merror([32m'Simulation stderr:'[39m[33m,[39m stderr)[33m;[39m[0m
+
+Expected a semicolon
+
+
+ GET /api/simulation 500 in 64ms
+ ⨯ ./src/app/api/simulation/route.js:95:6
+Parsing ecmascript source code failed
+[0m [90m 93 |[39m [90m    });[39m
+ [90m 94 |[39m [90m    */[39m
+[31m[1m>[22m[39m[90m 95 |[39m     })[33m;[39m
+ [90m    |[39m      [31m[1m^[22m[39m
+ [90m 96 |[39m
+ [90m 97 |[39m     [36mif[39m (stderr [33m&&[39m [33m![39mstderr[33m.[39mincludes([32m'warning'[39m)) {
+ [90m 98 |[39m       console[33m.[39merror([32m'Simulation stderr:'[39m[33m,[39m stderr)[33m;[39m[0m
+
+Expected a semicolon
+
+
+ GET /api/simulation 500 in 82ms
+ ⨯ ./src/app/api/simulation/route.js:95:6
+Parsing ecmascript source code failed
+[0m [90m 93 |[39m [90m    });[39m
+ [90m 94 |[39m [90m    */[39m
+[31m[1m>[22m[39m[90m 95 |[39m     })[33m;[39m
+ [90m    |[39m      [31m[1m^[22m[39m
+ [90m 96 |[39m
+ [90m 97 |[39m     [36mif[39m (stderr [33m&&[39m [33m![39mstderr[33m.[39mincludes([32m'warning'[39m)) {
+ [90m 98 |[39m       console[33m.[39merror([32m'Simulation stderr:'[39m[33m,[39m stderr)[33m;[39m[0m
+
+Expected a semicolon
+
+
+ GET /api/simulation 500 in 76ms
+ ⨯ ./src/app/api/simulation/route.js:95:6
+Parsing ecmascript source code failed
+[0m [90m 93 |[39m [90m    });[39m
+ [90m 94 |[39m [90m    */[39m
+[31m[1m>[22m[39m[90m 95 |[39m     })[33m;[39m
+ [90m    |[39m      [31m[1m^[22m[39m
+ [90m 96 |[39m
+ [90m 97 |[39m     [36mif[39m (stderr [33m&&[39m [33m![39mstderr[33m.[39mincludes([32m'warning'[39m)) {
+ [90m 98 |[39m       console[33m.[39merror([32m'Simulation stderr:'[39m[33m,[39m stderr)[33m;[39m[0m
+
+Expected a semicolon
+
+
+ GET /api/simulation 500 in 85ms
+ ⨯ ./src/app/api/simulation/route.js:95:6
+Parsing ecmascript source code failed
+[0m [90m 93 |[39m [90m    });[39m
+ [90m 94 |[39m [90m    */[39m
+[31m[1m>[22m[39m[90m 95 |[39m     })[33m;[39m
+ [90m    |[39m      [31m[1m^[22m[39m
+ [90m 96 |[39m
+ [90m 97 |[39m     [36mif[39m (stderr [33m&&[39m [33m![39mstderr[33m.[39mincludes([32m'warning'[39m)) {
+ [90m 98 |[39m       console[33m.[39merror([32m'Simulation stderr:'[39m[33m,[39m stderr)[33m;[39m[0m
+
+Expected a semicolon
+
+
+ GET /api/simulation 500 in 62ms
+ ⨯ ./src/app/api/simulation/route.js:95:6
+Parsing ecmascript source code failed
+[0m [90m 93 |[39m [90m    });[39m
+ [90m 94 |[39m [90m    */[39m
+[31m[1m>[22m[39m[90m 95 |[39m     })[33m;[39m
+ [90m    |[39m      [31m[1m^[22m[39m
+ [90m 96 |[39m
+ [90m 97 |[39m     [36mif[39m (stderr [33m&&[39m [33m![39mstderr[33m.[39mincludes([32m'warning'[39m)) {
+ [90m 98 |[39m       console[33m.[39merror([32m'Simulation stderr:'[39m[33m,[39m stderr)[33m;[39m[0m
+
+Expected a semicolon
+
+
+ GET /api/simulation 500 in 164ms
+ ⨯ ./src/app/api/simulation/route.js:95:6
+Parsing ecmascript source code failed
+[0m [90m 93 |[39m [90m    });[39m
+ [90m 94 |[39m [90m    */[39m
+[31m[1m>[22m[39m[90m 95 |[39m     })[33m;[39m
+ [90m    |[39m      [31m[1m^[22m[39m
+ [90m 96 |[39m
+ [90m 97 |[39m     [36mif[39m (stderr [33m&&[39m [33m![39mstderr[33m.[39mincludes([32m'warning'[39m)) {
+ [90m 98 |[39m       console[33m.[39merror([32m'Simulation stderr:'[39m[33m,[39m stderr)[33m;[39m[0m
+
+Expected a semicolon
+
+
+ GET /api/simulation 500 in 108ms
+ ⨯ ./src/app/api/simulation/route.js:95:6
+Parsing ecmascript source code failed
+[0m [90m 93 |[39m [90m    });[39m
+ [90m 94 |[39m [90m    */[39m
+[31m[1m>[22m[39m[90m 95 |[39m     })[33m;[39m
+ [90m    |[39m      [31m[1m^[22m[39m
+ [90m 96 |[39m
+ [90m 97 |[39m     [36mif[39m (stderr [33m&&[39m [33m![39mstderr[33m.[39mincludes([32m'warning'[39m)) {
+ [90m 98 |[39m       console[33m.[39merror([32m'Simulation stderr:'[39m[33m,[39m stderr)[33m;[39m[0m
+
+Expected a semicolon
+
+
+ GET /api/simulation 500 in 186ms
+ ⨯ ./src/app/api/simulation/route.js:95:6
+Parsing ecmascript source code failed
+[0m [90m 93 |[39m [90m    });[39m
+ [90m 94 |[39m [90m    */[39m
+[31m[1m>[22m[39m[90m 95 |[39m     })[33m;[39m
+ [90m    |[39m      [31m[1m^[22m[39m
+ [90m 96 |[39m
+ [90m 97 |[39m     [36mif[39m (stderr [33m&&[39m [33m![39mstderr[33m.[39mincludes([32m'warning'[39m)) {
+ [90m 98 |[39m       console[33m.[39merror([32m'Simulation stderr:'[39m[33m,[39m stderr)[33m;[39m[0m
+
+Expected a semicolon
+
+
+ GET /api/simulation 500 in 68ms
+ ⨯ ./src/app/api/simulation/route.js:95:6
+Parsing ecmascript source code failed
+[0m [90m 93 |[39m [90m    });[39m
+ [90m 94 |[39m [90m    */[39m
+[31m[1m>[22m[39m[90m 95 |[39m     })[33m;[39m
+ [90m    |[39m      [31m[1m^[22m[39m
+ [90m 96 |[39m
+ [90m 97 |[39m     [36mif[39m (stderr [33m&&[39m [33m![39mstderr[33m.[39mincludes([32m'warning'[39m)) {
+ [90m 98 |[39m       console[33m.[39merror([32m'Simulation stderr:'[39m[33m,[39m stderr)[33m;[39m[0m
+
+Expected a semicolon
+
+
+ GET /api/simulation 500 in 77ms
+ ⨯ ./src/app/api/simulation/route.js:95:6
+Parsing ecmascript source code failed
+[0m [90m 93 |[39m [90m    });[39m
+ [90m 94 |[39m [90m    */[39m
+[31m[1m>[22m[39m[90m 95 |[39m     })[33m;[39m
+ [90m    |[39m      [31m[1m^[22m[39m
+ [90m 96 |[39m
+ [90m 97 |[39m     [36mif[39m (stderr [33m&&[39m [33m![39mstderr[33m.[39mincludes([32m'warning'[39m)) {
+ [90m 98 |[39m       console[33m.[39merror([32m'Simulation stderr:'[39m[33m,[39m stderr)[33m;[39m[0m
+
+Expected a semicolon
+
+
+ GET /api/simulation 500 in 52ms
+ ⨯ ./src/app/api/simulation/route.js:95:6
+Parsing ecmascript source code failed
+[0m [90m 93 |[39m [90m    });[39m
+ [90m 94 |[39m [90m    */[39m
+[31m[1m>[22m[39m[90m 95 |[39m     })[33m;[39m
+ [90m    |[39m      [31m[1m^[22m[39m
+ [90m 96 |[39m
+ [90m 97 |[39m     [36mif[39m (stderr [33m&&[39m [33m![39mstderr[33m.[39mincludes([32m'warning'[39m)) {
+ [90m 98 |[39m       console[33m.[39merror([32m'Simulation stderr:'[39m[33m,[39m stderr)[33m;[39m[0m
+
+Expected a semicolon
+
+
+ GET /api/simulation 500 in 55ms
+ ⨯ ./src/app/api/simulation/route.js:95:6
+Parsing ecmascript source code failed
+[0m [90m 93 |[39m [90m    });[39m
+ [90m 94 |[39m [90m    */[39m
+[31m[1m>[22m[39m[90m 95 |[39m     })[33m;[39m
+ [90m    |[39m      [31m[1m^[22m[39m
+ [90m 96 |[39m
+ [90m 97 |[39m     [36mif[39m (stderr [33m&&[39m [33m![39mstderr[33m.[39mincludes([32m'warning'[39m)) {
+ [90m 98 |[39m       console[33m.[39merror([32m'Simulation stderr:'[39m[33m,[39m stderr)[33m;[39m[0m
+
+Expected a semicolon
+
+
+ GET /api/simulation 500 in 65ms
+ ⨯ ./src/app/api/simulation/route.js:95:6
+Parsing ecmascript source code failed
+[0m [90m 93 |[39m [90m    });[39m
+ [90m 94 |[39m [90m    */[39m
+[31m[1m>[22m[39m[90m 95 |[39m     })[33m;[39m
+ [90m    |[39m      [31m[1m^[22m[39m
+ [90m 96 |[39m
+ [90m 97 |[39m     [36mif[39m (stderr [33m&&[39m [33m![39mstderr[33m.[39mincludes([32m'warning'[39m)) {
+ [90m 98 |[39m       console[33m.[39merror([32m'Simulation stderr:'[39m[33m,[39m stderr)[33m;[39m[0m
+
+Expected a semicolon
+
+
+ ✓ Compiled in 6ms
+ GET /api/simulation 500 in 101ms
+ ⨯ ./src/app/api/simulation/route.js:95:6
+Parsing ecmascript source code failed
+[0m [90m 93 |[39m [90m    });[39m
+ [90m 94 |[39m [90m    */[39m
+[31m[1m>[22m[39m[90m 95 |[39m     })[33m;[39m
+ [90m    |[39m      [31m[1m^[22m[39m
+ [90m 96 |[39m
+ [90m 97 |[39m     [36mif[39m (stderr [33m&&[39m [33m![39mstderr[33m.[39mincludes([32m'warning'[39m)) {
+ [90m 98 |[39m       console[33m.[39merror([32m'Simulation stderr:'[39m[33m,[39m stderr)[33m;[39m[0m
+
+Expected a semicolon
+
+
+ GET /api/simulation 500 in 371ms
+ ⨯ ./src/app/api/simulation/route.js:95:6
+Parsing ecmascript source code failed
+[0m [90m 93 |[39m [90m    });[39m
+ [90m 94 |[39m [90m    */[39m
+[31m[1m>[22m[39m[90m 95 |[39m     })[33m;[39m
+ [90m    |[39m      [31m[1m^[22m[39m
+ [90m 96 |[39m
+ [90m 97 |[39m     [36mif[39m (stderr [33m&&[39m [33m![39mstderr[33m.[39mincludes([32m'warning'[39m)) {
+ [90m 98 |[39m       console[33m.[39merror([32m'Simulation stderr:'[39m[33m,[39m stderr)[33m;[39m[0m
+
+Expected a semicolon
+
+
+ GET /api/simulation 500 in 80ms
+ ⨯ ./src/app/api/simulation/route.js:95:6
+Parsing ecmascript source code failed
+[0m [90m 93 |[39m [90m    });[39m
+ [90m 94 |[39m [90m    */[39m
+[31m[1m>[22m[39m[90m 95 |[39m     })[33m;[39m
+ [90m    |[39m      [31m[1m^[22m[39m
+ [90m 96 |[39m
+ [90m 97 |[39m     [36mif[39m (stderr [33m&&[39m [33m![39mstderr[33m.[39mincludes([32m'warning'[39m)) {
+ [90m 98 |[39m       console[33m.[39merror([32m'Simulation stderr:'[39m[33m,[39m stderr)[33m;[39m[0m
+
+Expected a semicolon
+
+
+ GET /api/simulation 500 in 301ms
+ ✓ Compiled in 2.6s
+ ⨯ ./src/app/api/simulation/route.js:95:6
+Parsing ecmascript source code failed
+[0m [90m 93 |[39m [90m    });[39m
+ [90m 94 |[39m [90m    */[39m
+[31m[1m>[22m[39m[90m 95 |[39m     })[33m;[39m
+ [90m    |[39m      [31m[1m^[22m[39m
+ [90m 96 |[39m
+ [90m 97 |[39m     [36mif[39m (stderr [33m&&[39m [33m![39mstderr[33m.[39mincludes([32m'warning'[39m)) {
+ [90m 98 |[39m       console[33m.[39merror([32m'Simulation stderr:'[39m[33m,[39m stderr)[33m;[39m[0m
+
+Expected a semicolon
+
+
+ GET /api/simulation 500 in 90ms
+ ⨯ ./src/app/api/simulation/route.js:95:6
+Parsing ecmascript source code failed
+[0m [90m 93 |[39m [90m    });[39m
+ [90m 94 |[39m [90m    */[39m
+[31m[1m>[22m[39m[90m 95 |[39m     })[33m;[39m
+ [90m    |[39m      [31m[1m^[22m[39m
+ [90m 96 |[39m
+ [90m 97 |[39m     [36mif[39m (stderr [33m&&[39m [33m![39mstderr[33m.[39mincludes([32m'warning'[39m)) {
+ [90m 98 |[39m       console[33m.[39merror([32m'Simulation stderr:'[39m[33m,[39m stderr)[33m;[39m[0m
+
+Expected a semicolon
+
+
+ GET /api/simulation 500 in 90ms
+ ⨯ ./src/app/api/simulation/route.js:95:6
+Parsing ecmascript source code failed
+[0m [90m 93 |[39m [90m    });[39m
+ [90m 94 |[39m [90m    */[39m
+[31m[1m>[22m[39m[90m 95 |[39m     })[33m;[39m
+ [90m    |[39m      [31m[1m^[22m[39m
+ [90m 96 |[39m
+ [90m 97 |[39m     [36mif[39m (stderr [33m&&[39m [33m![39mstderr[33m.[39mincludes([32m'warning'[39m)) {
+ [90m 98 |[39m       console[33m.[39merror([32m'Simulation stderr:'[39m[33m,[39m stderr)[33m;[39m[0m
+
+Expected a semicolon
+
+
+ GET /api/simulation 500 in 175ms
+ ⨯ ./src/app/api/simulation/route.js:95:6
+Parsing ecmascript source code failed
+[0m [90m 93 |[39m [90m    });[39m
+ [90m 94 |[39m [90m    */[39m
+[31m[1m>[22m[39m[90m 95 |[39m     })[33m;[39m
+ [90m    |[39m      [31m[1m^[22m[39m
+ [90m 96 |[39m
+ [90m 97 |[39m     [36mif[39m (stderr [33m&&[39m [33m![39mstderr[33m.[39mincludes([32m'warning'[39m)) {
+ [90m 98 |[39m       console[33m.[39merror([32m'Simulation stderr:'[39m[33m,[39m stderr)[33m;[39m[0m
+
+Expected a semicolon
+
+
+ GET /api/simulation 500 in 43ms
+ ⨯ ./src/app/api/prediction/route.js:17:38
+Parsing ecmascript source code failed
+[0m [90m 15 |[39m
+ [90m 16 |[39m
+[31m[1m>[22m[39m[90m 17 |[39m [36mexport[39m [36masync[39m [36mfunction[39m [33mPOST[39m(request) {[36mexport[39m [36masync[39m [36mfunction[39m [33mPOST[39m(request) {
+ [90m    |[39m                                      [31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m
+ [90m 18 |[39m
+ [90m 19 |[39m   [36mtry[39m {  [36mtry[39m {
+ [90m 20 |[39m[0m
+
+'import', and 'export' cannot be used outside of module code
+
+
+ POST /api/prediction 500 in 258ms
+ ⨯ ./src/app/api/simulation/route.js:95:6
+Parsing ecmascript source code failed
+[0m [90m 93 |[39m [90m    });[39m
+ [90m 94 |[39m [90m    */[39m
+[31m[1m>[22m[39m[90m 95 |[39m     })[33m;[39m
+ [90m    |[39m      [31m[1m^[22m[39m
+ [90m 96 |[39m
+ [90m 97 |[39m     [36mif[39m (stderr [33m&&[39m [33m![39mstderr[33m.[39mincludes([32m'warning'[39m)) {
+ [90m 98 |[39m       console[33m.[39merror([32m'Simulation stderr:'[39m[33m,[39m stderr)[33m;[39m[0m
+
+Expected a semicolon
+
+
+ GET /api/simulation 500 in 4442ms
+ ⨯ ./src/app/api/simulation/route.js:95:6
+Parsing ecmascript source code failed
+[0m [90m 93 |[39m [90m    });[39m
+ [90m 94 |[39m [90m    */[39m
+[31m[1m>[22m[39m[90m 95 |[39m     })[33m;[39m
+ [90m    |[39m      [31m[1m^[22m[39m
+ [90m 96 |[39m
+ [90m 97 |[39m     [36mif[39m (stderr [33m&&[39m [33m![39mstderr[33m.[39mincludes([32m'warning'[39m)) {
+ [90m 98 |[39m       console[33m.[39merror([32m'Simulation stderr:'[39m[33m,[39m stderr)[33m;[39m[0m
+
+Expected a semicolon
+
+
+ GET /api/simulation 500 in 403ms
+ ⨯ ./src/app/api/simulation/route.js:95:6
+Parsing ecmascript source code failed
+[0m [90m 93 |[39m [90m    });[39m
+ [90m 94 |[39m [90m    */[39m
+[31m[1m>[22m[39m[90m 95 |[39m     })[33m;[39m
+ [90m    |[39m      [31m[1m^[22m[39m
+ [90m 96 |[39m
+ [90m 97 |[39m     [36mif[39m (stderr [33m&&[39m [33m![39mstderr[33m.[39mincludes([32m'warning'[39m)) {
+ [90m 98 |[39m       console[33m.[39merror([32m'Simulation stderr:'[39m[33m,[39m stderr)[33m;[39m[0m
+
+Expected a semicolon
+
+
+ GET /api/simulation 500 in 1861ms
+ ⨯ ./src/app/api/simulation/route.js:95:6
+Parsing ecmascript source code failed
+[0m [90m 93 |[39m [90m    });[39m
+ [90m 94 |[39m [90m    */[39m
+[31m[1m>[22m[39m[90m 95 |[39m     })[33m;[39m
+ [90m    |[39m      [31m[1m^[22m[39m
+ [90m 96 |[39m
+ [90m 97 |[39m     [36mif[39m (stderr [33m&&[39m [33m![39mstderr[33m.[39mincludes([32m'warning'[39m)) {
+ [90m 98 |[39m       console[33m.[39merror([32m'Simulation stderr:'[39m[33m,[39m stderr)[33m;[39m[0m
+
+Expected a semicolon
+
+
+ GET /api/simulation 500 in 250ms
+ ⨯ ./src/app/api/simulation/route.js:95:6
+Parsing ecmascript source code failed
+[0m [90m 93 |[39m [90m    });[39m
+ [90m 94 |[39m [90m    */[39m
+[31m[1m>[22m[39m[90m 95 |[39m     })[33m;[39m
+ [90m    |[39m      [31m[1m^[22m[39m
+ [90m 96 |[39m
+ [90m 97 |[39m     [36mif[39m (stderr [33m&&[39m [33m![39mstderr[33m.[39mincludes([32m'warning'[39m)) {
+ [90m 98 |[39m       console[33m.[39merror([32m'Simulation stderr:'[39m[33m,[39m stderr)[33m;[39m[0m
+
+Expected a semicolon
+
+
+ GET /api/simulation 500 in 222ms
+ ⨯ ./src/app/api/simulation/route.js:95:6
+Parsing ecmascript source code failed
+[0m [90m 93 |[39m [90m    });[39m
+ [90m 94 |[39m [90m    */[39m
+[31m[1m>[22m[39m[90m 95 |[39m     })[33m;[39m
+ [90m    |[39m      [31m[1m^[22m[39m
+ [90m 96 |[39m
+ [90m 97 |[39m     [36mif[39m (stderr [33m&&[39m [33m![39mstderr[33m.[39mincludes([32m'warning'[39m)) {
+ [90m 98 |[39m       console[33m.[39merror([32m'Simulation stderr:'[39m[33m,[39m stderr)[33m;[39m[0m
+
+Expected a semicolon
+
+
+ GET /api/simulation 500 in 885ms
+ ⨯ ./src/app/api/simulation/route.js:95:6
+Parsing ecmascript source code failed
+[0m [90m 93 |[39m [90m    });[39m
+ [90m 94 |[39m [90m    */[39m
+[31m[1m>[22m[39m[90m 95 |[39m     })[33m;[39m
+ [90m    |[39m      [31m[1m^[22m[39m
+ [90m 96 |[39m
+ [90m 97 |[39m     [36mif[39m (stderr [33m&&[39m [33m![39mstderr[33m.[39mincludes([32m'warning'[39m)) {
+ [90m 98 |[39m       console[33m.[39merror([32m'Simulation stderr:'[39m[33m,[39m stderr)[33m;[39m[0m
+
+Expected a semicolon
+
+
+ GET /api/simulation 500 in 386ms
+ ⨯ ./src/app/api/simulation/route.js:95:6
+Parsing ecmascript source code failed
+[0m [90m 93 |[39m [90m    });[39m
+ [90m 94 |[39m [90m    */[39m
+[31m[1m>[22m[39m[90m 95 |[39m     })[33m;[39m
+ [90m    |[39m      [31m[1m^[22m[39m
+ [90m 96 |[39m
+ [90m 97 |[39m     [36mif[39m (stderr [33m&&[39m [33m![39mstderr[33m.[39mincludes([32m'warning'[39m)) {
+ [90m 98 |[39m       console[33m.[39merror([32m'Simulation stderr:'[39m[33m,[39m stderr)[33m;[39m[0m
+
+Expected a semicolon
+
+
+ GET /api/simulation 500 in 106ms
+ ⨯ ./src/app/api/simulation/route.js:95:6
+Parsing ecmascript source code failed
+[0m [90m 93 |[39m [90m    });[39m
+ [90m 94 |[39m [90m    */[39m
+[31m[1m>[22m[39m[90m 95 |[39m     })[33m;[39m
+ [90m    |[39m      [31m[1m^[22m[39m
+ [90m 96 |[39m
+ [90m 97 |[39m     [36mif[39m (stderr [33m&&[39m [33m![39mstderr[33m.[39mincludes([32m'warning'[39m)) {
+ [90m 98 |[39m       console[33m.[39merror([32m'Simulation stderr:'[39m[33m,[39m stderr)[33m;[39m[0m
+
+Expected a semicolon
+
+
+ GET /api/simulation 500 in 256ms
+ ⨯ ./src/app/api/simulation/route.js:95:6
+Parsing ecmascript source code failed
+[0m [90m 93 |[39m [90m    });[39m
+ [90m 94 |[39m [90m    */[39m
+[31m[1m>[22m[39m[90m 95 |[39m     })[33m;[39m
+ [90m    |[39m      [31m[1m^[22m[39m
+ [90m 96 |[39m
+ [90m 97 |[39m     [36mif[39m (stderr [33m&&[39m [33m![39mstderr[33m.[39mincludes([32m'warning'[39m)) {
+ [90m 98 |[39m       console[33m.[39merror([32m'Simulation stderr:'[39m[33m,[39m stderr)[33m;[39m[0m
+
+Expected a semicolon
+
+
+ GET /api/simulation 500 in 206ms
+ ⨯ ./src/app/api/simulation/route.js:95:6
+Parsing ecmascript source code failed
+[0m [90m 93 |[39m [90m    });[39m
+ [90m 94 |[39m [90m    */[39m
+[31m[1m>[22m[39m[90m 95 |[39m     })[33m;[39m
+ [90m    |[39m      [31m[1m^[22m[39m
+ [90m 96 |[39m
+ [90m 97 |[39m     [36mif[39m (stderr [33m&&[39m [33m![39mstderr[33m.[39mincludes([32m'warning'[39m)) {
+ [90m 98 |[39m       console[33m.[39merror([32m'Simulation stderr:'[39m[33m,[39m stderr)[33m;[39m[0m
+
+Expected a semicolon
+
+
+ GET /api/simulation 500 in 182ms
+ ⨯ ./src/app/api/simulation/route.js:95:6
+Parsing ecmascript source code failed
+[0m [90m 93 |[39m [90m    });[39m
+ [90m 94 |[39m [90m    */[39m
+[31m[1m>[22m[39m[90m 95 |[39m     })[33m;[39m
+ [90m    |[39m      [31m[1m^[22m[39m
+ [90m 96 |[39m
+ [90m 97 |[39m     [36mif[39m (stderr [33m&&[39m [33m![39mstderr[33m.[39mincludes([32m'warning'[39m)) {
+ [90m 98 |[39m       console[33m.[39merror([32m'Simulation stderr:'[39m[33m,[39m stderr)[33m;[39m[0m
+
+Expected a semicolon
+
+
+ GET /api/simulation 500 in 352ms
+ ⨯ ./src/app/api/simulation/route.js:95:6
+Parsing ecmascript source code failed
+[0m [90m 93 |[39m [90m    });[39m
+ [90m 94 |[39m [90m    */[39m
+[31m[1m>[22m[39m[90m 95 |[39m     })[33m;[39m
+ [90m    |[39m      [31m[1m^[22m[39m
+ [90m 96 |[39m
+ [90m 97 |[39m     [36mif[39m (stderr [33m&&[39m [33m![39mstderr[33m.[39mincludes([32m'warning'[39m)) {
+ [90m 98 |[39m       console[33m.[39merror([32m'Simulation stderr:'[39m[33m,[39m stderr)[33m;[39m[0m
+
+Expected a semicolon
+
+
+ GET /api/simulation 500 in 737ms
+ ⨯ ./src/app/api/simulation/route.js:95:6
+Parsing ecmascript source code failed
+[0m [90m 93 |[39m [90m    });[39m
+ [90m 94 |[39m [90m    */[39m
+[31m[1m>[22m[39m[90m 95 |[39m     })[33m;[39m
+ [90m    |[39m      [31m[1m^[22m[39m
+ [90m 96 |[39m
+ [90m 97 |[39m     [36mif[39m (stderr [33m&&[39m [33m![39mstderr[33m.[39mincludes([32m'warning'[39m)) {
+ [90m 98 |[39m       console[33m.[39merror([32m'Simulation stderr:'[39m[33m,[39m stderr)[33m;[39m[0m
+
+Expected a semicolon
+
+
+ GET /api/simulation 500 in 292ms
+ ⨯ ./src/app/api/simulation/route.js:95:6
+Parsing ecmascript source code failed
+[0m [90m 93 |[39m [90m    });[39m
+ [90m 94 |[39m [90m    */[39m
+[31m[1m>[22m[39m[90m 95 |[39m     })[33m;[39m
+ [90m    |[39m      [31m[1m^[22m[39m
+ [90m 96 |[39m
+ [90m 97 |[39m     [36mif[39m (stderr [33m&&[39m [33m![39mstderr[33m.[39mincludes([32m'warning'[39m)) {
+ [90m 98 |[39m       console[33m.[39merror([32m'Simulation stderr:'[39m[33m,[39m stderr)[33m;[39m[0m
+
+Expected a semicolon
+
+
+ GET /api/simulation 500 in 236ms
+ ⨯ ./src/app/api/simulation/route.js:95:6
+Parsing ecmascript source code failed
+[0m [90m 93 |[39m [90m    });[39m
+ [90m 94 |[39m [90m    */[39m
+[31m[1m>[22m[39m[90m 95 |[39m     })[33m;[39m
+ [90m    |[39m      [31m[1m^[22m[39m
+ [90m 96 |[39m
+ [90m 97 |[39m     [36mif[39m (stderr [33m&&[39m [33m![39mstderr[33m.[39mincludes([32m'warning'[39m)) {
+ [90m 98 |[39m       console[33m.[39merror([32m'Simulation stderr:'[39m[33m,[39m stderr)[33m;[39m[0m
+
+Expected a semicolon
+
+
+ GET /api/simulation 500 in 96ms
+ GET /api/simulation 500 in 4954ms
+ GET /api/simulation 500 in 98ms
+ GET /api/simulation 500 in 180ms
+ GET /api/simulation 500 in 122ms
+ GET /api/simulation 500 in 4650ms
+ GET /api/simulation 500 in 5517ms
+ GET /api/simulation 500 in 2903ms
+ GET /api/simulation 500 in 102ms
+ GET /api/simulation 500 in 240ms
+ GET /api/simulation 500 in 208ms
+ GET /api/simulation 500 in 218ms
+ GET /api/simulation 500 in 287ms
+ GET /api/simulation 500 in 360ms
+ ⨯ ./src/app/api/prediction/route.js:17:38
+Parsing ecmascript source code failed
+[0m [90m 15 |[39m
+ [90m 16 |[39m
+[31m[1m>[22m[39m[90m 17 |[39m [36mexport[39m [36masync[39m [36mfunction[39m [33mPOST[39m(request) {[36mexport[39m [36masync[39m [36mfunction[39m [33mPOST[39m(request) {
+ [90m    |[39m                                      [31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m
+ [90m 18 |[39m
+ [90m 19 |[39m   [36mtry[39m {  [36mtry[39m {
+ [90m 20 |[39m[0m
+
+'import', and 'export' cannot be used outside of module code
+
+
+ POST /api/prediction 500 in 437ms
+ GET /api/simulation 500 in 943ms
+ GET /api/simulation 500 in 435ms
+ GET /api/simulation 500 in 268ms
+ GET /api/simulation 500 in 177ms
+ GET /api/simulation 500 in 214ms
+ GET /api/simulation 500 in 151ms
+ GET /api/simulation 405 in 1438ms
+ GET /api/simulation 405 in 410ms
+ GET /api/simulation 405 in 339ms
+ GET /api/simulation 405 in 596ms
+ GET /api/simulation 405 in 531ms
+ GET /api/simulation 405 in 486ms
+ GET /api/simulation 405 in 1865ms
+ GET /api/simulation 405 in 892ms
+ GET /api/simulation 405 in 443ms
+ GET /api/simulation 405 in 748ms
+ GET /api/simulation 405 in 365ms
+ GET /api/simulation 405 in 289ms
+ GET /api/simulation 405 in 309ms
+ GET /api/simulation 405 in 291ms
+ GET /api/simulation 405 in 313ms
+ GET /api/simulation 405 in 319ms
+ GET /api/simulation 405 in 519ms
+ GET /api/simulation 405 in 380ms
+ GET /api/simulation 405 in 363ms
+ GET /api/simulation 405 in 315ms
+ GET /api/simulation 405 in 649ms
+ GET /api/simulation 405 in 477ms
+ GET /api/simulation 405 in 342ms
+ GET /api/simulation 405 in 348ms
+ GET /api/simulation 405 in 328ms
+ GET /api/simulation 405 in 412ms
+ GET /api/simulation 405 in 1221ms
+ GET /api/simulation 405 in 413ms
+[?25h
