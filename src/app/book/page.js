@@ -1,10 +1,11 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
+import { useState, useEffect, useRef, Suspense } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { useAuth } from '@/context/AuthContext';
 import { useCrowdHandler } from '@/context/CrowdHandlerContext';
 import { useBehaviorTracking, useCaptchaManager } from '@/hooks/useBehaviorTracking';
+import { useToast } from '@/context/ToastContext';
 import { supabase } from '@/lib/supabase';
 import Navbar from '@/components/Navbar';
 import ProtectedRoute from '@/components/ProtectedRoute';
@@ -18,16 +19,20 @@ import CaptchaPlaceholder, { TrustScoreDisplay } from '@/components/CaptchaPlace
 
 const TOTAL_TIME = 10 * 60 * 1000; // 10 minutes in milliseconds
 
-export default function BookingPage() {
+function BookingPageContent() {
   const router = useRouter();
-  const { user, loading } = useAuth();
   const { recordPerformance } = useCrowdHandler();
+  const searchParams = useSearchParams();
+  const { user, loading: authLoading } = useAuth();
+  const { showToast } = useToast();
   const [currentStep, setCurrentStep] = useState(1);
   const [timeLeft, setTimeLeft] = useState(TOTAL_TIME);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [analysisComplete, setAnalysisComplete] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [hasTriggeredCheckoutAnalysis, setHasTriggeredCheckoutAnalysis] = useState(false);
+  const [train, setTrain] = useState(null);
+  const [trainLoading, setTrainLoading] = useState(true);
   const [bookingData, setBookingData] = useState({
     passengers: [],
     selectedSeats: [],
@@ -41,6 +46,9 @@ export default function BookingPage() {
     },
     payment: null,
   });
+
+  const trainId = searchParams.get('train');
+  const selectedDate = searchParams.get('date');
 
   // Behavior tracking integration
   const behaviorTracking = useBehaviorTracking(user?.id, {
@@ -59,7 +67,7 @@ export default function BookingPage() {
       await behaviorTracking.analyzeNow();
       captchaManager.hideCaptcha();
       setIsSubmitting(false); // Allow submission to continue
-      
+
       console.log('Captcha verification successful, trust score updated');
     } catch (error) {
       console.error('Failed to update trust score after captcha:', error);
@@ -72,25 +80,60 @@ export default function BookingPage() {
   const handleFormSubmission = async (stepData) => {
     // Analyze behavior before allowing submission
     const result = await behaviorTracking.analyzeNow();
-    
+
     if (result && result.needsCaptcha) {
       // Show captcha before allowing form submission
       captchaManager.showCaptcha('Final security verification required before completing booking.');
       return false; // Prevent form submission
     }
-    
+
     return true; // Allow form submission
   };
 
   // Redirect if not logged in
   useEffect(() => {
-    if (!loading && !user) {
+    if (!authLoading && !user) {
       router.push('/login');
     }
-  }, [user, loading, router]);
+  }, [user, authLoading, router]);
 
-  // Timer countdown
+  // Fetch train details
   useEffect(() => {
+    const fetchTrain = async () => {
+      if (!trainId) {
+        setTrainLoading(false);
+        router.push('/trains');
+        return;
+      }
+      try {
+        const { data, error } = await supabase
+          .from('trains')
+          .select('*')
+          .eq('id', trainId)
+          .single();
+
+        if (error || !data) {
+          console.error('Error fetching train:', error);
+          alert('Train not found. Redirecting to trains page.');
+          router.push('/trains');
+          return;
+        }
+        setTrain(data);
+      } catch (err) {
+        console.error('Error:', err);
+        router.push('/trains');
+      } finally {
+        setTrainLoading(false);
+      }
+    };
+
+    fetchTrain();
+  }, [trainId, router]);
+
+  // Timer countdown - start after user and train are ready
+  useEffect(() => {
+    if (authLoading || trainLoading || !user || !train) return;
+
     const timer = setInterval(() => {
       setTimeLeft((prev) => {
         if (prev <= 1000) {
@@ -104,7 +147,7 @@ export default function BookingPage() {
     }, 1000);
 
     return () => clearInterval(timer);
-  }, [router]);
+  }, [authLoading, trainLoading, user, train, router]);
 
   // Make test functions globally available for checkout component
   useEffect(() => {
@@ -127,7 +170,8 @@ export default function BookingPage() {
   };
 
   const calculateTotal = () => {
-    let total = 150000; // Base ticket price per passenger
+    if (!train) return 0;
+    let total = train.base_price;
     total *= bookingData.passengers.length || 0;
 
     if (bookingData.protections.personalAccident) {
@@ -206,21 +250,21 @@ export default function BookingPage() {
 
     try {
       let finalTrustScore = behaviorTracking.currentTrustScore;
-      
+
       // If analysis is still in progress or hasn't completed, wait up to 5 seconds
       if (isAnalyzing || !analysisComplete) {
         console.log('Waiting for AI analysis to complete...');
-        
-        const analysisPromise = analysisComplete 
+
+        const analysisPromise = analysisComplete
           ? Promise.resolve(behaviorTracking.currentTrustScore)
           : behaviorTracking.analyzeNow();
-        
-        const timeoutPromise = new Promise(resolve => 
+
+        const timeoutPromise = new Promise(resolve =>
           setTimeout(() => resolve(null), 5000)
         );
 
         const result = await Promise.race([analysisPromise, timeoutPromise]);
-        
+
         if (result) {
           finalTrustScore = result.trustScore || behaviorTracking.currentTrustScore;
           console.log('AI analysis completed with score:', finalTrustScore);
@@ -422,12 +466,11 @@ Detected Patterns: Linear movement, identical timing`);
     try {
       const finalBookingData = { ...bookingData, payment: paymentData };
       const totalAmount = calculateTotal();
-
-      // Insert booking into database
       const { data: booking, error: bookingError } = await supabase
         .from('bookings')
         .insert({
           user_id: user.id,
+          train_id: train.id,
           total_amount: totalAmount,
           status: 'completed',
           personal_accident_protection: finalBookingData.protections.personalAccident,
@@ -442,12 +485,11 @@ Detected Patterns: Linear movement, identical timing`);
         .single();
 
       if (bookingError) {
-        console.error('Error creating booking:', bookingError);
-        alert('Failed to create booking. Please try again.');
+        console.error('Booking error details:', bookingError);
+        showToast(`Failed to create booking: ${bookingError.message}`, 'error', 5000);
         return;
       }
 
-      // Insert passengers for this booking
       const passengersToInsert = finalBookingData.passengers.map((passenger, index) => ({
         booking_id: booking.id,
         ktp_number: passenger.ktpNumber,
@@ -461,23 +503,23 @@ Detected Patterns: Linear movement, identical timing`);
         .insert(passengersToInsert);
 
       if (passengersError) {
-        console.error('Error creating passengers:', passengersError);
-        alert('Failed to save passenger details. Please contact support.');
+        console.error('Passengers error details:', passengersError);
+        showToast(`Failed to save passenger details: ${passengersError.message}`, 'error', 5000);
         return;
       }
 
       // Stop behavior tracking after successful booking
       behaviorTracking.stopTracking();
 
-      alert('Booking completed successfully!');
-      
+      showToast('Booking completed successfully!', 'success');
+
       // Record performance for successful booking
       await recordPerformance({
         statusCode: 200,
         sample: 1.0 // Record all successful bookings
       });
-      
-      router.push('/');
+
+      router.push(`/recommendations?train=${train.id}`);
     } catch (error) {
       console.error('Error completing booking:', error);
       alert('An error occurred. Please try again.');
@@ -486,15 +528,16 @@ Detected Patterns: Linear movement, identical timing`);
     }
   };
 
-  if (loading) {
+  if (authLoading || trainLoading) {
     return (
       <div className="min-h-screen bg-white flex items-center justify-center">
+        <Navbar />
         <div className="text-[#F27500] text-xl">Loading...</div>
       </div>
     );
   }
 
-  if (!user) {
+  if (!user || !train) {
     return null;
   }
 
@@ -839,7 +882,54 @@ Detected Patterns: Linear movement, identical timing`);
           <div>Forms: {Object.keys(behaviorTracking.data?.trackingData?.formInteractions || {}).length} events</div>
         </div>
       </div>
-      </div>
+      </main>
+
+      {/* Captcha Modal - Using CaptchaPlaceholder */}
+      <CaptchaPlaceholder
+        isVisible={captchaManager.isVisible}
+        trustScore={behaviorTracking.currentTrustScore}
+        reason={captchaManager.reason || "Security verification required"}
+        onSuccess={handleCaptchaSuccess}
+        onError={captchaManager.onCaptchaError}
+        onClose={captchaManager.hideCaptcha}
+      />
+
+      {/* Old Captcha Modal - Keep for reference but not used */}
+      {false && showCaptcha && (
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50">
+          <div className="bg-white rounded-2xl p-8 max-w-md w-full mx-4">
+            <h3 className="text-xl font-bold text-gray-800 mb-4">Human Verification</h3>
+            <p className="text-gray-600 mb-6">Complete verification to proceed.</p>
+            <ReCAPTCHA
+              ref={(ref) => setRecaptchaRef(ref)}
+              sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY}
+              onChange={handleRecaptchaVerify}
+            />
+            <button
+              onClick={() => {
+                setShowCaptcha(false);
+                if (recaptchaRef) recaptchaRef.reset();
+              }}
+              className="mt-4 text-gray-500 hover:text-gray-700"
+            >
+              Cancel
+            </button>
+          </div>
+        </div>
+      )}
     </ProtectedRoute>
+  );
+}
+
+export default function BookingPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen bg-white flex items-center justify-center">
+        <Navbar />
+        <div className="text-[#F27500] text-xl">Loading...</div>
+      </div>
+    }>
+      <BookingPageContent />
+    </Suspense>
   );
 }
