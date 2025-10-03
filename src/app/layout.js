@@ -2,6 +2,7 @@ import { Poppins } from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
 import { Providers } from "./providers";
+import { AuthProvider } from "@/context/AuthContext";
 import { CrowdHandlerProvider } from "@/context/CrowdHandlerContext";
 import EmergencyBypass from "@/components/EmergencyBypass";
 
@@ -36,7 +37,7 @@ export default function RootLayout({ children }) {
         />
       </head>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${poppins.variable} font-sans antialiased`}
       >
         {/* Google Tag Manager (noscript) */}
         <noscript>
