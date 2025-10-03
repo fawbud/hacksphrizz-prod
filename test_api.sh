@@ -3,9 +3,9 @@
 # Test Script untuk API Endpoints
 # Jalankan setelah server development berjalan
 
-BASE_URL="http://localhost:3001"
+BASE_URL="http://localhost:3000"
 
-echo "🚀 Testing Virtual Waiting Room API Endpoints"
+echo "🚀 Testing Train Prediction API Endpoints"
 echo "============================================="
 
 echo ""

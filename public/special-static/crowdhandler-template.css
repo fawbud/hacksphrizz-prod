@@ -48,7 +48,7 @@ body {
 
 /* Logo Section */
 #ch-logo {
-   background: var(--orange-gradient);
+   background: white;
    padding: 1.5rem 2rem;
    text-align: center;
    border-bottom: 3px solid var(--brand-orange-hover);
