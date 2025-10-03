@@ -36,37 +36,23 @@ export default function ProtectedRoute({ children, fallback = null, showLoadingS
     ) : (fallback || null);
   }
 
-  // Not promoted - show waiting message or custom fallback
+  // Not promoted - should redirect to CrowdHandler waiting room
+  // This should only show briefly before redirect happens
   if (isPromoted === false) {
     return fallback || (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="text-center max-w-md mx-auto px-4">
           <div className="bg-white rounded-lg shadow-lg p-8">
-            <div className="text-6xl mb-6">⏳</div>
-            <h1 className="text-3xl font-bold text-gray-900 mb-4">
-              Virtual Queue Active
+            <div className="text-4xl mb-4">⏳</div>
+            <h1 className="text-xl font-bold text-gray-900 mb-2">
+              Redirecting to Queue...
             </h1>
-            <p className="text-gray-600 mb-6">
-              Due to high demand, you&apos;ve been placed in our virtual queue. 
-              Please wait while we prepare your access to ensure the best experience.
+            <p className="text-gray-600 text-sm">
+              Please wait while we redirect you to the waiting room.
             </p>
-            <div className="bg-orange-50 border border-orange-200 rounded-lg p-4 mb-6">
-              <p className="text-orange-800 text-sm font-medium">
-                🔒 Queue Protection Active
-              </p>
-              <p className="text-orange-600 text-sm mt-1">
-                This helps us maintain service quality during peak times
-              </p>
+            <div className="mt-4">
+              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#F27500] mx-auto"></div>
             </div>
-            <button
-              onClick={refreshQueueStatus}
-              className="bg-[#F27500] text-white px-8 py-3 rounded-lg hover:bg-[#d96600] transition-colors font-medium"
-            >
-              Check Queue Status
-            </button>
-            <p className="text-sm text-gray-500 mt-4">
-              Your position will be automatically updated. Please keep this page open.
-            </p>
           </div>
         </div>
       </div>

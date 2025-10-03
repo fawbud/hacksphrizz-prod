@@ -79,20 +79,24 @@ export function CrowdHandlerProvider({ children }) {
         // Respect the actual result from CrowdHandler API
         setIsPromoted(result.promoted);
         
-        // Handle redirects properly in production
+        // Handle redirects using the SDK's built-in method
         if (!result.promoted) {
-          if (result.targetURL && 
-              result.targetURL !== window.location.href && 
-              !result.targetURL.includes(window.location.hostname) &&
-              result.targetURL.startsWith('https://wait.crowdhandler.com/')) {
+          console.log('CrowdHandler: User not promoted, using SDK redirect method');
+          console.log('Validation result:', result);
+          
+          // Use the SDK's built-in redirect method
+          try {
+            gate.redirectIfNotPromoted();
+            return; // This should redirect and stop execution
+          } catch (redirectError) {
+            console.error('CrowdHandler redirect error:', redirectError);
             
-            console.log('CrowdHandler: User not promoted, redirecting to waiting room:', result.targetURL);
-            window.location.href = result.targetURL;
-            return;
-          } else {
-            console.warn('CrowdHandler: No valid waiting room URL provided, but user not promoted');
-            // In this case, we should show a local queue message instead of allowing access
-            setIsPromoted(false);
+            // Fallback: manual redirect if SDK method fails
+            if (result.targetURL) {
+              console.log('CrowdHandler: Fallback redirect to:', result.targetURL);
+              window.location.href = result.targetURL;
+              return;
+            }
           }
         } else {
           console.log('CrowdHandler: User promoted, allowing access');
@@ -141,14 +145,24 @@ export function CrowdHandlerProvider({ children }) {
       setIsLoading(true);
       const result = await gatekeeper.validateRequest();
       
+      console.log('CrowdHandler refresh result:', result);
+      
       if (result.setCookie) {
         gatekeeper.setCookie(result.cookieValue, result.domain);
       }
 
       setIsPromoted(result.promoted);
       
-      if (!result.promoted && result.targetURL) {
-        window.location.href = result.targetURL;
+      // Handle redirect if not promoted
+      if (!result.promoted) {
+        console.log('CrowdHandler: Still not promoted after refresh, redirecting...');
+        try {
+          gatekeeper.redirectIfNotPromoted();
+        } catch (redirectError) {
+          if (result.targetURL) {
+            window.location.href = result.targetURL;
+          }
+        }
       }
     } catch (error) {
       console.error('Error refreshing queue status:', error);
