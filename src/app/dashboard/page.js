@@ -1,91 +1,237 @@
 'use client';
-
 import { useAuth } from '@/context/AuthContext';
 import Navbar from '@/components/Navbar';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
+import { useState } from 'react';
 
 export default function Dashboard() {
   const { user } = useAuth();
   const router = useRouter();
+  
+  const [from, setFrom] = useState('Gambir');
+  const [fromCode, setFromCode] = useState('GMR');
+  const [to, setTo] = useState('Yogyakarta');
+  const [toCode, setToCode] = useState('YK');
+  const [date, setDate] = useState('');
+  const [returnDate, setReturnDate] = useState('');
+  const [isRoundTrip, setIsRoundTrip] = useState(false);
+
+  // Function to swap departure and destination
+  const handleSwap = () => {
+    const tempCity = from;
+    const tempCode = fromCode;
+    setFrom(to);
+    setFromCode(toCode);
+    setTo(tempCity);
+    setToCode(tempCode);
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    
+    // Build query parameters
+    const params = new URLSearchParams({
+      from: fromCode,
+      to: toCode,
+      date: date,
+      roundTrip: isRoundTrip.toString(),
+    });
+    
+    if (isRoundTrip && returnDate) {
+      params.append('returnDate', returnDate);
+    }
+    
+    router.push(`/trains?${params.toString()}`);
+  };
+
+  // Get today's date in YYYY-MM-DD format
+  const today = new Date().toISOString().split('T')[0];
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50">
       <Navbar />
 
-      {/* Hero Section */}
-      <section className="relative h-[80vh] w-full">
-        {/* Background Image */}
-        <Image
-          src="/hero-train.jpg" // ganti dengan path gambar kereta kamu
-          alt="Kereta"
-          fill
-          className="object-cover"
-          priority
-        />
+      {/* Hero Section with Search Form */}
+      <section className="relative pt-24 pb-16 px-6">
+        <div className="max-w-4xl mx-auto">
+          {/* Welcome Message */}
+          <div className="text-center mb-8">
+            <h1 className="text-3xl md:text-4xl font-bold text-gray-800 mb-2">
+              Selamat Datang, {user?.user_metadata?.first_name || 'Penumpang'} 👋
+            </h1>
+            <p className="text-gray-600 text-lg">
+              Pesan tiket kereta dengan mudah dan cepat
+            </p>
+          </div>
 
-        {/* Overlay gelap tipis biar teks lebih jelas */}
-        <div className="absolute inset-0 bg-black/30"></div>
+          {/* Search Card - Inspired by the image */}
+          <div className="bg-white rounded-3xl shadow-2xl p-8 border border-gray-100">
+            <h2 className="text-xl font-semibold mb-6 text-gray-800 flex items-center gap-2">
+              <span className="text-2xl">🚄</span>
+              Cari Jadwal Kereta
+            </h2>
 
-        {/* Content */}
-        <div className="relative z-10 max-w-7xl mx-auto px-6 flex flex-col justify-center h-full">
-          <h1 className="text-4xl font-bold text-white mb-2">
-            Selamat Datang, {user?.user_metadata?.first_name || user?.email} 👋
-          </h1>
-          <p className="text-white/90 mb-8 text-lg">
-            Siap untuk perjalanan berikutnya?
-          </p>
-
-          {/* Card Form Cari Kereta */}
-          <div className="bg-white shadow-xl rounded-2xl p-6 max-w-lg">
-            <h2 className="text-xl font-semibold mb-4 text-brand">Cari Kereta</h2>
-
-            <form
-              onSubmit={(e) => {
-                e.preventDefault();
-                router.push('/trains'); // redirect ke page daftar kereta
-              }}
-              className="grid gap-4"
-            >
-              <div>
-                <label className="block text-sm font-medium mb-1">Dari</label>
-                <input
-                  type="text"
-                  defaultValue="Bandung (BD)"
-                  className="w-full border rounded-lg px-4 py-2"
-                />
+            <form onSubmit={handleSubmit} className="space-y-6">
+              {/* Trip Type Toggle */}
+              <div className="flex gap-4 mb-4">
+                <button
+                  type="button"
+                  onClick={() => setIsRoundTrip(false)}
+                  className={`flex-1 py-2 px-4 rounded-lg font-medium transition ${
+                    !isRoundTrip
+                      ? 'bg-blue-600 text-white'
+                      : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                  }`}
+                >
+                  Sekali Jalan
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setIsRoundTrip(true)}
+                  className={`flex-1 py-2 px-4 rounded-lg font-medium transition ${
+                    isRoundTrip
+                      ? 'bg-blue-600 text-white'
+                      : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                  }`}
+                >
+                  Pulang Pergi
+                </button>
               </div>
-              <div>
-                <label className="block text-sm font-medium mb-1">Ke</label>
-                <input
-                  type="text"
-                  defaultValue="Gambir (GMR)"
-                  className="w-full border rounded-lg px-4 py-2"
-                />
-              </div>
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-sm font-medium mb-1">Tanggal Berangkat</label>
-                  <input type="date" className="w-full border rounded-lg px-4 py-2" />
+
+              {/* Route Selection with Swap Button */}
+              <div className="relative">
+                <div className="grid gap-4">
+                  {/* Departure */}
+                  <div className="bg-gray-50 rounded-xl p-4 border border-gray-200">
+                    <label className="block text-sm font-medium text-gray-600 mb-2">
+                      Dari
+                    </label>
+                    <select
+                      value={`${from}|${fromCode}`}
+                      onChange={(e) => {
+                        const [city, code] = e.target.value.split('|');
+                        setFrom(city);
+                        setFromCode(code);
+                      }}
+                      className="w-full text-lg font-semibold bg-transparent border-none outline-none text-gray-800"
+                      required
+                    >
+                      <option value="Gambir|GMR">Gambir (GMR)</option>
+                      <option value="Yogyakarta|YK">Yogyakarta (YK)</option>
+                      <option value="Bandung|BD">Bandung (BD)</option>
+                      <option value="Surabaya Pasar Turi|SBI">Surabaya Pasar Turi (SBI)</option>
+                    </select>
+                  </div>
+
+                  {/* Swap Button - Positioned between inputs */}
+                  <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-10">
+                    <button
+                      type="button"
+                      onClick={handleSwap}
+                      className="bg-white border-2 border-blue-600 rounded-full p-3 shadow-lg hover:bg-blue-50 transition transform hover:rotate-180 duration-300"
+                      aria-label="Tukar stasiun"
+                    >
+                      <svg
+                        className="w-5 h-5 text-blue-600"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M7 16V4m0 0L3 8m4-4l4 4m6 0v12m0 0l4-4m-4 4l-4-4"
+                        />
+                      </svg>
+                    </button>
+                  </div>
+
+                  {/* Destination */}
+                  <div className="bg-gray-50 rounded-xl p-4 border border-gray-200">
+                    <label className="block text-sm font-medium text-gray-600 mb-2">
+                      Ke
+                    </label>
+                    <select
+                      value={`${to}|${toCode}`}
+                      onChange={(e) => {
+                        const [city, code] = e.target.value.split('|');
+                        setTo(city);
+                        setToCode(code);
+                      }}
+                      className="w-full text-lg font-semibold bg-transparent border-none outline-none text-gray-800"
+                      required
+                    >
+                      <option value="Yogyakarta|YK">Yogyakarta (YK)</option>
+                      <option value="Gambir|GMR">Gambir (GMR)</option>
+                      <option value="Bandung|BD">Bandung (BD)</option>
+                      <option value="Surabaya Pasar Turi|SBI">Surabaya Pasar Turi (SBI)</option>
+                    </select>
+                  </div>
                 </div>
-                <div>
-                  <label className="block text-sm font-medium mb-1">Penumpang</label>
+              </div>
+
+              {/* Date Selection */}
+              <div className={`grid gap-4 ${isRoundTrip ? 'md:grid-cols-2' : ''}`}>
+                <div className="bg-gray-50 rounded-xl p-4 border border-gray-200">
+                  <label className="block text-sm font-medium text-gray-600 mb-2">
+                    Tanggal Berangkat
+                  </label>
                   <input
-                    type="number"
-                    defaultValue={1}
-                    min={1}
-                    className="w-full border rounded-lg px-4 py-2"
+                    type="date"
+                    value={date}
+                    onChange={(e) => setDate(e.target.value)}
+                    min={today}
+                    className="w-full text-lg font-semibold bg-transparent border-none outline-none text-gray-800"
+                    required
                   />
                 </div>
+
+                {isRoundTrip && (
+                  <div className="bg-gray-50 rounded-xl p-4 border border-gray-200">
+                    <label className="block text-sm font-medium text-gray-600 mb-2">
+                      Tanggal Pulang
+                    </label>
+                    <input
+                      type="date"
+                      value={returnDate}
+                      onChange={(e) => setReturnDate(e.target.value)}
+                      min={date || today}
+                      className="w-full text-lg font-semibold bg-transparent border-none outline-none text-gray-800"
+                      required={isRoundTrip}
+                    />
+                  </div>
+                )}
               </div>
 
+              {/* Submit Button */}
               <button
                 type="submit"
-                className="bg-brand text-white py-3 rounded-lg hover:bg-brand-hover transition-colors"
+                className="w-full bg-gradient-to-r from-blue-600 to-blue-700 text-white py-4 rounded-xl font-semibold text-lg hover:from-blue-700 hover:to-blue-800 transition shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
               >
-                Cari Kereta
+                🔍 Cari Jadwal
               </button>
             </form>
+          </div>
+
+          {/* Quick Info Cards */}
+          <div className="grid md:grid-cols-3 gap-6 mt-12">
+            <div className="bg-white rounded-xl p-6 shadow-lg border border-gray-100 text-center">
+              <div className="text-3xl mb-3">⚡</div>
+              <h3 className="font-semibold text-gray-800 mb-1">Booking Cepat</h3>
+              <p className="text-sm text-gray-600">Proses booking hanya dalam hitungan menit</p>
+            </div>
+            <div className="bg-white rounded-xl p-6 shadow-lg border border-gray-100 text-center">
+              <div className="text-3xl mb-3">🎫</div>
+              <h3 className="font-semibold text-gray-800 mb-1">E-Ticket</h3>
+              <p className="text-sm text-gray-600">Tiket digital langsung ke email Anda</p>
+            </div>
+            <div className="bg-white rounded-xl p-6 shadow-lg border border-gray-100 text-center">
+              <div className="text-3xl mb-3">💳</div>
+              <h3 className="font-semibold text-gray-800 mb-1">Pembayaran Aman</h3>
+              <p className="text-sm text-gray-600">Berbagai metode pembayaran tersedia</p>
+            </div>
           </div>
         </div>
       </section>
