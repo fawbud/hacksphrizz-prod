@@ -7,6 +7,18 @@ const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
 );
 
+// CORS headers for CrowdHandler waiting room
+const corsHeaders = {
+  'Access-Control-Allow-Origin': '*',
+  'Access-Control-Allow-Methods': 'GET, OPTIONS',
+  'Access-Control-Allow-Headers': 'Content-Type',
+};
+
+// Handle OPTIONS request for CORS preflight
+export async function OPTIONS() {
+  return NextResponse.json({}, { headers: corsHeaders });
+}
+
 export async function GET(request) {
   try {
     const { searchParams } = new URL(request.url);
@@ -24,7 +36,7 @@ export async function GET(request) {
       if (trainError || !train) {
         return NextResponse.json(
           { error: 'Train not found' },
-          { status: 404 }
+          { status: 404, headers: corsHeaders }
         );
       }
 
@@ -41,11 +53,11 @@ export async function GET(request) {
       if (error) {
         return NextResponse.json(
           { error: error.message },
-          { status: 500 }
+          { status: 500, headers: corsHeaders }
         );
       }
 
-      return NextResponse.json({ trains: data || [] });
+      return NextResponse.json({ trains: data || [] }, { headers: corsHeaders });
     }
 
     // Otherwise, return all trains
@@ -58,16 +70,16 @@ export async function GET(request) {
     if (error) {
       return NextResponse.json(
         { error: error.message },
-        { status: 500 }
+        { status: 500, headers: corsHeaders }
       );
     }
 
-    return NextResponse.json({ trains: data || [] });
+    return NextResponse.json({ trains: data || [] }, { headers: corsHeaders });
   } catch (error) {
     console.error('Error fetching trains:', error);
     return NextResponse.json(
       { error: 'Internal server error' },
-      { status: 500 }
+      { status: 500, headers: corsHeaders }
     );
   }
 }
