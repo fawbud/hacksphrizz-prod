@@ -234,14 +234,14 @@ function BookingPageContent() {
       }
 
       showToast('Booking completed successfully!', 'success');
-      
+
       // Record performance for successful booking
       await recordPerformance({
         statusCode: 200,
         sample: 1.0 // Record all successful bookings
       });
-      
-      router.push('/');
+
+      router.push(`/recommendations?train=${train.id}`);
     } catch (error) {
       console.error('Error completing booking:', error);
       alert('An error occurred. Please try again.');
