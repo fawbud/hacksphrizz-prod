@@ -63,9 +63,9 @@ function TrainsPageContent() {
 
   const formatDate = (dateStr) => {
     const date = new Date(dateStr);
-    const days = ['Min', 'Sen', 'Sel', 'Rab', 'Kam', 'Jum', 'Sab'];
-    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Ags', 'Sep', 'Okt', 'Nov', 'Des'];
-    
+    const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
     return `${days[date.getDay()]}, ${date.getDate()} ${months[date.getMonth()]}`;
   };
 
@@ -147,7 +147,7 @@ function TrainsPageContent() {
                       {trains[0]?.departure_station || 'Gambir'} → {trains[0]?.arrival_station || 'Yogyakarta'}
                     </h1>
                     <p className="text-gray-600 mt-1">
-                      {selectedDate ? formatDate(selectedDate) : 'Pilih tanggal'} • 1 Dewasa, 0 Bayi
+                      {selectedDate ? formatDate(selectedDate) : 'Chosen Date'}
                     </p>
                   </div>
                 </div>
@@ -163,7 +163,7 @@ function TrainsPageContent() {
                     <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16V4m0 0L3 8m4-4l4 4m6 0v12m0 0l4-4m-4 4l-4-4" />
                     </svg>
-                    Urutkan
+                    Sort
                   </button>
                 </div>
               </div>
@@ -198,7 +198,7 @@ function TrainsPageContent() {
           {loading && (
             <div className="text-center py-12">
               <div className="inline-block animate-spin rounded-full h-12 w-12 border-4 border-brand border-t-transparent"></div>
-              <p className="mt-4 text-gray-600">Mencari kereta tersedia...</p>
+              <p className="mt-4 text-gray-600">Looking for available trains...</p>
             </div>
           )}
 
@@ -206,7 +206,7 @@ function TrainsPageContent() {
           {error && !loading && (
             <div className="text-center py-12 bg-white rounded-2xl border border-red-200">
               <div className="text-6xl mb-4">⚠️</div>
-              <h3 className="text-xl font-semibold text-red-800 mb-2">Terjadi Kesalahan</h3>
+              <h3 className="text-xl font-semibold text-red-800 mb-2">Error occured</h3>
               <p className="text-gray-600 mb-4">{error}</p>
               <button
                 onClick={fetchTrains}
@@ -249,12 +249,12 @@ function TrainsPageContent() {
                               : 'bg-green-100 text-green-700'
                           }`}>
                             {train.available_seats <= 10
-                              ? `${train.available_seats} Kursi Tersisa`
-                              : 'Tersedia'}
+                              ? `${train.available_seats} Seats Left`
+                              : 'Available'}
                           </div>
                         ) : (
                           <div className="px-3 py-1 rounded-lg text-sm font-medium bg-gray-100 text-gray-600">
-                            Habis
+                            Sold
                           </div>
                         )}
                       </div>
@@ -295,11 +295,11 @@ function TrainsPageContent() {
                     {/* Price and Action */}
                     <div className="lg:text-right flex lg:flex-col items-center lg:items-end justify-between lg:justify-center gap-4">
                       <div>
-                        <div className="text-sm text-gray-600 mb-1">Mulai dari</div>
+                        <div className="text-sm text-gray-600 mb-1">Starting from</div>
                         <div className="text-2xl font-bold text-brand">
                           Rp{train.base_price.toLocaleString('id-ID')}
                         </div>
-                        <div className="text-xs text-gray-500 mt-1">/ Penumpang</div>
+                        <div className="text-xs text-gray-500 mt-1">/ Passenger</div>
                       </div>
 
                       {train.available_seats > 0 ? (
@@ -307,7 +307,7 @@ function TrainsPageContent() {
                           onClick={() => handleSelect(train.id)}
                           className="bg-brand text-white px-8 py-3 rounded-xl font-semibold hover:bg-brand-hover transition shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 whitespace-nowrap"
                         >
-                          Pilih
+                          Book
                         </button>
                       ) : (
                         <button
@@ -323,25 +323,25 @@ function TrainsPageContent() {
                   {/* Expandable Details */}
                   <details className="mt-4">
                     <summary className="text-brand font-medium cursor-pointer hover:text-brand-hover text-sm">
-                      Lihat Detail Subkelas
+                      View Subclass Details
                     </summary>
                     <div className="mt-4 pt-4 border-t border-gray-200">
                       <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
                         <div>
-                          <div className="text-gray-600">Kelas</div>
+                          <div className="text-gray-600">Class</div>
                           <div className="font-semibold text-gray-800">{train.train_class}</div>
                         </div>
                         <div>
-                          <div className="text-gray-600">Total Kursi</div>
+                          <div className="text-gray-600">Total Seat</div>
                           <div className="font-semibold text-gray-800">{train.total_seats}</div>
                         </div>
                         <div>
-                          <div className="text-gray-600">Tersedia</div>
+                          <div className="text-gray-600">Available</div>
                           <div className="font-semibold text-gray-800">{train.available_seats}</div>
                         </div>
                         <div>
-                          <div className="text-gray-600">Fasilitas</div>
-                          <div className="font-semibold text-gray-800">AC, Colokan, WiFi</div>
+                          <div className="text-gray-600">Facility</div>
+                          <div className="font-semibold text-gray-800">AC, Charging Station, WiFi</div>
                         </div>
                       </div>
                     </div>
@@ -353,10 +353,10 @@ function TrainsPageContent() {
                 <div className="text-center py-12 bg-white rounded-2xl">
                   <div className="text-6xl mb-4">🚄</div>
                   <h3 className="text-xl font-semibold text-gray-800 mb-2">
-                    Tidak Ada Kereta Tersedia
+                    No Trains Available
                   </h3>
                   <p className="text-gray-600">
-                    Coba ubah tanggal atau rute perjalanan Anda
+                    Try changing your travel date or route
                   </p>
                 </div>
               )}
@@ -369,24 +369,24 @@ function TrainsPageContent() {
               <svg className="w-5 h-5 text-brand" fill="currentColor" viewBox="0 0 20 20">
                 <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
               </svg>
-              Informasi Penting
+              Important Information
             </h3>
             <ul className="space-y-2 text-sm text-gray-700">
               <li className="flex items-start gap-2">
                 <span className="text-brand mt-0.5">•</span>
-                <span>Harga yang tertera adalah harga dasar per penumpang</span>
+                <span>Written prices are for /person</span>
               </li>
               <li className="flex items-start gap-2">
                 <span className="text-brand mt-0.5">•</span>
-                <span>Pastikan membawa identitas asli saat naik kereta</span>
+                <span>Please bring original identification when boarding the train</span>
               </li>
               <li className="flex items-start gap-2">
                 <span className="text-brand mt-0.5">•</span>
-                <span>Check-in dibuka 90 menit sebelum keberangkatan</span>
+                <span>Check-in opens 90 minutes before departure</span>
               </li>
               <li className="flex items-start gap-2">
                 <span className="text-brand mt-0.5">•</span>
-                <span>Pembatalan tiket dikenakan biaya sesuai ketentuan</span>
+                <span>Ticket cancellation fees apply as per policy</span>
               </li>
             </ul>
           </div>
