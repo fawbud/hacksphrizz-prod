@@ -1,8 +1,7 @@
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { connection } from 'next/server';
 import { useAuth } from '@/context/AuthContext';
 import { useCrowdHandler } from '@/context/CrowdHandlerContext';
 import { supabase } from '@/lib/supabase';
@@ -18,8 +17,7 @@ import ReCAPTCHA from 'react-google-recaptcha';
 
 const TOTAL_TIME = 10 * 60 * 1000; // 10 minutes in milliseconds
 
-export default function BookingPage() {
-  connection();
+function BookingPageContent() {
   const router = useRouter();
   const { recordPerformance } = useCrowdHandler();
   const searchParams = useSearchParams();
@@ -406,7 +404,20 @@ export default function BookingPage() {
             </button>
           </div>
         </div>
-      )}  
+      )}
     </ProtectedRoute>
+  );
+}
+
+export default function BookingPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen bg-white flex items-center justify-center">
+        <Navbar />
+        <div className="text-[#F27500] text-xl">Loading...</div>
+      </div>
+    }>
+      <BookingPageContent />
+    </Suspense>
   );
 }
