@@ -98,7 +98,7 @@ export default function Home() {
 
           {/* Card Gambar Hero */}
           <div className="flex-1 mt-12 lg:mt-0 flex justify-center">
-            <div className="max-w-lg rounded-2xl overflow-hidden shadow-xl border border-gray-100">
+            <div className="max-w-lg rounded-2xl overflow-hidden border shadow-xl border-gray-100 hover:scale-105 hover:rotate-3 hover:shadow-2xl transition duration-500">
               <Image
                 src="/hero-train.jpg"
                 alt="Kereta Api Indonesia"
