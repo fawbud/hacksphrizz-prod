@@ -19,7 +19,7 @@ export function CrowdHandlerProvider({ children }) {
           return;
         }
 
-        // Check for emergency bypass
+        // Check for emergency bypass (only for critical emergencies)
         const bypassCookie = document.cookie.includes('crowdhandler_bypass=true');
         if (bypassCookie) {
           console.log('CrowdHandler: Emergency bypass detected');
@@ -48,54 +48,72 @@ export function CrowdHandlerProvider({ children }) {
         // Dynamic import to avoid SSR issues
         const { init } = await import('crowdhandler-sdk');
 
-        // Initialize CrowdHandler for client-side
+        // Initialize CrowdHandler for client-side with proper production settings
         const { gatekeeper: gate } = init({
           publicKey: process.env.NEXT_PUBLIC_CROWDHANDLER_PUBLIC_KEY || '5b945cd137a611051bdeeb272d26ec267875dc11c069b06199678e790160fbfd',
           options: {
-            mode: 'clientside',
-            debug: process.env.NODE_ENV === 'development',
+            mode: 'full', // Use full mode for proper queue validation
+            debug: false, // Disable debug in production
             liteValidator: false, // Disable lite validator to avoid redirects
-            trustOnFail: true, // Allow access if validation fails
+            trustOnFail: false, // Don't trust on fail - enforce queue properly
           }
         });
 
         setGatekeeper(gate);
 
-        // Check if user is promoted
+        console.log('CrowdHandler: Validating request...');
+
+        // Check if user is promoted - this will respect dashboard settings
         const result = await gate.validateRequest();
         
+        console.log('CrowdHandler validation result:', {
+          promoted: result.promoted,
+          setCookie: result.setCookie,
+          targetURL: result.targetURL
+        });
+
         if (result.setCookie) {
           gate.setCookie(result.cookieValue, result.domain);
         }
 
-        setIsPromoted(result.promoted !== false); // Default to promoted unless explicitly false
+        // Respect the actual result from CrowdHandler API
+        setIsPromoted(result.promoted);
         
-        // IMPORTANT: Prevent redirect loops by checking URLs
-        if (process.env.NODE_ENV === 'production' && result.promoted === false) {
-          // Only redirect if we have a valid waiting room URL and it's different from current
+        // Handle redirects properly in production
+        if (!result.promoted) {
           if (result.targetURL && 
               result.targetURL !== window.location.href && 
               !result.targetURL.includes(window.location.hostname) &&
               result.targetURL.startsWith('https://wait.crowdhandler.com/')) {
             
-            console.log('CrowdHandler: Redirecting to waiting room:', result.targetURL);
+            console.log('CrowdHandler: User not promoted, redirecting to waiting room:', result.targetURL);
             window.location.href = result.targetURL;
             return;
           } else {
-            console.warn('CrowdHandler: Invalid redirect URL, allowing access');
-            setIsPromoted(true);
+            console.warn('CrowdHandler: No valid waiting room URL provided, but user not promoted');
+            // In this case, we should show a local queue message instead of allowing access
+            setIsPromoted(false);
           }
+        } else {
+          console.log('CrowdHandler: User promoted, allowing access');
         }
 
         // Record performance if promoted
-        if (result.promoted !== false && result.responseID) {
+        if (result.promoted && result.responseID) {
           await gate.recordPerformance();
         }
 
       } catch (error) {
         console.error('CrowdHandler initialization error:', error);
-        // On error, assume promoted (fail-safe)
-        setIsPromoted(true);
+        
+        // In production, if CrowdHandler fails and queue is active, we should be cautious
+        // Only allow access if we're sure it's safe
+        if (process.env.NODE_ENV === 'production') {
+          console.warn('CrowdHandler failed in production - defaulting to queue protection');
+          setIsPromoted(false); // Default to queue protection in production
+        } else {
+          setIsPromoted(true); // Allow access in development
+        }
       } finally {
         setIsLoading(false);
       }

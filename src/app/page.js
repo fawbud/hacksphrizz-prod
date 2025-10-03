@@ -3,6 +3,7 @@
 import { useAuth } from '@/context/AuthContext';
 import Navbar from '@/components/Navbar';
 import QueueStatusWidget from '@/components/QueueStatusWidget';
+import ProtectedRoute from '@/components/ProtectedRoute';
 import Link from 'next/link';
 
 export default function Home() {
@@ -17,12 +18,12 @@ export default function Home() {
   }
 
   return (
-    
-    <div className="min-h-screen bg-white">
-      <Navbar />
-      <QueueStatusWidget showWhenPromoted={true} />
+    <ProtectedRoute>
+      <div className="min-h-screen bg-white">
+        <Navbar />
+        <QueueStatusWidget showWhenPromoted={true} />
 
-      {!user ? (
+        {!user ? (
         // Non-logged in user view
         <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="py-20 text-center">
@@ -113,6 +114,7 @@ export default function Home() {
           </div>
         </main>
       )}
-    </div>
+      </div>
+    </ProtectedRoute>
   );
 }
