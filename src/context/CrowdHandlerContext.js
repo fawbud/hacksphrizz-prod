@@ -19,9 +19,27 @@ export function CrowdHandlerProvider({ children }) {
           return;
         }
 
+        // Check for emergency bypass
+        const bypassCookie = document.cookie.includes('crowdhandler_bypass=true');
+        if (bypassCookie) {
+          console.log('CrowdHandler: Emergency bypass detected');
+          setIsPromoted(true);
+          setIsLoading(false);
+          return;
+        }
+
         // In development mode, skip CrowdHandler entirely for easier testing
         if (process.env.NODE_ENV === 'development') {
           console.log('CrowdHandler: Development mode - skipping queue validation');
+          setIsPromoted(true);
+          setIsLoading(false);
+          return;
+        }
+
+        // Check if we're already in a redirect loop
+        const currentUrl = window.location.href;
+        if (currentUrl.includes('%2F') || currentUrl.includes('https%3A') || currentUrl.length > 200) {
+          console.warn('CrowdHandler: Redirect loop detected, bypassing queue');
           setIsPromoted(true);
           setIsLoading(false);
           return;
@@ -50,24 +68,27 @@ export function CrowdHandlerProvider({ children }) {
           gate.setCookie(result.cookieValue, result.domain);
         }
 
-        setIsPromoted(result.promoted || true); // Default to promoted for safety
+        setIsPromoted(result.promoted !== false); // Default to promoted unless explicitly false
         
-        // Only redirect in production and if specifically required
-        if (process.env.NODE_ENV === 'production') {
-          if (result.stripParams && result.targetURL) {
+        // IMPORTANT: Prevent redirect loops by checking URLs
+        if (process.env.NODE_ENV === 'production' && result.promoted === false) {
+          // Only redirect if we have a valid waiting room URL and it's different from current
+          if (result.targetURL && 
+              result.targetURL !== window.location.href && 
+              !result.targetURL.includes(window.location.hostname) &&
+              result.targetURL.startsWith('https://wait.crowdhandler.com/')) {
+            
+            console.log('CrowdHandler: Redirecting to waiting room:', result.targetURL);
             window.location.href = result.targetURL;
             return;
-          }
-
-          if (!result.promoted && result.targetURL) {
-            // Redirect to waiting room only in production
-            window.location.href = result.targetURL;
-            return;
+          } else {
+            console.warn('CrowdHandler: Invalid redirect URL, allowing access');
+            setIsPromoted(true);
           }
         }
 
         // Record performance if promoted
-        if (result.promoted && result.responseID) {
+        if (result.promoted !== false && result.responseID) {
           await gate.recordPerformance();
         }
 

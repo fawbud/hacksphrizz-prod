@@ -20,6 +20,7 @@ const IGNORED_ROUTES = [
 
 export async function middleware(request) {
   const { pathname } = request.nextUrl;
+  const url = request.url;
   
   // Skip CrowdHandler for ignored routes
   if (IGNORED_ROUTES.some(route => pathname.startsWith(route))) {
@@ -28,6 +29,12 @@ export async function middleware(request) {
 
   // Only protect specific routes
   if (!PROTECTED_ROUTES.some(route => pathname.startsWith(route))) {
+    return NextResponse.next();
+  }
+
+  // Detect and prevent redirect loops
+  if (url.includes('%2F') || url.includes('https%3A') || url.length > 200) {
+    console.warn('Redirect loop detected in middleware, allowing access');
     return NextResponse.next();
   }
 
@@ -49,8 +56,8 @@ export async function middleware(request) {
       return NextResponse.next();
     }
     
-    // In production without a cookie, redirect to a simple validation page
-    // The client-side CrowdHandler will handle the actual queue validation
+    // In production without a cookie, let client-side handle validation
+    // to avoid redirect loops in middleware
     const response = NextResponse.next();
     response.headers.set('x-crowdhandler-check-required', 'true');
     
