@@ -2,15 +2,18 @@
 
 import Link from 'next/link';
 import { useAuth } from '@/context/AuthContext';
+import { useToast } from '@/context/ToastContext';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 
 export default function Navbar() {
   const { user, signOut } = useAuth();
+  const { showToast } = useToast();
   const router = useRouter();
 
   const handleSignOut = async () => {
     await signOut();
+    showToast('Logged out successfully. See you soon!', 'success');
     router.push('/');
   };
 
