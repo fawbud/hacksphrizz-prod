@@ -51,16 +51,13 @@ export function CrowdHandlerProvider({ children }) {
         // Dynamic import to avoid SSR issues
         const { init } = await import('crowdhandler-sdk');
 
-        // Initialize CrowdHandler for client-side with browser-compatible settings
+        // Initialize CrowdHandler for client-side with error handling wrapper
         const initConfig = {
           publicKey: process.env.NEXT_PUBLIC_CROWDHANDLER_PUBLIC_KEY || '5b945cd137a611051bdeeb272d26ec267875dc11c069b06199678e790160fbfd',
           options: {
-            mode: 'clientside', // Use clientside mode to avoid server-specific header issues
-            debug: process.env.NODE_ENV === 'development', // Enable debug in development
-            liteValidator: false, // Disable lite validator 
-            trustOnFail: true, // Allow fallback behavior if API fails
-            apiUrl: 'https://api.crowdhandler.com', // Explicit API URL
-            timeout: 10000, // 10 second timeout
+            mode: 'clientside',
+            debug: true,
+            trustOnFail: true,
           }
         };
 
@@ -72,26 +69,23 @@ export function CrowdHandlerProvider({ children }) {
 
         let gate;
         try {
+          // Try to create a safer initialization environment
           const result = init(initConfig);
           gate = result.gatekeeper;
+          
+          // If we get here, initialization was successful
           console.log('CrowdHandler: SDK initialized successfully');
+          
         } catch (initError) {
           console.error('CrowdHandler: SDK initialization failed:', initError);
+          console.log('CrowdHandler: Error details:', initError.stack);
           
-          // Try a minimal initialization as fallback
-          console.log('CrowdHandler: Attempting minimal initialization...');
-          const minimalConfig = {
-            publicKey: initConfig.publicKey,
-            options: {
-              mode: 'clientside',
-              trustOnFail: true,
-              debug: false
-            }
-          };
-          
-          const fallbackResult = init(minimalConfig);
-          gate = fallbackResult.gatekeeper;
-          console.log('CrowdHandler: Fallback initialization successful');
+          // For now, if initialization fails, we'll fall back to allowing access
+          // This prevents the site from being completely broken
+          console.warn('CrowdHandler: Falling back to bypass mode due to initialization failure');
+          setIsPromoted(true);
+          setIsLoading(false);
+          return;
         }
 
         if (!gate) {
