@@ -28,13 +28,16 @@ export function CrowdHandlerProvider({ children }) {
           return;
         }
 
-        // In development mode, skip CrowdHandler entirely for easier testing
+        // In development mode, we can still test CrowdHandler if needed
+        // Comment out this block to test queue functionality in development
+        /*
         if (process.env.NODE_ENV === 'development') {
           console.log('CrowdHandler: Development mode - skipping queue validation');
           setIsPromoted(true);
           setIsLoading(false);
           return;
         }
+        */
 
         // Check if we're already in a redirect loop
         const currentUrl = window.location.href;
@@ -48,16 +51,46 @@ export function CrowdHandlerProvider({ children }) {
         // Dynamic import to avoid SSR issues
         const { init } = await import('crowdhandler-sdk');
 
-        // Initialize CrowdHandler for client-side with proper production settings
-        const { gatekeeper: gate } = init({
+        // Initialize CrowdHandler for client-side with error handling wrapper
+        const initConfig = {
           publicKey: process.env.NEXT_PUBLIC_CROWDHANDLER_PUBLIC_KEY || '5b945cd137a611051bdeeb272d26ec267875dc11c069b06199678e790160fbfd',
           options: {
-            mode: 'full', // Use full mode for proper queue validation
-            debug: false, // Disable debug in production
-            liteValidator: false, // Disable lite validator to avoid redirects
-            trustOnFail: false, // Don't trust on fail - enforce queue properly
+            mode: 'clientside',
+            debug: true,
+            trustOnFail: true,
           }
+        };
+
+        console.log('CrowdHandler: Initializing with config:', {
+          publicKey: initConfig.publicKey.substring(0, 10) + '...',
+          mode: initConfig.options.mode,
+          debug: initConfig.options.debug
         });
+
+        let gate;
+        try {
+          // Try to create a safer initialization environment
+          const result = init(initConfig);
+          gate = result.gatekeeper;
+          
+          // If we get here, initialization was successful
+          console.log('CrowdHandler: SDK initialized successfully');
+          
+        } catch (initError) {
+          console.error('CrowdHandler: SDK initialization failed:', initError);
+          console.log('CrowdHandler: Error details:', initError.stack);
+          
+          // For now, if initialization fails, we'll fall back to allowing access
+          // This prevents the site from being completely broken
+          console.warn('CrowdHandler: Falling back to bypass mode due to initialization failure');
+          setIsPromoted(true);
+          setIsLoading(false);
+          return;
+        }
+
+        if (!gate) {
+          throw new Error('Failed to initialize CrowdHandler gatekeeper');
+        }
 
         setGatekeeper(gate);
 
