@@ -233,6 +233,16 @@ export default function Dashboard() {
               <p className="text-sm text-gray-600">Enjoy the benefits with zero tradeoff</p>
             </div>
           </div>
+
+          {/* My Bookings Button */}
+          <div className="mt-12 text-center">
+            <button
+              onClick={() => router.push('/dashboard/my-bookings')}
+              className="bg-white text-brand px-8 py-4 rounded-xl font-semibold text-lg hover:bg-gray-50 transition shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 border-2 border-brand"
+            >
+              🎫 View My Bookings
+            </button>
+          </div>
         </div>
       </section>
     </div>
