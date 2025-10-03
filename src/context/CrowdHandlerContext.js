@@ -19,6 +19,17 @@ export function CrowdHandlerProvider({ children }) {
           return;
         }
 
+        // Check if current page should be protected
+        const currentPath = window.location.pathname;
+        const isProtectedRoute = currentPath.startsWith('/book');
+
+        if (!isProtectedRoute) {
+          console.log('CrowdHandler: Not a protected route, allowing access');
+          setIsPromoted(true);
+          setIsLoading(false);
+          return;
+        }
+
         // Check for emergency bypass (only for critical emergencies)
         const bypassCookie = document.cookie.includes('crowdhandler_bypass=true');
         if (bypassCookie) {

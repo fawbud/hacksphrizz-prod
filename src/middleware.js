@@ -3,9 +3,6 @@ import { NextResponse } from 'next/server';
 // Protected routes that should go through CrowdHandler queue
 const PROTECTED_ROUTES = [
   '/book',
-  '/api/demand/predict',
-  '/api/queue/enqueue',
-  '/api/queue/dequeue',
 ];
 
 // Routes that should be ignored by CrowdHandler
