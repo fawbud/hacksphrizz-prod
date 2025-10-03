@@ -2,16 +2,38 @@
 (function() {
    function loadRecommendations() {
       console.log('[CH Recommendations] Script loaded');
-      console.log('[CH Recommendations] SessionStorage contents:', {
-         train_id: sessionStorage.getItem('ch_train_id'),
-         train_date: sessionStorage.getItem('ch_train_date'),
-         return_url: sessionStorage.getItem('ch_return_url')
-      });
 
-      const trainId = sessionStorage.getItem('ch_train_id');
+      // Extract train ID from the CrowdHandler URL parameter
+      const urlParams = new URLSearchParams(window.location.search);
+      const originalUrl = urlParams.get('url');
+      console.log('[CH Recommendations] Original URL from CrowdHandler:', originalUrl);
+
+      if (!originalUrl) {
+         console.log('[CH Recommendations] No original URL found in CrowdHandler redirect');
+         return;
+      }
+
+      // Parse the original URL to extract train ID
+      let trainId = null;
+      let trainDate = null;
+
+      try {
+         const decodedUrl = decodeURIComponent(originalUrl);
+         console.log('[CH Recommendations] Decoded URL:', decodedUrl);
+
+         const urlObj = new URL(decodedUrl);
+         trainId = urlObj.searchParams.get('train');
+         trainDate = urlObj.searchParams.get('date');
+
+         console.log('[CH Recommendations] Extracted train ID:', trainId);
+         console.log('[CH Recommendations] Extracted date:', trainDate);
+      } catch (error) {
+         console.error('[CH Recommendations] Error parsing URL:', error);
+         return;
+      }
 
       if (!trainId) {
-         console.log('[CH Recommendations] No train ID found in sessionStorage');
+         console.log('[CH Recommendations] No train ID found in URL');
          return;
       }
 
@@ -56,8 +78,8 @@
 
             listContainer.innerHTML = '';
 
-            // Get stored date
-            const storedDate = sessionStorage.getItem('ch_train_date') || '2026-01-01';
+            // Use the extracted date or fallback
+            const displayDate = trainDate || '2026-01-01';
 
             trains.slice(0, 3).forEach((train, index) => {
                console.log('[CH Recommendations] Rendering train', index + 1, ':', train.train_name);
@@ -88,7 +110,7 @@
                   </div>
                   <div class="ch-rec-footer">
                      <div class="ch-rec-price">Rp${train.base_price.toLocaleString('id-ID')}</div>
-                     <a href="https://www.quikyu.xyz/trains?from=${train.departure_station_code}&to=${train.arrival_station_code}&date=${storedDate}&roundTrip=false" class="ch-rec-btn">
+                     <a href="https://www.quikyu.xyz/trains?from=${train.departure_station_code}&to=${train.arrival_station_code}&date=${displayDate}&roundTrip=false" class="ch-rec-btn">
                         View Details
                      </a>
                   </div>
