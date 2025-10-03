@@ -1,0 +1,49 @@
+body { font-family: sans-serif; background: #f9fafb; }
+
+/* Header */
+.title { font-size: 2rem; font-weight: bold; color: #111827; margin-bottom: .75rem; }
+.subtitle { color: #4b5563; font-size: 1.125rem; margin-bottom: 2rem; }
+
+/* Queue Box */
+.queue-box { background: linear-gradient(to br, #fff7ed, #ffedd5); border-radius: 1rem; padding: 2rem; }
+.queue-label { font-size: .875rem; color: #4b5563; margin-bottom: .5rem; }
+.queue-number { font-size: 3.75rem; font-weight: bold; color: #f97316; margin-bottom: .5rem; }
+.queue-total { font-size: .875rem; color: #374151; }
+
+/* Progress Bar */
+.progress-bar-bg { background: #e5e7eb; border-radius: 9999px; height: 1rem; overflow: hidden; }
+.progress-bar-fill { background: linear-gradient(to right, #f97316, #ea580c); height: 100%; transition: width 1s ease; }
+
+/* Info Cards */
+.info-card { border-radius: 1rem; padding: 1rem; text-align: center; }
+.info-card.blue { background: #eff6ff; color: #2563eb; }
+.info-card.green { background: #ecfdf5; color: #16a34a; }
+.info-card .label { font-size: .875rem; margin-bottom: .25rem; }
+.info-card .value { font-size: 1.5rem; font-weight: bold; }
+
+/* Alert Boxes */
+.alert-box { border-radius: 1rem; padding: 1.5rem; border-width: 1px; }
+.alert-box.yellow { background: #fef3c7; border-color: #fde68a; }
+.alert-box.green { background: #d1fae5; border-color: #6ee7b7; }
+.alert-title { font-weight: 600; color: #111827; margin-bottom: .25rem; }
+.alert-text { font-size: .875rem; color: #374151; }
+
+/* Continue Button */
+.continue-btn {
+  margin-top: 2rem;
+  padding: 1rem 2rem;
+  background: linear-gradient(to right, #f97316, #ea580c);
+  color: white;
+  font-weight: 600;
+  font-size: 1.125rem;
+  border-radius: 1rem;
+  transition: all 0.3s;
+  cursor: pointer;
+}
+.continue-btn:hover { box-shadow: 0 10px 25px rgba(0,0,0,.15); }
+
+/* Clock Icon Placeholder */
+.clock-icon { background: linear-gradient(to br, #f97316, #ea580c); border-radius: 9999px; display:flex; align-items:center; justify-content:center; animation: pulse 2s infinite; }
+@keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
+
+
