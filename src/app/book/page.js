@@ -4,6 +4,7 @@ import { useState, useEffect, useRef, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useAuth } from '@/context/AuthContext';
 import { useCrowdHandler } from '@/context/CrowdHandlerContext';
+import { useToast } from '@/context/ToastContext';
 import { supabase } from '@/lib/supabase';
 import Navbar from '@/components/Navbar';
 import ProtectedRoute from '@/components/ProtectedRoute';
@@ -22,6 +23,7 @@ function BookingPageContent() {
   const { recordPerformance } = useCrowdHandler();
   const searchParams = useSearchParams();
   const { user, loading: authLoading } = useAuth();
+  const { showToast } = useToast();
   const [currentStep, setCurrentStep] = useState(1);
   const [timeLeft, setTimeLeft] = useState(TOTAL_TIME);
   const [train, setTrain] = useState(null);
@@ -209,7 +211,7 @@ function BookingPageContent() {
 
       if (bookingError) {
         console.error('Booking error details:', bookingError);
-        alert(`Failed to create booking: ${bookingError.message}. Please check console for details.`);
+        showToast(`Failed to create booking: ${bookingError.message}`, 'error', 5000);
         return;
       }
 
@@ -227,19 +229,19 @@ function BookingPageContent() {
 
       if (passengersError) {
         console.error('Passengers error details:', passengersError);
-        alert(`Failed to save passenger details: ${passengersError.message}. Please contact support.`);
+        showToast(`Failed to save passenger details: ${passengersError.message}`, 'error', 5000);
         return;
       }
 
-      alert('Booking completed successfully!');
-      
+      showToast('Booking completed successfully!', 'success');
+
       // Record performance for successful booking
       await recordPerformance({
         statusCode: 200,
         sample: 1.0 // Record all successful bookings
       });
-      
-      router.push('/');
+
+      router.push(`/recommendations?train=${train.id}`);
     } catch (error) {
       console.error('Error completing booking:', error);
       alert('An error occurred. Please try again.');

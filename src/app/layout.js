@@ -4,6 +4,7 @@ import "./globals.css";
 import { Providers } from "./providers";
 import { AuthProvider } from "@/context/AuthContext";
 import { CrowdHandlerProvider } from "@/context/CrowdHandlerContext";
+import { ToastProvider } from "@/context/ToastContext";
 import EmergencyBypass from "@/components/EmergencyBypass";
 
 const poppins = Poppins({
@@ -50,9 +51,11 @@ export default function RootLayout({ children }) {
         </noscript>
         {/* End Google Tag Manager (noscript) */}
         <EmergencyBypass />
-        <CrowdHandlerProvider>
-          <AuthProvider>{children}</AuthProvider>
-        </CrowdHandlerProvider>
+        <ToastProvider>
+          <CrowdHandlerProvider>
+            <AuthProvider>{children}</AuthProvider>
+          </CrowdHandlerProvider>
+        </ToastProvider>
       </body>
     </html>
   );

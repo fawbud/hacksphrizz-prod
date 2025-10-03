@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { useAuth } from '@/context/AuthContext';
+import { useToast } from '@/context/ToastContext';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import Navbar from '@/components/Navbar';
@@ -19,6 +20,7 @@ export default function RegisterPage() {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const { signUp } = useAuth();
+  const { showToast } = useToast();
   const router = useRouter();
 
   const handleChange = (e) => {
@@ -80,6 +82,7 @@ export default function RegisterPage() {
       setError(error.message);
       setLoading(false);
     } else {
+      showToast('Account created successfully! Welcome to Quikyu.', 'success');
       router.push('/');
     }
   };

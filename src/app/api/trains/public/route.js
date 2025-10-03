@@ -46,7 +46,7 @@ export async function GET(request) {
         .select('*')
         .eq('departure_station_code', train.departure_station_code)
         .eq('arrival_station_code', train.arrival_station_code)
-        .gt('total_seats', 0)
+        .gt('available_seats', 0)
         .eq('is_active', true)
         .order('departure_time', { ascending: true });
 

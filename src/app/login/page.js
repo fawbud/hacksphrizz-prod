@@ -99,6 +99,7 @@
 
 import { useState, useEffect } from 'react';
 import { useAuth } from '@/context/AuthContext';
+import { useToast } from '@/context/ToastContext';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import Navbar from '@/components/Navbar';
@@ -109,6 +110,7 @@ export default function LoginPage() {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const { user, signIn } = useAuth();
+  const { showToast } = useToast();
   const router = useRouter();
 
   // ✅ Kalau sudah login, auto redirect ke dashboard
@@ -129,6 +131,7 @@ export default function LoginPage() {
       setError(error.message);
       setLoading(false);
     } else {
+      showToast('Login successful! Welcome back.', 'success');
       router.push('/dashboard');
     }
   };
