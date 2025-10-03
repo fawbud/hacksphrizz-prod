@@ -27,12 +27,32 @@ export default function QueueTestPage() {
         return;
       }
 
+      addLog('Calling gatekeeper.validateRequest()...');
       const result = await gatekeeper.validateRequest();
-      addLog(`Validation result: ${JSON.stringify(result, null, 2)}`);
+      
+      addLog(`Raw API Response: ${JSON.stringify(result, null, 2)}`);
+      addLog(`Promoted: ${result.promoted}`);
+      addLog(`Target URL: ${result.targetURL || 'NONE'}`);
+      addLog(`Set Cookie: ${result.setCookie}`);
+      addLog(`Cookie Value: ${result.cookieValue || 'NONE'}`);
+      
       setTestResult(result);
+      
+      // Don't auto-redirect in test mode, just log what would happen
+      if (!result.promoted) {
+        addLog('❌ User NOT promoted - should redirect to waiting room');
+        if (result.targetURL) {
+          addLog(`📍 Should redirect to: ${result.targetURL}`);
+        } else {
+          addLog('⚠️ WARNING: No targetURL provided by API!');
+        }
+      } else {
+        addLog('✅ User promoted - access granted');
+      }
       
     } catch (error) {
       addLog(`ERROR: ${error.message}`);
+      addLog(`Error details: ${JSON.stringify(error, null, 2)}`);
       setTestResult({ error: error.message });
     }
   };
