@@ -2,13 +2,13 @@
 import Navbar from '@/components/Navbar';
 import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
+import { connection } from 'next/server';
 import { useState, useEffect } from 'react';
 import { supabase } from '@/lib/supabase';
 import ReCAPTCHA from 'react-google-recaptcha';
 
-export const dynamic = 'force-dynamic';
-
 export default function Page() {
+  connection();
   const router = useRouter();
   const searchParams = useSearchParams();
   const [user, setUser] = useState(null);

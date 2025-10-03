@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
+import { connection } from 'next/server';
 import { useAuth } from '@/context/AuthContext';
 import { useCrowdHandler } from '@/context/CrowdHandlerContext';
 import { supabase } from '@/lib/supabase';
@@ -15,11 +16,10 @@ import MealAndCab from '@/components/booking/MealAndCab';
 import Checkout from '@/components/booking/Checkout';
 import ReCAPTCHA from 'react-google-recaptcha';
 
-export const dynamic = 'force-dynamic';
-
 const TOTAL_TIME = 10 * 60 * 1000; // 10 minutes in milliseconds
 
 export default function BookingPage() {
+  connection();
   const router = useRouter();
   const { recordPerformance } = useCrowdHandler();
   const searchParams = useSearchParams();
