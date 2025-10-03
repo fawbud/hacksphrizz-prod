@@ -2,6 +2,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
 import { AuthProvider } from "@/context/AuthContext";
+import { CrowdHandlerProvider } from "@/context/CrowdHandlerContext";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -36,10 +37,6 @@ export default function RootLayout({ children }) {
             `,
           }}
         />
-        <Script
-        src="https://wait.crowdhandler.com/js/latest/lite-validator/main.js?id=5b945cd137a611051bdeeb272d26ec267875dc11c069b06199678e790160fbfd&spa=true"
-        strategy="beforeInteractive"
-      />
       </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
@@ -54,7 +51,9 @@ export default function RootLayout({ children }) {
           />
         </noscript>
         {/* End Google Tag Manager (noscript) */}
-        <AuthProvider>{children}</AuthProvider>
+        <CrowdHandlerProvider>
+          <AuthProvider>{children}</AuthProvider>
+        </CrowdHandlerProvider>
       </body>
     </html>
   );

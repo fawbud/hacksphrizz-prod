@@ -2,6 +2,7 @@
 
 import { useAuth } from '@/context/AuthContext';
 import Navbar from '@/components/Navbar';
+import QueueStatusWidget from '@/components/QueueStatusWidget';
 import Link from 'next/link';
 
 export default function Home() {
@@ -19,6 +20,7 @@ export default function Home() {
     
     <div className="min-h-screen bg-white">
       <Navbar />
+      <QueueStatusWidget showWhenPromoted={true} />
 
       {!user ? (
         // Non-logged in user view
