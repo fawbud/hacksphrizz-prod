@@ -2,13 +2,11 @@
 import Navbar from '@/components/Navbar';
 import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { connection } from 'next/server';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Suspense } from 'react';
 import { supabase } from '@/lib/supabase';
 import ReCAPTCHA from 'react-google-recaptcha';
 
-export default function Page() {
-  connection();
+function TrainsPageContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [user, setUser] = useState(null);
@@ -419,5 +417,18 @@ export default function Page() {
         </div>
       )}
     </>
+  );
+}
+
+export default function Page() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen bg-white flex items-center justify-center">
+        <Navbar />
+        <div className="text-[#F27500] text-xl">Loading...</div>
+      </div>
+    }>
+      <TrainsPageContent />
+    </Suspense>
   );
 }
