@@ -882,7 +882,6 @@ Detected Patterns: Linear movement, identical timing`);
           <div>Forms: {Object.keys(behaviorTracking.data?.trackingData?.formInteractions || {}).length} events</div>
         </div>
       </div>
-      </main>
 
       {/* Captcha Modal - Using CaptchaPlaceholder */}
       <CaptchaPlaceholder
@@ -917,6 +916,7 @@ Detected Patterns: Linear movement, identical timing`);
           </div>
         </div>
       )}
+      </div>
     </ProtectedRoute>
   );
 }
