@@ -1,78 +1,114 @@
 // Fetch and display train recommendations
 (function() {
-   const trainId = sessionStorage.getItem('ch_train_id');
+   function loadRecommendations() {
+      console.log('[CH Recommendations] Script loaded');
+      console.log('[CH Recommendations] SessionStorage contents:', {
+         train_id: sessionStorage.getItem('ch_train_id'),
+         train_date: sessionStorage.getItem('ch_train_date'),
+         return_url: sessionStorage.getItem('ch_return_url')
+      });
 
-   if (!trainId) {
-      console.log('No train ID found in sessionStorage');
-      return;
+      const trainId = sessionStorage.getItem('ch_train_id');
+
+      if (!trainId) {
+         console.log('[CH Recommendations] No train ID found in sessionStorage');
+         return;
+      }
+
+      console.log('[CH Recommendations] Fetching recommendations for train ID:', trainId);
+
+      // Fetch recommendations from public API
+      fetch('https://www.quikyu.xyz/api/trains/public?train_id=' + trainId)
+         .then(response => {
+            console.log('[CH Recommendations] API response status:', response.status);
+            return response.json();
+         })
+         .then(data => {
+            console.log('[CH Recommendations] API response data:', data);
+            const trains = data.trains || [];
+            console.log('[CH Recommendations] Number of trains:', trains.length);
+
+            if (trains.length === 0) {
+               console.log('[CH Recommendations] No trains found');
+               return;
+            }
+
+            // Show the recommendations section
+            const recSection = document.getElementById('ch-recommendations');
+            console.log('[CH Recommendations] Recommendations section element:', recSection);
+
+            if (recSection) {
+               recSection.classList.remove('ch-hide');
+               recSection.classList.add('ch-show');
+               console.log('[CH Recommendations] Section shown');
+            } else {
+               console.error('[CH Recommendations] Could not find #ch-recommendations element');
+            }
+
+            // Display train recommendations
+            const listContainer = document.getElementById('ch-recommendations-list');
+            console.log('[CH Recommendations] List container:', listContainer);
+
+            if (!listContainer) {
+               console.error('[CH Recommendations] Could not find #ch-recommendations-list element');
+               return;
+            }
+
+            listContainer.innerHTML = '';
+
+            // Get stored date
+            const storedDate = sessionStorage.getItem('ch_train_date') || '2026-01-01';
+
+            trains.slice(0, 3).forEach((train, index) => {
+               console.log('[CH Recommendations] Rendering train', index + 1, ':', train.train_name);
+
+               const trainCard = document.createElement('div');
+               trainCard.className = 'ch-rec-card';
+
+               const formatTime = (timeStr) => timeStr.substring(0, 5);
+
+               trainCard.innerHTML = `
+                  <div class="ch-rec-header">
+                     <div class="ch-rec-badge">${train.train_class}</div>
+                     <div class="ch-rec-availability ${train.available_seats <= 10 ? 'ch-rec-low' : 'ch-rec-ok'}">
+                        ${train.available_seats <= 10 ? train.available_seats + ' Seats Left' : 'Available'}
+                     </div>
+                  </div>
+                  <h4 class="ch-rec-name">${train.train_name} (${train.train_code})</h4>
+                  <div class="ch-rec-journey">
+                     <div class="ch-rec-station">
+                        <div class="ch-rec-time">${formatTime(train.departure_time)}</div>
+                        <div class="ch-rec-code">${train.departure_station_code}</div>
+                     </div>
+                     <div class="ch-rec-arrow">→</div>
+                     <div class="ch-rec-station">
+                        <div class="ch-rec-time">${formatTime(train.arrival_time)}</div>
+                        <div class="ch-rec-code">${train.arrival_station_code}</div>
+                     </div>
+                  </div>
+                  <div class="ch-rec-footer">
+                     <div class="ch-rec-price">Rp${train.base_price.toLocaleString('id-ID')}</div>
+                     <a href="https://www.quikyu.xyz/trains?from=${train.departure_station_code}&to=${train.arrival_station_code}&date=${storedDate}&roundTrip=false" class="ch-rec-btn">
+                        View Details
+                     </a>
+                  </div>
+               `;
+
+               listContainer.appendChild(trainCard);
+            });
+
+            console.log('[CH Recommendations] Successfully rendered', trains.slice(0, 3).length, 'train cards');
+         })
+         .catch(error => {
+            console.error('[CH Recommendations] Error fetching train recommendations:', error);
+         });
    }
 
-   console.log('Fetching recommendations for train ID:', trainId);
-
-   // Fetch recommendations from public API
-   fetch('https://www.quikyu.xyz/api/trains/public?train_id=' + trainId)
-      .then(response => response.json())
-      .then(data => {
-         const trains = data.trains || [];
-         console.log('Fetched trains:', trains);
-
-         if (trains.length === 0) {
-            return;
-         }
-
-         // Show the recommendations section
-         const recSection = document.getElementById('ch-recommendations');
-         if (recSection) {
-            recSection.classList.remove('ch-hide');
-            recSection.classList.add('ch-show');
-         }
-
-         // Display train recommendations
-         const listContainer = document.getElementById('ch-recommendations-list');
-         if (!listContainer) return;
-
-         listContainer.innerHTML = '';
-
-         // Get stored date
-         const storedDate = sessionStorage.getItem('ch_train_date') || '2026-01-01';
-
-         trains.slice(0, 3).forEach(train => {
-            const trainCard = document.createElement('div');
-            trainCard.className = 'ch-rec-card';
-
-            const formatTime = (timeStr) => timeStr.substring(0, 5);
-
-            trainCard.innerHTML = `
-               <div class="ch-rec-header">
-                  <div class="ch-rec-badge">${train.train_class}</div>
-                  <div class="ch-rec-availability ${train.available_seats <= 10 ? 'ch-rec-low' : 'ch-rec-ok'}">
-                     ${train.available_seats <= 10 ? train.available_seats + ' Seats Left' : 'Available'}
-                  </div>
-               </div>
-               <h4 class="ch-rec-name">${train.train_name} (${train.train_code})</h4>
-               <div class="ch-rec-journey">
-                  <div class="ch-rec-station">
-                     <div class="ch-rec-time">${formatTime(train.departure_time)}</div>
-                     <div class="ch-rec-code">${train.departure_station_code}</div>
-                  </div>
-                  <div class="ch-rec-arrow">→</div>
-                  <div class="ch-rec-station">
-                     <div class="ch-rec-time">${formatTime(train.arrival_time)}</div>
-                     <div class="ch-rec-code">${train.arrival_station_code}</div>
-                  </div>
-               </div>
-               <div class="ch-rec-footer">
-                  <div class="ch-rec-price">Rp${train.base_price.toLocaleString('id-ID')}</div>
-                  <a href="https://www.quikyu.xyz/trains?from=${train.departure_station_code}&to=${train.arrival_station_code}&date=${storedDate}&roundTrip=false" class="ch-rec-btn">
-                     View Details
-                  </a>
-               </div>
-            `;
-
-            listContainer.appendChild(trainCard);
-         });
-      })
-      .catch(error => {
-         console.error('Error fetching train recommendations:', error);
-      });
+   // Wait for DOM to be ready
+   if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', loadRecommendations);
+   } else {
+      // DOM is already ready, execute immediately
+      loadRecommendations();
+   }
 })();
