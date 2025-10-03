@@ -28,13 +28,16 @@ export function CrowdHandlerProvider({ children }) {
           return;
         }
 
-        // In development mode, skip CrowdHandler entirely for easier testing
+        // In development mode, we can still test CrowdHandler if needed
+        // Comment out this block to test queue functionality in development
+        /*
         if (process.env.NODE_ENV === 'development') {
           console.log('CrowdHandler: Development mode - skipping queue validation');
           setIsPromoted(true);
           setIsLoading(false);
           return;
         }
+        */
 
         // Check if we're already in a redirect loop
         const currentUrl = window.location.href;
@@ -48,16 +51,52 @@ export function CrowdHandlerProvider({ children }) {
         // Dynamic import to avoid SSR issues
         const { init } = await import('crowdhandler-sdk');
 
-        // Initialize CrowdHandler for client-side with proper production settings
-        const { gatekeeper: gate } = init({
+        // Initialize CrowdHandler for client-side with browser-compatible settings
+        const initConfig = {
           publicKey: process.env.NEXT_PUBLIC_CROWDHANDLER_PUBLIC_KEY || '5b945cd137a611051bdeeb272d26ec267875dc11c069b06199678e790160fbfd',
           options: {
-            mode: 'full', // Use full mode for proper queue validation
-            debug: false, // Disable debug in production
-            liteValidator: false, // Disable lite validator to avoid redirects
-            trustOnFail: false, // Don't trust on fail - enforce queue properly
+            mode: 'clientside', // Use clientside mode to avoid server-specific header issues
+            debug: process.env.NODE_ENV === 'development', // Enable debug in development
+            liteValidator: false, // Disable lite validator 
+            trustOnFail: true, // Allow fallback behavior if API fails
+            apiUrl: 'https://api.crowdhandler.com', // Explicit API URL
+            timeout: 10000, // 10 second timeout
           }
+        };
+
+        console.log('CrowdHandler: Initializing with config:', {
+          publicKey: initConfig.publicKey.substring(0, 10) + '...',
+          mode: initConfig.options.mode,
+          debug: initConfig.options.debug
         });
+
+        let gate;
+        try {
+          const result = init(initConfig);
+          gate = result.gatekeeper;
+          console.log('CrowdHandler: SDK initialized successfully');
+        } catch (initError) {
+          console.error('CrowdHandler: SDK initialization failed:', initError);
+          
+          // Try a minimal initialization as fallback
+          console.log('CrowdHandler: Attempting minimal initialization...');
+          const minimalConfig = {
+            publicKey: initConfig.publicKey,
+            options: {
+              mode: 'clientside',
+              trustOnFail: true,
+              debug: false
+            }
+          };
+          
+          const fallbackResult = init(minimalConfig);
+          gate = fallbackResult.gatekeeper;
+          console.log('CrowdHandler: Fallback initialization successful');
+        }
+
+        if (!gate) {
+          throw new Error('Failed to initialize CrowdHandler gatekeeper');
+        }
 
         setGatekeeper(gate);
 
