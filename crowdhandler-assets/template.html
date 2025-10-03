@@ -1,0 +1,670 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+   <meta charset="utf-8">
+   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <meta name="viewport" content="width=device-width, initial-scale=1">
+   <title>Quikyu - Virtual Waiting Room</title>
+   <link rel="stylesheet" href="https://wait.crowdhandler.com/css/latest/ch-main.css" crossorigin="anonymous">
+   <link rel="preconnect" href="https://fonts.googleapis.com">
+   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+   <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&display=swap" rel="stylesheet">
+   <meta name="robots" content="noindex" />
+
+   <style>
+      :root {
+         --brand-orange: #F27500;
+         --brand-orange-hover: #d96600;
+         --brand-orange-light: #f97316;
+         --orange-gradient: linear-gradient(to right, #f97316, #ea580c);
+         --bg-light-orange: #fff7ed;
+         --bg-lighter-orange: #ffedd5;
+         --text-gray: #4b5563;
+         --text-dark: #111827;
+         --border-gray: #e5e7eb;
+      }
+
+      * {
+         margin: 0;
+         padding: 0;
+         box-sizing: border-box;
+      }
+
+      body {
+         font-family: 'Geist', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+         background: linear-gradient(135deg, #ffffff 0%, #fff7ed 100%);
+         color: var(--text-dark);
+         line-height: 1.6;
+         min-height: 100vh;
+         display: flex;
+         align-items: center;
+         justify-content: center;
+         padding: 1rem;
+      }
+
+      .ch-container {
+         max-width: 600px;
+         width: 100%;
+         background: white;
+         border-radius: 1.5rem;
+         box-shadow: 0 20px 50px rgba(242, 117, 0, 0.1);
+         overflow: hidden;
+      }
+
+      .ch-section {
+         padding: 2rem;
+         display: none;
+      }
+
+      .ch-section.ch-show {
+         display: block;
+      }
+
+      /* Logo Section */
+      #ch-logo {
+         background: var(--orange-gradient);
+         padding: 1.5rem 2rem;
+         text-align: center;
+         border-bottom: 3px solid var(--brand-orange-hover);
+      }
+
+      #ch-logo img {
+         max-width: 200px;
+         height: auto;
+      }
+
+      /* Header Section */
+      #ch-header {
+         text-align: center;
+         background: var(--bg-light-orange);
+         border-bottom: 2px solid var(--bg-lighter-orange);
+      }
+
+      #ch-title {
+         font-size: 2rem;
+         font-weight: 700;
+         color: var(--text-dark);
+         margin-bottom: 0.75rem;
+      }
+
+      #ch-message {
+         color: var(--text-gray);
+         font-size: 1.125rem;
+         background: none;
+         border: none;
+         padding: 0;
+      }
+
+      /* Active Waiting Room */
+      #ch-active {
+         text-align: center;
+         background: linear-gradient(to bottom right, var(--bg-light-orange), var(--bg-lighter-orange));
+      }
+
+      #ch-active h1 {
+         font-size: 1rem;
+         font-weight: 600;
+         color: var(--text-gray);
+         margin-bottom: 0.5rem;
+         text-transform: uppercase;
+         letter-spacing: 0.05em;
+      }
+
+      #ch-count {
+         font-size: 3.75rem;
+         font-weight: 700;
+         color: var(--brand-orange-light);
+         display: block;
+         margin: 1rem 0;
+         text-shadow: 2px 2px 4px rgba(242, 117, 0, 0.1);
+      }
+
+      /* Progress Bar */
+      .progress {
+         background: var(--border-gray);
+         border-radius: 9999px;
+         height: 1rem;
+         overflow: hidden;
+         margin: 2rem 0;
+         position: relative;
+      }
+
+      .progress-bar {
+         background: var(--orange-gradient);
+         height: 100%;
+         transition: width 1s ease;
+         border-radius: 9999px;
+      }
+
+      .progress-bar-pulse {
+         animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+      }
+
+      @keyframes pulse {
+         0%, 100% {
+            opacity: 1;
+         }
+         50% {
+            opacity: 0.8;
+         }
+      }
+
+      /* Estimated Wait */
+      #ch-estimated-wait {
+         background: white;
+         border-radius: 1rem;
+         padding: 1.5rem;
+         margin: 1.5rem 0;
+         border: 2px solid var(--bg-lighter-orange);
+         font-size: 1rem;
+         color: var(--text-gray);
+      }
+
+      #ch-estimated-wait strong {
+         color: var(--brand-orange);
+         font-size: 1.5rem;
+         font-weight: 700;
+      }
+
+      #ch-estimated-placeholder img {
+         width: 32px;
+         height: auto;
+      }
+
+      /* Session Messages */
+      #ch-sessions-expire,
+      #ch-sessions-no-expire {
+         background: #eff6ff;
+         color: #2563eb;
+         padding: 1rem;
+         border-radius: 0.75rem;
+         margin-top: 1.5rem;
+         font-size: 0.875rem;
+         line-height: 1.5;
+      }
+
+      #ch-sessions-expiry {
+         font-weight: 600;
+         color: var(--brand-orange);
+      }
+
+      /* Prelude Section */
+      #ch-prelude {
+         text-align: center;
+      }
+
+      #ch-prelude .lead {
+         font-size: 1.25rem;
+         color: var(--text-gray);
+         margin-bottom: 1.5rem;
+      }
+
+      #ch-countdown,
+      #ch-datetime {
+         color: var(--brand-orange);
+         font-size: 1.5rem;
+         font-weight: 600;
+         display: block;
+         margin-top: 0.5rem;
+      }
+
+      #ch-prelude small {
+         color: var(--text-gray);
+         font-size: 0.875rem;
+         display: block;
+         margin-top: 1rem;
+      }
+
+      /* Room Full Section */
+      #ch-room-full {
+         text-align: center;
+         background: #fef3c7;
+         border: 2px solid #fde68a;
+         border-radius: 1rem;
+      }
+
+      #ch-room-full .lead {
+         color: var(--text-dark);
+         font-size: 1.125rem;
+      }
+
+      /* Blocked Section */
+      #ch-blocked {
+         text-align: center;
+         background: #fee2e2;
+         border: 2px solid #fecaca;
+         border-radius: 1rem;
+      }
+
+      #ch-blocked .alert {
+         color: #991b1b;
+         font-weight: 600;
+         background: none;
+         border: none;
+         padding: 0;
+      }
+
+      /* Captcha Section */
+      #ch-captcha {
+         text-align: center;
+      }
+
+      #ch-captcha-message {
+         font-size: 1.125rem;
+         color: var(--text-dark);
+         margin-bottom: 1.5rem;
+      }
+
+      /* Priority Code Section */
+      #ch-priority {
+         background: #f9fafb;
+         border-top: 2px solid var(--border-gray);
+      }
+
+      #ch-priority h3 {
+         font-size: 1.25rem;
+         color: var(--text-dark);
+         margin-bottom: 1rem;
+         text-align: center;
+      }
+
+      .ch-priority-group {
+         display: flex;
+         gap: 0.5rem;
+         align-items: center;
+         justify-content: center;
+      }
+
+      #ch-priority-input {
+         flex: 1;
+         max-width: 300px;
+         padding: 0.75rem 1rem;
+         border: 2px solid var(--border-gray);
+         border-radius: 0.75rem;
+         font-size: 1rem;
+         font-family: inherit;
+         transition: border-color 0.2s;
+      }
+
+      #ch-priority-input:focus {
+         outline: none;
+         border-color: var(--brand-orange);
+      }
+
+      #ch-priority-btn-action {
+         background: var(--orange-gradient);
+         color: white;
+         border: none;
+         padding: 0.75rem 1.5rem;
+         border-radius: 0.75rem;
+         font-weight: 600;
+         cursor: pointer;
+         transition: transform 0.2s, box-shadow 0.2s;
+      }
+
+      #ch-priority-btn-action:hover {
+         transform: translateY(-2px);
+         box-shadow: 0 10px 25px rgba(242, 117, 0, 0.3);
+      }
+
+      .ch-icon {
+         width: 32px;
+         height: 32px;
+      }
+
+      #ch-priority-success svg {
+         color: #16a34a;
+      }
+
+      #ch-priority-error svg {
+         color: #dc2626;
+      }
+
+      /* Email Me Section */
+      #ch-email-me {
+         background: #f9fafb;
+         border-top: 2px solid var(--border-gray);
+      }
+
+      .ch-email-me-group {
+         display: flex;
+         gap: 0.5rem;
+         align-items: center;
+         margin-bottom: 1rem;
+      }
+
+      .ch-email-me-input {
+         flex: 1;
+         padding: 0.75rem 1rem;
+         border: 2px solid var(--border-gray);
+         border-radius: 0.75rem;
+         font-size: 1rem;
+         font-family: inherit;
+      }
+
+      .ch-email-me-input:focus {
+         outline: none;
+         border-color: var(--brand-orange);
+      }
+
+      #ch-email-me-btn-action {
+         background: var(--brand-orange);
+         color: white;
+         border: none;
+         padding: 0.75rem 1.5rem;
+         border-radius: 0.75rem;
+         font-weight: 600;
+         cursor: pointer;
+         transition: background-color 0.2s;
+      }
+
+      #ch-email-me-btn-action:hover {
+         background: var(--brand-orange-hover);
+      }
+
+      #ch-email-terms {
+         font-size: 0.875rem;
+         color: var(--text-gray);
+         background: white;
+         padding: 1rem;
+         border-radius: 0.75rem;
+         margin-top: 1rem;
+      }
+
+      #ch-email-notification {
+         background: #d1fae5;
+         padding: 1rem;
+         border-radius: 0.75rem;
+         text-align: center;
+      }
+
+      .ch-email-me-btn-reset {
+         background: white;
+         color: var(--brand-orange);
+         border: 2px solid var(--brand-orange);
+         padding: 0.5rem 1rem;
+         border-radius: 0.5rem;
+         font-weight: 600;
+         cursor: pointer;
+         margin-top: 0.5rem;
+      }
+
+      /* Stock Section */
+      #ch-stock {
+         background: #ecfdf5;
+         border: 2px solid #6ee7b7;
+         border-radius: 1rem;
+         text-align: center;
+      }
+
+      #ch-stock-value {
+         font-weight: 700;
+         color: #16a34a;
+         font-size: 1.5rem;
+      }
+
+      /* Footer */
+      #ch-footer {
+         background: #f9fafb;
+         text-align: center;
+         padding: 1.5rem 2rem;
+         border-top: 2px solid var(--border-gray);
+      }
+
+      #ch-footer small {
+         color: var(--text-gray);
+         font-size: 0.875rem;
+      }
+
+      #ch-footer img {
+         max-width: 150px;
+         height: auto;
+         margin-top: 0.5rem;
+         opacity: 0.7;
+      }
+
+      #ch-footer a:hover img {
+         opacity: 1;
+      }
+
+      .ch-token {
+         margin-top: 1rem;
+         display: flex;
+         align-items: center;
+         justify-content: center;
+         gap: 0.5rem;
+      }
+
+      #ch-token {
+         background: var(--bg-lighter-orange);
+         padding: 0.25rem 0.75rem;
+         border-radius: 0.5rem;
+         font-family: 'Geist Mono', monospace;
+         font-size: 0.75rem;
+      }
+
+      #ch-token-copy {
+         cursor: pointer;
+         width: 20px;
+         height: 20px;
+         color: var(--text-gray);
+         transition: color 0.2s;
+      }
+
+      #ch-token-copy:hover {
+         color: var(--brand-orange);
+      }
+
+      /* Utility Classes */
+      .ch-hide {
+         display: none !important;
+      }
+
+      .ch-show {
+         display: block !important;
+      }
+
+      /* Loading State */
+      body.ch-loading #ch-active h1::after {
+         content: '...';
+         animation: dots 1.5s infinite;
+      }
+
+      @keyframes dots {
+         0%, 20% { content: '.'; }
+         40% { content: '..'; }
+         60%, 100% { content: '...'; }
+      }
+
+      /* Responsive Design */
+      @media (max-width: 640px) {
+         .ch-container {
+            border-radius: 1rem;
+            margin: 0.5rem;
+         }
+
+         .ch-section {
+            padding: 1.5rem;
+         }
+
+         #ch-title {
+            font-size: 1.5rem;
+         }
+
+         #ch-count {
+            font-size: 3rem;
+         }
+
+         #ch-logo {
+            padding: 1rem;
+         }
+
+         .ch-priority-group,
+         .ch-email-me-group {
+            flex-direction: column;
+         }
+
+         #ch-priority-input,
+         .ch-email-me-input {
+            max-width: 100%;
+            width: 100%;
+         }
+      }
+
+      /* Train themed enhancements */
+      .train-icon {
+         font-size: 3rem;
+         margin-bottom: 1rem;
+         filter: drop-shadow(2px 2px 4px rgba(242, 117, 0, 0.2));
+      }
+   </style>
+</head>
+
+<body class="ch-loading">
+   <div class="ch-container">
+
+      <section class="ch-section ch-show" id="ch-logo">
+         <div class="train-icon">🚄</div>
+         <!-- Replace with your actual logo -->
+         <!-- <img src="YOUR_LOGO_URL_HERE" alt="Quikyu Logo"> -->
+      </section>
+
+      <section class="ch-section" id="ch-header">
+         <h2 id="ch-title">You're in the Virtual Waiting Room</h2>
+         <p id="ch-message" class="alert alert-info" role="alert">We're experiencing high demand for train bookings. Please wait while we get you onboard.</p>
+      </section>
+
+      <section class="ch-section" id="ch-captcha">
+         <p id="ch-captcha-message">Please complete the verification to proceed</p>
+         <div id="ch-captcha-form"></div>
+      </section>
+
+      <section class="ch-section" id="ch-blocked">
+         <p class="alert alert-danger" role="alert">Access has been blocked due to suspicious activity. Please contact support if you believe this is an error.</p>
+      </section>
+
+      <section class="ch-section" id="ch-room-full">
+         <p class="lead">🎫 The waiting room is currently at capacity. We'll let you in as soon as a spot becomes available.</p>
+      </section>
+
+      <section class="ch-section" id="ch-prelude">
+         <div id="ch-sooner">
+            <p class="lead">🚂 Ticket booking opens <br><strong id="ch-countdown">soon</strong></p>
+         </div>
+         <div id="ch-later">
+            <p class="lead">🚂 Ticket booking opens on <br><strong id="ch-datetime">checking date</strong></p>
+         </div>
+         <small>No need to refresh! You'll automatically receive a queue position when booking opens. Early arrivals get priority.</small>
+      </section>
+
+      <section class="ch-section" id="ch-active">
+         <h1>Your Position in Queue</h1>
+         <strong id="ch-count">calculating...</strong>
+
+         <div class="progress">
+            <div id="ch-progress" class="progress-bar progress-bar-pulse" role="progressbar" aria-valuenow="25"
+               aria-valuemin="0" aria-valuemax="100"></div>
+         </div>
+
+         <div id="ch-estimated-wait" class="ch-show">
+            ⏱️ Estimated wait time:
+            <span id="ch-estimated-placeholder">
+               <img src="https://wait.crowdhandler.com/img/ellipse-dots.gif" alt="Calculating..." />
+            </span>
+            <span id="ch-estimated-hours" class="ch-hide"><strong class="ch-number"></strong> hours</span>
+            <span id="ch-estimated-minutes" class="ch-hide"><strong class="ch-number"></strong> minutes</span>
+         </div>
+
+         <p id="ch-sessions-expire" class="ch-hide">🎫 You'll automatically advance to the front. Keep this window open and your device active.</p>
+         <p id="ch-sessions-no-expire" class="ch-hide">🎫 You'll automatically advance to the front. Once you reach the booking page, you'll have <span id="ch-sessions-expiry">15</span> minutes to complete your transaction.</p>
+      </section>
+
+      <section class="ch-section ch-hide" id="ch-stock">
+         <p id="ch-stock-available">🎫 Available Tickets: <span id="ch-stock-value">X</span></p>
+         <p id="ch-stock-unavailable" class="ch-hide">
+            All tickets are sold out. Please check back for future bookings!
+         </p>
+      </section>
+
+      <section class="ch-section ch-hide" id="ch-email-me">
+         <form>
+            <div class="ch-email-me-group">
+               <input id="ch-email-me-input" type="email" class="ch-email-me-input" placeholder="Enter your email address"
+                  aria-label="Enter email address">
+               <span class="input-group-btn">
+                  <button id="ch-email-me-btn-action" class="btn btn-default" type="submit">
+                     <span class="ch-show">Notify Me</span>
+                  </button>
+               </span>
+            </div>
+         </form>
+         <div id="ch-email-terms" class="ch-hide">
+            <p>📧 Your email will only be used to notify you when it's your turn. It will be deleted immediately after.</p>
+            <p><small>See crowdhandler.com/privacy for details.</small></p>
+         </div>
+         <div id="ch-email-notification" class="ch-hide">
+            <p>✅ Notification will be sent to <span class="ch-email-notification-message"></span></p>
+            <button id="ch-email-me-btn-reset" class="btn btn-default ch-email-me-btn-reset" type="button">
+               <span class="ch-show">Change Email</span>
+            </button>
+         </div>
+      </section>
+
+      <section class="ch-section" id="ch-priority">
+         <h3>🎟️ Have a Priority Code?</h3>
+         <form>
+            <div class="ch-priority-group">
+               <input id="ch-priority-input" type="text" class="ch-priority-input" placeholder="Enter priority code"
+                  aria-label="Enter priority code">
+               <span class="input-group-btn">
+                  <button id="ch-priority-btn-action" class="btn btn-default" type="submit">
+                     <span class="ch-show">Apply Code</span>
+                  </button>
+               </span>
+               <span id="ch-priority-success" class="ch-icon ch-hide ch-priority-group-add-item">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                     stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                     class="feather feather-check">
+                     <polyline points="20 6 9 17 4 12"></polyline>
+                  </svg>
+               </span>
+               <span id="ch-priority-error" class="ch-icon ch-hide ch-priority-group-add-item">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                     stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                     class="feather feather-x">
+                     <line x1="18" y1="6" x2="6" y2="18"></line>
+                     <line x1="6" y1="6" x2="18" y2="18"></line>
+                  </svg>
+               </span>
+            </div>
+         </form>
+      </section>
+
+      <section class="ch-section ch-show" id="ch-footer">
+         <p>
+            <small>SECURED BY</small><br>
+            <a target="_blank" href="http://www.crowdhandler.com/?utm_source=CH_queue&utm_medium=referral"><img
+                  src="https://wait.crowdhandler.com/img/crowdhandler-logo--strip.svg"
+                  alt="CrowdHandler - Virtual Waiting Room Service"></a>
+         </p>
+         <p><small>Last check: <span id="ch-checkin"></span></small></p>
+
+         <p class="ch-token">
+            <small>Session ID: <code id="ch-token">tok_4ME******gXW</code></small>
+            <svg id="ch-token-copy" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+               fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+               <text class="checkmark" x="8" y="18">✓</text>
+               <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path>
+               <rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect>
+            </svg>
+         </p>
+      </section>
+   </div>
+
+   <!-- IMPORTANT: Uncomment the script below before uploading to CrowdHandler -->
+   <!-- Replace 'ch-public-key' with your actual CrowdHandler public key -->
+   <!-- <script src="https://wait.crowdhandler.com/js/latest/main.js?id=ch-public-key"></script> -->
+</body>
+
+</html>
