@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Bot Simulation Test</title>
+    <style>
+        body { 
+            font-family: Arial, sans-serif; 
+            margin: 20px; 
+            background: #f5f5f5; 
+        }
+        .container { 
+            max-width: 800px; 
+            margin: 0 auto; 
+            background: white; 
+            padding: 30px; 
+            border-radius: 10px; 
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1); 
+        }
+        .form-section { 
+            background: #f9f9f9; 
+            padding: 20px; 
+            border-radius: 8px; 
+            margin: 20px 0; 
+        }
+        .control-panel { 
+            background: #e3f2fd; 
+            padding: 20px; 
+            border-radius: 8px; 
+            margin: 20px 0; 
+        }
+        .results-panel { 
+            background: #fff3e0; 
+            padding: 20px; 
+            border-radius: 8px; 
+            margin: 20px 0; 
+        }
+        .test-button { 
+            padding: 12px 24px; 
+            margin: 10px; 
+            background: #ff5722; 
+            color: white; 
+            border: none; 
+            border-radius: 5px; 
+            cursor: pointer; 
+            font-size: 16px;
+            transition: background 0.3s;
+        }
+        .test-button:hover { 
+            background: #e64a19; 
+        }
+        .human-button { 
+            background: #4caf50; 
+        }
+        .human-button:hover { 
+            background: #45a049; 
+        }
+        input, textarea, select { 
+            width: 100%; 
+            padding: 10px; 
+            margin: 8px 0; 
+            border: 1px solid #ddd; 
+            border-radius: 4px; 
+            font-size: 14px;
+        }
+        label { 
+            display: block; 
+            margin: 10px 0 5px 0; 
+            font-weight: bold; 
+        }
+        .log { 
+            background: #000; 
+            color: #0f0; 
+            padding: 15px; 
+            font-family: 'Courier New', monospace; 
+            height: 400px; 
+            overflow-y: auto; 
+            border-radius: 5px;
+        }
+        .score-display {
+            font-size: 24px;
+            font-weight: bold;
+            text-align: center;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+        .bot-score {
+            background: #ffebee;
+            color: #c62828;
+        }
+        .human-score {
+            background: #e8f5e8;
+            color: #2e7d32;
+        }
+        .status {
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+        .status.running {
+            background: #fff3e0;
+            color: #f57c00;
+        }
+        .status.completed {
+            background: #e8f5e8;
+            color: #2e7d32;
+        }
+        .status.error {
+            background: #ffebee;
+            color: #c62828;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🤖 Bot Detection Test Suite</h1>
+        <p>Script ini menguji apakah AI dapat mendeteksi behavior bot vs human. Bot harus mendapat skor ≤50%.</p>
+        
+        <div class="control-panel">
+            <h3>🎯 Test Controls</h3>
+            <button class="test-button" onclick="runBotSimulation()">🤖 Run Bot Simulation</button>
+            <button class="test-button human-button" onclick="startHumanTest()">👤 Start Human Test</button>
+            <button class="test-button" onclick="clearLogs()">🗑️ Clear Logs</button>
+            <div id="status" class="status">Ready to test</div>
+        </div>
+
+        <div class="form-section">
+            <h3>📝 Test Form</h3>
+            <form id="testForm">
+                <label for="name">Full Name:</label>
+                <input type="text" id="name" name="name" placeholder="Enter your full name">
+                
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" placeholder="Enter your email">
+                
+                <label for="phone">Phone Number:</label>
+                <input type="tel" id="phone" name="phone" placeholder="Enter your phone number">
+                
+                <label for="company">Company:</label>
+                <input type="text" id="company" name="company" placeholder="Enter your company">
+                
+                <label for="position">Position:</label>
+                <select id="position" name="position">
+                    <option value="">Select position</option>
+                    <option value="developer">Developer</option>
+                    <option value="designer">Designer</option>
+                    <option value="manager">Manager</option>
+                    <option value="analyst">Analyst</option>
+                    <option value="other">Other</option>
+                </select>
+                
+                <label for="experience">Years of Experience:</label>
+                <input type="number" id="experience" name="experience" min="0" max="50" placeholder="0">
+                
+                <label for="message">Message:</label>
+                <textarea id="message" name="message" rows="4" placeholder="Tell us about yourself..."></textarea>
+                
+                <label for="newsletter">
+                    <input type="checkbox" id="newsletter" name="newsletter" style="width: auto; margin-right: 10px;">
+                    Subscribe to newsletter
+                </label>
+                
+                <label for="terms">
+                    <input type="checkbox" id="terms" name="terms" style="width: auto; margin-right: 10px;">
+                    I agree to terms and conditions
+                </label>
+            </form>
+        </div>
+
+        <div class="results-panel">
+            <h3>📊 Test Results</h3>
+            <div id="scoreDisplay" class="score-display" style="display: none;">
+                Trust Score: <span id="trustScore">-</span>%<br>
+                <span id="scoreVerdict">-</span>
+            </div>
+            <div id="testResults"></div>
+        </div>
+
+        <div class="control-panel">
+            <h3>📜 Debug Log</h3>
+            <div id="logOutput" class="log"></div>
+        </div>
+    </div>
+
+    <script type="module">
+        import { BehaviorTracker } from '/src/utils/behaviorTracker.js';
+        
+        let tracker = null;
+        let botRunning = false;
+        const userId = 'bot-test-' + Date.now();
+        
+        // Capture console logs
+        const originalLog = console.log;
+        const originalError = console.error;
+        const originalWarn = console.warn;
+        
+        function addToLog(type, ...args) {
+            const logDiv = document.getElementById('logOutput');
+            const timestamp = new Date().toLocaleTimeString();
+            const message = args.map(arg => 
+                typeof arg === 'object' ? JSON.stringify(arg, null, 2) : String(arg)
+            ).join(' ');
+            
+            logDiv.innerHTML += `<div style="color: ${type === 'error' ? '#ff6b6b' : type === 'warn' ? '#ffd93d' : '#00ff00'}">[${timestamp}] ${type.toUpperCase()}: ${message}</div>`;
+            logDiv.scrollTop = logDiv.scrollHeight;
+        }
+        
+        console.log = (...args) => {
+            originalLog(...args);
+            addToLog('log', ...args);
+        };
+        
+        console.error = (...args) => {
+            originalError(...args);
+            addToLog('error', ...args);
+        };
+        
+        console.warn = (...args) => {
+            originalWarn(...args);
+            addToLog('warn', ...args);
+        };
+
+        function updateStatus(message, type = '') {
+            const statusDiv = document.getElementById('status');
+            statusDiv.textContent = message;
+            statusDiv.className = 'status ' + type;
+        }
+
+        function displayScore(trustScore, analysis) {
+            const scoreDisplay = document.getElementById('scoreDisplay');
+            const trustScoreSpan = document.getElementById('trustScore');
+            const verdictSpan = document.getElementById('scoreVerdict');
+            
+            const scorePercent = Math.round(trustScore * 100);
+            trustScoreSpan.textContent = scorePercent;
+            
+            if (scorePercent <= 50) {
+                scoreDisplay.className = 'score-display bot-score';
+                verdictSpan.textContent = '🤖 DETECTED AS BOT (Correct!)';
+            } else {
+                scoreDisplay.className = 'score-display human-score';
+                verdictSpan.textContent = '👤 DETECTED AS HUMAN (Incorrect!)';
+            }
+            
+            scoreDisplay.style.display = 'block';
+            
+            // Show detailed results
+            const resultsDiv = document.getElementById('testResults');
+            resultsDiv.innerHTML = `
+                <h4>Detailed Analysis:</h4>
+                <p><strong>Trust Level:</strong> ${analysis.trustLevel || 'Unknown'}</p>
+                <p><strong>Needs Captcha:</strong> ${analysis.needsCaptcha ? 'Yes' : 'No'}</p>
+                <p><strong>AI Method:</strong> ${analysis.aiMethod || 'Unknown'}</p>
+                <p><strong>Confidence:</strong> ${Math.round((analysis.confidence || 0) * 100)}%</p>
+                ${analysis.reasons ? `<p><strong>Reasons:</strong></p><ul>${analysis.reasons.slice(0, 5).map(r => `<li>${r}</li>`).join('')}</ul>` : ''}
+                ${analysis.metadata ? `<p><strong>Metadata:</strong> ${JSON.stringify(analysis.metadata, null, 2)}</p>` : ''}
+            `;
+        }
+
+        // Bot simulation that exhibits typical automated behavior
+        window.runBotSimulation = async function() {
+            if (botRunning) {
+                console.warn('⚠️ Bot simulation already running');
+                return;
+            }
+
+            botRunning = true;
+            updateStatus('🤖 Running bot simulation...', 'running');
+            
+            try {
+                console.log('🚀 Starting bot simulation...');
+                console.log('🤖 This bot will exhibit typical automated behavior:');
+                console.log('  - Perfect linear mouse movements');
+                console.log('  - Constant typing speed');
+                console.log('  - No hesitation or corrections');
+                console.log('  - Robotic timing patterns');
+                
+                // Initialize tracker
+                tracker = new BehaviorTracker(userId);
+                console.log('✅ Tracker initialized for bot test');
+                
+                // Clear the form first
+                clearForm();
+                
+                // Simulate bot behavior with perfect timings and movements
+                await simulateBotBehavior();
+                
+                // Send data to server for analysis
+                console.log('📤 Sending bot behavior data for analysis...');
+                const result = await tracker.sendToServer();
+                
+                console.log('📊 Bot simulation results:', result);
+                
+                if (result.success) {
+                    displayScore(result.trustScore, result);
+                    const scorePercent = Math.round(result.trustScore * 100);
+                    
+                    if (scorePercent <= 50) {
+                        console.log('✅ SUCCESS: Bot correctly detected with score ' + scorePercent + '%');
+                        updateStatus('✅ Bot correctly detected as automated behavior', 'completed');
+                    } else {
+                        console.log('❌ FAILURE: Bot incorrectly detected as human with score ' + scorePercent + '%');
+                        updateStatus('❌ Bot incorrectly detected as human - AI needs tuning', 'error');
+                    }
+                } else {
+                    console.error('❌ Failed to get trust score:', result.error);
+                    updateStatus('❌ Failed to analyze behavior', 'error');
+                }
+                
+            } catch (error) {
+                console.error('❌ Bot simulation failed:', error);
+                updateStatus('❌ Simulation failed: ' + error.message, 'error');
+            } finally {
+                botRunning = false;
+            }
+        };
+
+        // Simulate typical bot behavior patterns
+        async function simulateBotBehavior() {
+            console.log('🤖 Phase 1: Robotic mouse movements...');
+            
+            // Phase 1: Perfect linear mouse movements (typical bot behavior)
+            for (let i = 0; i < 20; i++) {
+                const event = {
+                    clientX: 100 + i * 10, // Perfect linear movement
+                    clientY: 200 + i * 5,  // Perfect linear movement
+                    type: 'mousemove',
+                    timestamp: Date.now()
+                };
+                tracker.trackMouse(event);
+                await sleep(50); // Constant 50ms intervals (robotic)
+            }
+            
+            console.log('🤖 Phase 2: Automated form filling...');
+            
+            // Phase 2: Fill form with robotic timing
+            const formData = {
+                'name': 'John Bot Smith',
+                'email': 'bot@example.com',
+                'phone': '1234567890',
+                'company': 'Bot Corp Inc',
+                'experience': '5'
+            };
+            
+            for (const [fieldId, value] of Object.entries(formData)) {
+                const field = document.getElementById(fieldId);
+                if (field) {
+                    console.log(`🤖 Filling field: ${fieldId} = ${value}`);
+                    
+                    // Click on field with perfect precision
+                    const clickEvent = {
+                        clientX: field.offsetLeft + 50,
+                        clientY: field.offsetTop + 20,
+                        type: 'click',
+                        timestamp: Date.now()
+                    };
+                    tracker.trackMouse(clickEvent);
+                    field.focus();
+                    
+                    // Type with perfect constant speed (bot-like)
+                    for (let i = 0; i < value.length; i++) {
+                        const keystrokeEvent = {
+                            key: value[i],
+                            type: 'keydown',
+                            timestamp: Date.now(),
+                            keyCode: value.charCodeAt(i)
+                        };
+                        tracker.trackKeyboard(keystrokeEvent);
+                        field.value += value[i];
+                        await sleep(80); // Constant 80ms per keystroke (robotic)
+                    }
+                    
+                    // No hesitation, move immediately to next field
+                    await sleep(100); // Constant pause between fields
+                }
+            }
+            
+            console.log('🤖 Phase 3: Robotic dropdown selection...');
+            
+            // Phase 3: Select dropdown with no hesitation
+            const positionSelect = document.getElementById('position');
+            if (positionSelect) {
+                const clickEvent = {
+                    clientX: positionSelect.offsetLeft + 100,
+                    clientY: positionSelect.offsetTop + 20,
+                    type: 'click',
+                    timestamp: Date.now()
+                };
+                tracker.trackMouse(clickEvent);
+                positionSelect.value = 'developer';
+                await sleep(100);
+            }
+            
+            console.log('🤖 Phase 4: Robotic textarea filling...');
+            
+            // Phase 4: Fill textarea with robotic behavior
+            const messageField = document.getElementById('message');
+            if (messageField) {
+                const message = 'This is an automated message generated by a bot with perfect timing and no human variations.';
+                messageField.focus();
+                
+                for (let i = 0; i < message.length; i++) {
+                    const keystrokeEvent = {
+                        key: message[i],
+                        type: 'keydown',
+                        timestamp: Date.now(),
+                        keyCode: message.charCodeAt(i)
+                    };
+                    tracker.trackKeyboard(keystrokeEvent);
+                    messageField.value += message[i];
+                    await sleep(75); // Constant speed, no variation
+                }
+            }
+            
+            console.log('🤖 Phase 5: Robotic checkbox selection...');
+            
+            // Phase 5: Check boxes with perfect timing
+            const checkboxes = ['newsletter', 'terms'];
+            for (const checkboxId of checkboxes) {
+                const checkbox = document.getElementById(checkboxId);
+                if (checkbox) {
+                    const clickEvent = {
+                        clientX: checkbox.offsetLeft + 10,
+                        clientY: checkbox.offsetTop + 10,
+                        type: 'click',
+                        timestamp: Date.now()
+                    };
+                    tracker.trackMouse(clickEvent);
+                    checkbox.checked = true;
+                    await sleep(200); // Constant timing
+                }
+            }
+            
+            console.log('🤖 Bot behavior simulation completed');
+            console.log('🔍 Expected bot indicators:');
+            console.log('  ✓ Linear mouse movements');
+            console.log('  ✓ Constant keystroke timing');
+            console.log('  ✓ No hesitation patterns');
+            console.log('  ✓ Perfect click precision');
+            console.log('  ✓ No typing corrections');
+            console.log('  ✓ Robotic interaction patterns');
+        }
+
+        // Human test - for comparison
+        window.startHumanTest = function() {
+            if (tracker) {
+                tracker.stopTracking();
+            }
+            
+            clearForm();
+            tracker = new BehaviorTracker('human-test-' + Date.now());
+            updateStatus('👤 Human test started - interact naturally with the form', 'running');
+            console.log('👤 Human test started. Please fill the form naturally and then analyze.');
+            
+            // Add a button to analyze human behavior
+            const resultsDiv = document.getElementById('testResults');
+            resultsDiv.innerHTML = `
+                <button class="test-button" onclick="analyzeHumanBehavior()">📊 Analyze Human Behavior</button>
+                <p><em>Fill out the form naturally, then click analyze.</em></p>
+            `;
+        };
+
+        window.analyzeHumanBehavior = async function() {
+            if (!tracker) {
+                console.error('❌ No tracker available');
+                return;
+            }
+            
+            updateStatus('📊 Analyzing human behavior...', 'running');
+            
+            try {
+                console.log('📤 Sending human behavior data for analysis...');
+                const result = await tracker.sendToServer();
+                
+                console.log('📊 Human behavior results:', result);
+                
+                if (result.success) {
+                    displayScore(result.trustScore, result);
+                    const scorePercent = Math.round(result.trustScore * 100);
+                    
+                    if (scorePercent > 50) {
+                        console.log('✅ SUCCESS: Human correctly detected with score ' + scorePercent + '%');
+                        updateStatus('✅ Human correctly detected', 'completed');
+                    } else {
+                        console.log('⚠️ WARNING: Human detected as bot with score ' + scorePercent + '%');
+                        updateStatus('⚠️ Human detected as bot - may need to interact more naturally', 'error');
+                    }
+                } else {
+                    console.error('❌ Failed to get trust score:', result.error);
+                    updateStatus('❌ Failed to analyze behavior', 'error');
+                }
+            } catch (error) {
+                console.error('❌ Human analysis failed:', error);
+                updateStatus('❌ Analysis failed: ' + error.message, 'error');
+            }
+        };
+
+        function clearForm() {
+            document.getElementById('testForm').reset();
+        }
+
+        window.clearLogs = function() {
+            document.getElementById('logOutput').innerHTML = '';
+            document.getElementById('scoreDisplay').style.display = 'none';
+            document.getElementById('testResults').innerHTML = '';
+            updateStatus('Ready to test', '');
+        };
+
+        function sleep(ms) {
+            return new Promise(resolve => setTimeout(resolve, ms));
+        }
+        
+        console.log('🔧 Bot simulation test page loaded');
+        console.log('🎯 Click "Run Bot Simulation" to test if AI can detect automated behavior');
+        console.log('🎯 Expected result: Bot should get ≤50% trust score');
+    </script>
+</body>
+</html>

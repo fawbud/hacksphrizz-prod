@@ -419,6 +419,40 @@ export default function DashboardPage() {
   // Historical data for reports
   const historicalReportData = generateHistoricalReportData();
 
+  // AI Insights state
+  const [aiInsights, setAiInsights] = useState(null);
+  const [insightsLoading, setInsightsLoading] = useState(false);
+  const [insightsError, setInsightsError] = useState(null);
+
+  // Fetch AI Insights
+  useEffect(() => {
+    const fetchInsights = async () => {
+      setInsightsLoading(true);
+      setInsightsError(null);
+      try {
+        const response = await fetch('/api/insights/generate?timeRange=24h');
+        const data = await response.json();
+        if (data.success) {
+          setAiInsights(data.insights);
+        } else {
+          setInsightsError(data.error || 'Failed to fetch insights');
+        }
+      } catch (error) {
+        console.error('Error fetching AI insights:', error);
+        setInsightsError(error.message);
+      } finally {
+        setInsightsLoading(false);
+      }
+    };
+
+    // Fetch immediately
+    fetchInsights();
+
+    // Refresh every 5 minutes
+    const interval = setInterval(fetchInsights, 5 * 60 * 1000);
+    return () => clearInterval(interval);
+  }, []);
+
   // Simulate live data updates
   useEffect(() => {
     const interval = setInterval(() => {
@@ -1100,6 +1134,66 @@ export default function DashboardPage() {
         </p>
       </div>
 
+      {/* AI Security Insights */}
+      {insightsLoading ? (
+        <div className="bg-blue-50 border-2 border-blue-300 rounded-lg p-6">
+          <div className="flex items-center gap-3">
+            <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-blue-600"></div>
+            <span className="text-blue-800 font-semibold">Loading AI Security Insights...</span>
+          </div>
+        </div>
+      ) : insightsError ? (
+        <div className="bg-yellow-50 border-2 border-yellow-300 rounded-lg p-6">
+          <h2 className="text-yellow-800 font-semibold mb-2">AI Insights Unavailable</h2>
+          <p className="text-yellow-700 text-sm">{insightsError}</p>
+        </div>
+      ) : aiInsights ? (
+        <div className="bg-gradient-to-r from-blue-50 to-indigo-50 border-2 border-blue-300 rounded-lg p-6">
+          <h2 className="text-blue-900 font-semibold mb-3 flex items-center gap-2">
+            🤖 AI Security Analysis (Last 24 Hours)
+          </h2>
+
+          {/* Summary */}
+          <div className="bg-white p-4 rounded-lg mb-4">
+            <h3 className="font-semibold text-gray-900 mb-2">Executive Summary</h3>
+            <p className="text-gray-700 text-sm leading-relaxed">{aiInsights.summary}</p>
+            <div className="flex gap-4 mt-3 text-xs">
+              <span className="text-gray-600">Source: <span className="font-semibold text-blue-600">{aiInsights.source === 'gemini_ai' ? 'Gemini AI' : 'Statistical Analysis'}</span></span>
+              <span className="text-gray-600">Sessions: <span className="font-semibold">{aiInsights.stats?.totalSessions || 'N/A'}</span></span>
+              <span className="text-gray-600">Bot Rate: <span className="font-semibold text-red-600">{aiInsights.stats?.botRate?.toFixed(1)}%</span></span>
+              <span className="text-gray-600">Avg Trust: <span className="font-semibold text-green-600">{aiInsights.stats?.avgTrustScore?.toFixed(1)}%</span></span>
+            </div>
+          </div>
+
+          {/* Alerts */}
+          {aiInsights.alerts && aiInsights.alerts.length > 0 && (
+            <div className="bg-red-50 border border-red-300 p-4 rounded-lg mb-4">
+              <h3 className="font-semibold text-red-900 mb-2">🚨 Security Alerts</h3>
+              <ul className="space-y-1">
+                {aiInsights.alerts.map((alert, idx) => (
+                  <li key={idx} className="text-red-800 text-sm">• {alert}</li>
+                ))}
+              </ul>
+            </div>
+          )}
+
+          {/* Recommendations */}
+          {aiInsights.recommendations && aiInsights.recommendations.length > 0 && (
+            <div className="bg-white p-4 rounded-lg">
+              <h3 className="font-semibold text-gray-900 mb-2">💡 Strategic Recommendations</h3>
+              <ul className="space-y-2">
+                {aiInsights.recommendations.slice(0, 3).map((rec, idx) => (
+                  <li key={idx} className="text-gray-700 text-sm flex items-start gap-2">
+                    <span className="text-blue-600 font-semibold">{idx + 1}.</span>
+                    <span>{rec}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+        </div>
+      ) : null}
+
       {/* Priority Action Items */}
       <div className="bg-red-50 border-2 border-dashed border-red-400 rounded-lg p-6">
         <h2 className="text-red-800 font-semibold mb-4 flex items-center gap-2">
@@ -1396,6 +1490,122 @@ export default function DashboardPage() {
           </table>
         </div>
       </div>
+
+      {/* AI Security Insights */}
+      {insightsLoading ? (
+        <div className="bg-blue-50 border-2 border-blue-300 rounded-lg p-6">
+          <div className="flex items-center gap-3">
+            <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-blue-600"></div>
+            <span className="text-blue-800 font-semibold">Loading AI Security Insights...</span>
+          </div>
+        </div>
+      ) : insightsError ? (
+        <div className="bg-yellow-50 border-2 border-yellow-300 rounded-lg p-6">
+          <h2 className="text-yellow-800 font-semibold mb-2">AI Insights Unavailable</h2>
+          <p className="text-yellow-700 text-sm">{insightsError}</p>
+        </div>
+      ) : aiInsights ? (
+        <div className="bg-gradient-to-r from-purple-50 to-blue-50 border-2 border-purple-300 rounded-lg p-6">
+          <h2 className="text-purple-900 font-semibold mb-3 flex items-center gap-2">
+            🤖 AI Security Analysis (Last 24 Hours)
+          </h2>
+
+          {/* Summary */}
+          <div className="bg-white p-4 rounded-lg mb-4">
+            <h3 className="font-semibold text-gray-900 mb-2 flex items-center gap-2">
+              <span className="text-lg">📊</span> Security Overview
+            </h3>
+            <p className="text-gray-700 text-sm leading-relaxed mb-3">{aiInsights.summary}</p>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-xs">
+              <div className="bg-gray-50 p-2 rounded">
+                <div className="text-gray-600">Total Sessions</div>
+                <div className="text-lg font-bold text-gray-900">{aiInsights.stats?.totalSessions || 'N/A'}</div>
+              </div>
+              <div className="bg-red-50 p-2 rounded">
+                <div className="text-gray-600">Bot Detection</div>
+                <div className="text-lg font-bold text-red-600">{aiInsights.stats?.botRate?.toFixed(1)}%</div>
+              </div>
+              <div className="bg-green-50 p-2 rounded">
+                <div className="text-gray-600">Avg Trust Score</div>
+                <div className="text-lg font-bold text-green-600">{aiInsights.stats?.avgTrustScore?.toFixed(1)}%</div>
+              </div>
+              <div className="bg-blue-50 p-2 rounded">
+                <div className="text-gray-600">AI Source</div>
+                <div className="text-lg font-bold text-blue-600">{aiInsights.source === 'gemini_ai' ? 'Gemini' : 'Stats'}</div>
+              </div>
+            </div>
+          </div>
+
+          {/* Patterns & Trends */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+            {aiInsights.patterns && aiInsights.patterns.length > 0 && (
+              <div className="bg-white p-4 rounded-lg">
+                <h3 className="font-semibold text-gray-900 mb-2 flex items-center gap-2">
+                  <span className="text-lg">🔍</span> Detected Patterns
+                </h3>
+                <ul className="space-y-1">
+                  {aiInsights.patterns.slice(0, 3).map((pattern, idx) => (
+                    <li key={idx} className="text-gray-700 text-xs flex items-start gap-2">
+                      <span className="text-purple-600 font-semibold">•</span>
+                      <span>{pattern}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+
+            {aiInsights.trends && aiInsights.trends.length > 0 && (
+              <div className="bg-white p-4 rounded-lg">
+                <h3 className="font-semibold text-gray-900 mb-2 flex items-center gap-2">
+                  <span className="text-lg">📈</span> Security Trends
+                </h3>
+                <ul className="space-y-1">
+                  {aiInsights.trends.slice(0, 3).map((trend, idx) => (
+                    <li key={idx} className="text-gray-700 text-xs flex items-start gap-2">
+                      <span className="text-blue-600 font-semibold">•</span>
+                      <span>{trend}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+          </div>
+
+          {/* Alerts */}
+          {aiInsights.alerts && aiInsights.alerts.length > 0 && (
+            <div className="bg-red-50 border border-red-300 p-4 rounded-lg mb-4">
+              <h3 className="font-semibold text-red-900 mb-2 flex items-center gap-2">
+                <span className="text-lg">🚨</span> Critical Alerts
+              </h3>
+              <ul className="space-y-1">
+                {aiInsights.alerts.map((alert, idx) => (
+                  <li key={idx} className="text-red-800 text-sm flex items-start gap-2">
+                    <span className="font-semibold">⚠️</span>
+                    <span>{alert}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+
+          {/* Recommendations */}
+          {aiInsights.recommendations && aiInsights.recommendations.length > 0 && (
+            <div className="bg-white p-4 rounded-lg">
+              <h3 className="font-semibold text-gray-900 mb-2 flex items-center gap-2">
+                <span className="text-lg">💡</span> AI Recommendations
+              </h3>
+              <ul className="space-y-2">
+                {aiInsights.recommendations.slice(0, 5).map((rec, idx) => (
+                  <li key={idx} className="text-gray-700 text-sm flex items-start gap-2">
+                    <span className="text-purple-600 font-semibold">{idx + 1}.</span>
+                    <span>{rec}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+        </div>
+      ) : null}
 
       {/* System Alerts */}
       <div className="bg-yellow-50 border-2 border-dashed border-yellow-400 rounded-lg p-6">
