@@ -504,7 +504,7 @@ export default function Home() {
                   </Link>
                 </li>
                 <li>
-                  <Link href="/bookings" className="text-gray-400 hover:text-brand transition-colors">
+                  <Link href="/dashboard/my-bookings" className="text-gray-400 hover:text-brand transition-colors">
                     My Bookings
                   </Link>
                 </li>
