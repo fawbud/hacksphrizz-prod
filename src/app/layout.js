@@ -3,6 +3,7 @@ import Script from "next/script";
 import "./globals.css";
 import { AuthProvider } from "@/context/AuthContext";
 import { CrowdHandlerProvider } from "@/context/CrowdHandlerContext";
+import EmergencyBypass from "@/components/EmergencyBypass";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -51,6 +52,7 @@ export default function RootLayout({ children }) {
           />
         </noscript>
         {/* End Google Tag Manager (noscript) */}
+        <EmergencyBypass />
         <CrowdHandlerProvider>
           <AuthProvider>{children}</AuthProvider>
         </CrowdHandlerProvider>
