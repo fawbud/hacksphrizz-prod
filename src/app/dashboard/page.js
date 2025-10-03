@@ -58,10 +58,10 @@ export default function Dashboard() {
           {/* Welcome Message */}
           <div className="text-center mb-8">
             <h1 className="text-3xl md:text-4xl font-bold text-gray-800 mb-2">
-              Selamat Datang, {user?.user_metadata?.first_name || 'Penumpang'} 👋
+              Welcome, {user?.user_metadata?.first_name || 'Penumpang'} 👋
             </h1>
             <p className="text-gray-600 text-lg">
-              Pesan tiket kereta dengan mudah dan cepat
+              Try out our train ticket booking system!
             </p>
           </div>
 
@@ -69,7 +69,7 @@ export default function Dashboard() {
           <div className="bg-white rounded-3xl shadow-2xl p-8 border border-gray-100">
             <h2 className="text-xl font-semibold mb-6 text-gray-800 flex items-center gap-2">
               <span className="text-2xl">🚄</span>
-              Cari Jadwal Kereta
+              Find Train Tickets
             </h2>
 
             <form onSubmit={handleSubmit} className="space-y-6">
@@ -80,22 +80,22 @@ export default function Dashboard() {
                   onClick={() => setIsRoundTrip(false)}
                   className={`flex-1 py-2 px-4 rounded-lg font-medium transition ${
                     !isRoundTrip
-                      ? 'bg-blue-600 text-white'
+                      ? 'bg-brand text-white'
                       : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
                   }`}
                 >
-                  Sekali Jalan
+                  One Way
                 </button>
                 <button
                   type="button"
                   onClick={() => setIsRoundTrip(true)}
                   className={`flex-1 py-2 px-4 rounded-lg font-medium transition ${
                     isRoundTrip
-                      ? 'bg-blue-600 text-white'
+                      ? 'bg-brand text-white'
                       : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
                   }`}
                 >
-                  Pulang Pergi
+                  Return
                 </button>
               </div>
 
@@ -105,7 +105,7 @@ export default function Dashboard() {
                   {/* Departure */}
                   <div className="bg-gray-50 rounded-xl p-4 border border-gray-200">
                     <label className="block text-sm font-medium text-gray-600 mb-2">
-                      Dari
+                      From
                     </label>
                     <select
                       value={`${from}|${fromCode}`}
@@ -129,11 +129,11 @@ export default function Dashboard() {
                     <button
                       type="button"
                       onClick={handleSwap}
-                      className="bg-white border-2 border-blue-600 rounded-full p-3 shadow-lg hover:bg-blue-50 transition transform hover:rotate-180 duration-300"
+                      className="bg-white border-2 border-brand rounded-full p-3 hover:shadow-lg hover:bg-gray-50 transition transform hover:rotate-180 duration-300"
                       aria-label="Tukar stasiun"
                     >
                       <svg
-                        className="w-5 h-5 text-blue-600"
+                        className="w-5 h-5 text-brand"
                         fill="none"
                         stroke="currentColor"
                         viewBox="0 0 24 24"
@@ -151,7 +151,7 @@ export default function Dashboard() {
                   {/* Destination */}
                   <div className="bg-gray-50 rounded-xl p-4 border border-gray-200">
                     <label className="block text-sm font-medium text-gray-600 mb-2">
-                      Ke
+                      To
                     </label>
                     <select
                       value={`${to}|${toCode}`}
@@ -176,7 +176,7 @@ export default function Dashboard() {
               <div className={`grid gap-4 ${isRoundTrip ? 'md:grid-cols-2' : ''}`}>
                 <div className="bg-gray-50 rounded-xl p-4 border border-gray-200">
                   <label className="block text-sm font-medium text-gray-600 mb-2">
-                    Tanggal Berangkat
+                    Departure Date
                   </label>
                   <input
                     type="date"
@@ -191,7 +191,7 @@ export default function Dashboard() {
                 {isRoundTrip && (
                   <div className="bg-gray-50 rounded-xl p-4 border border-gray-200">
                     <label className="block text-sm font-medium text-gray-600 mb-2">
-                      Tanggal Pulang
+                      Return Date
                     </label>
                     <input
                       type="date"
@@ -208,9 +208,9 @@ export default function Dashboard() {
               {/* Submit Button */}
               <button
                 type="submit"
-                className="w-full bg-gradient-to-r from-blue-600 to-blue-700 text-white py-4 rounded-xl font-semibold text-lg hover:from-blue-700 hover:to-blue-800 transition shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
+                className="w-full bg-brand text-white py-4 rounded-xl font-semibold text-lg hover:bg-brand-hover transition shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
               >
-                🔍 Cari Jadwal
+                🔍 Find Schedule
               </button>
             </form>
           </div>
@@ -218,19 +218,19 @@ export default function Dashboard() {
           {/* Quick Info Cards */}
           <div className="grid md:grid-cols-3 gap-6 mt-12">
             <div className="bg-white rounded-xl p-6 shadow-lg border border-gray-100 text-center">
-              <div className="text-3xl mb-3">⚡</div>
-              <h3 className="font-semibold text-gray-800 mb-1">Booking Cepat</h3>
-              <p className="text-sm text-gray-600">Proses booking hanya dalam hitungan menit</p>
+              <div className="text-3xl mb-3">💪</div>
+              <h3 className="font-semibold text-gray-800 mb-1">No More Downtime</h3>
+              <p className="text-sm text-gray-600">With smart dynamic waiting rooms</p>
             </div>
             <div className="bg-white rounded-xl p-6 shadow-lg border border-gray-100 text-center">
-              <div className="text-3xl mb-3">🎫</div>
-              <h3 className="font-semibold text-gray-800 mb-1">E-Ticket</h3>
-              <p className="text-sm text-gray-600">Tiket digital langsung ke email Anda</p>
+              <div className="text-3xl mb-3">🤖</div>
+              <h3 className="font-semibold text-gray-800 mb-1">Fair and Square</h3>
+              <p className="text-sm text-gray-600">No more competing against pesky bots</p>
             </div>
             <div className="bg-white rounded-xl p-6 shadow-lg border border-gray-100 text-center">
-              <div className="text-3xl mb-3">💳</div>
-              <h3 className="font-semibold text-gray-800 mb-1">Pembayaran Aman</h3>
-              <p className="text-sm text-gray-600">Berbagai metode pembayaran tersedia</p>
+              <div className="text-3xl mb-3">📈</div>
+              <h3 className="font-semibold text-gray-800 mb-1">Zero Compromise</h3>
+              <p className="text-sm text-gray-600">Enjoy the benefits with zero tradeoff</p>
             </div>
           </div>
         </div>
