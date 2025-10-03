@@ -374,6 +374,7 @@ function BookingPageContent() {
             {currentStep === 5 && (
               <Checkout
                 bookingData={bookingData}
+                train={train}
                 onComplete={handleComplete}
                 onBack={handleBack}
               />
