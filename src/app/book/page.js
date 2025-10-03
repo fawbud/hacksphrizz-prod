@@ -15,6 +15,8 @@ import MealAndCab from '@/components/booking/MealAndCab';
 import Checkout from '@/components/booking/Checkout';
 import ReCAPTCHA from 'react-google-recaptcha';
 
+export const dynamic = 'force-dynamic';
+
 const TOTAL_TIME = 10 * 60 * 1000; // 10 minutes in milliseconds
 
 export default function BookingPage() {
