@@ -192,41 +192,12 @@ hacksphere/
 
 ---
 
-## Support & Guarantees
-
-- **24/7 Expert Support** for all integration and operational needs
-- **48hrs Quick Integration** - get up and running fast
-- **100% Money-Back Guarantee** for satisfaction
-
----
-
 ## Privacy & Security
 
 - **Minimal data collection**: Only anonymous behavioral patterns
 - **No personal information storage**: Privacy-first approach
 - **Real-time analysis**: No permanent data retention
 - **Secure infrastructure**: Enterprise-grade security standards
-
----
-
-## Contributing
-
-We welcome contributions! Please read our contributing guidelines before submitting pull requests.
-
----
-
-## License
-
-[Specify your license here]
-
----
-
-## Contact & Links
-
-- **Website**: [Add website URL]
-- **Documentation**: [Add docs URL]
-- **Support Email**: [Add support email]
-- **GitHub Issues**: [Repository issues URL]
 
 ---
 
