@@ -4,6 +4,7 @@ import { useState } from 'react';
 
 export default function Checkout({ bookingData, train, onComplete, onBack }) {
   const [paymentMethod, setPaymentMethod] = useState('credit-card');
+  // const [detectionMethod, setDetectionMethod] = useState('rule-based'); // Bot detection toggle - commented out
   const [paymentInfo, setPaymentInfo] = useState({
     cardNumber: '',
     cardName: '',
@@ -61,7 +62,7 @@ export default function Checkout({ bookingData, train, onComplete, onBack }) {
       }
     }
 
-    onComplete({ paymentMethod, paymentInfo });
+        onComplete({ paymentMethod, paymentInfo });
   };
 
   return (

@@ -22,7 +22,7 @@ export async function POST(req) {
       .single();
 
     if (!trustRow) {
-      trustRow = { trust_score: 0, failed_attempts: 0, blocked_until: null };
+      trustRow = { trust_score: 0.1, failed_attempts: 0, blocked_until: null };
       await supabase.from("user_trust").insert({ user_id, ...trustRow });
     }
 
@@ -67,11 +67,15 @@ export async function POST(req) {
     }
 
     // Kalau lolos captcha → reset failed_attempts dan update trust_score
+    // Boost trust score by 0.15 (15%) on successful captcha, capped at 1.0
+    const newTrustScore = Math.min(trustRow.trust_score + 0.15, 1.0);
+
     await supabase.from("user_trust").upsert({
       user_id,
       failed_attempts: 0,
       blocked_until: null,
-      trust_score: Math.min(trustRow.trust_score + 0.1, 1.0) // Increment trust score, max 1.0
+      trust_score: newTrustScore, // 0-1 scale, boost by 0.15
+      updated_at: new Date().toISOString()
     });
 
     return NextResponse.json({ success: true });

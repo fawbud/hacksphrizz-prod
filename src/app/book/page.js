@@ -4,6 +4,9 @@ import { useState, useEffect, useRef, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useAuth } from '@/context/AuthContext';
 import { useCrowdHandler } from '@/context/CrowdHandlerContext';
+// Removed problematic hooks causing infinite loop
+// import { useBehaviorTracking } from '@/hooks/useBehaviorTracking';
+// import { useRealtimeTrustScore } from '@/hooks/useRealtimeTrustScore';
 import { useToast } from '@/context/ToastContext';
 import { supabase } from '@/lib/supabase';
 import Navbar from '@/components/Navbar';
@@ -14,7 +17,7 @@ import SeatSelector from '@/components/booking/SeatSelector';
 import ExtraProtection from '@/components/booking/ExtraProtection';
 import MealAndCab from '@/components/booking/MealAndCab';
 import Checkout from '@/components/booking/Checkout';
-import ReCAPTCHA from 'react-google-recaptcha';
+import AdaptiveCaptcha, { RealtimeTrustScoreDisplay } from '@/components/AdaptiveCaptcha';
 
 const TOTAL_TIME = 10 * 60 * 1000; // 10 minutes in milliseconds
 
@@ -26,11 +29,12 @@ function BookingPageContent() {
   const { showToast } = useToast();
   const [currentStep, setCurrentStep] = useState(1);
   const [timeLeft, setTimeLeft] = useState(TOTAL_TIME);
+  const [isAnalyzing, setIsAnalyzing] = useState(false);
+  const [analysisComplete, setAnalysisComplete] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [hasTriggeredCheckoutAnalysis, setHasTriggeredCheckoutAnalysis] = useState(false);
   const [train, setTrain] = useState(null);
   const [trainLoading, setTrainLoading] = useState(true);
-  const [showCaptcha, setShowCaptcha] = useState(false);
-  const [recaptchaRef, setRecaptchaRef] = useState(null);
-  const [pendingPaymentData, setPendingPaymentData] = useState(null);
   const [bookingData, setBookingData] = useState({
     passengers: [],
     selectedSeats: [],
@@ -47,6 +51,30 @@ function BookingPageContent() {
 
   const trainId = searchParams.get('train');
   const selectedDate = searchParams.get('date');
+
+  // Simplified captcha state (hooks removed to fix infinite loop)
+  const [showCaptcha, setShowCaptcha] = useState(false);
+  const [captchaReason, setCaptchaReason] = useState('');
+
+  // Handle captcha success
+  const handleCaptchaSuccess = async () => {
+    try {
+      console.log('✅ Captcha verification successful');
+      setShowCaptcha(false);
+      setIsSubmitting(false); // Allow submission to continue
+    } catch (error) {
+      console.error('Failed to handle captcha success:', error);
+      setIsSubmitting(false);
+    }
+  };
+
+  // Handle captcha error
+  const handleCaptchaError = (error) => {
+    console.error('❌ Captcha verification failed:', error);
+    showToast(`Captcha failed: ${error.message}`, 'error');
+  };
+
+  // Removed handleFormSubmission - no longer needed without hooks
 
   // Redirect if not logged in
   useEffect(() => {
@@ -107,6 +135,17 @@ function BookingPageContent() {
     return () => clearInterval(timer);
   }, [authLoading, trainLoading, user, train, router]);
 
+  // Make test functions globally available for checkout component
+  useEffect(() => {
+
+    // Cleanup on unmount
+    return () => {
+      delete window.testAnalyzeBehavior;
+      delete window.testSimulateBot;
+      delete window.testReset;
+    };
+  }, []);
+
   const formatTime = (milliseconds) => {
     const minutes = Math.floor(milliseconds / 60000);
     const seconds = Math.floor((milliseconds % 60000) / 1000);
@@ -134,8 +173,11 @@ function BookingPageContent() {
     return total;
   };
 
-  const handleNext = (data) => {
+  const handleNext = async (data) => {
+    // Update booking data first
     setBookingData({ ...bookingData, ...data });
+
+    // Move to next step
     setCurrentStep((prev) => prev + 1);
   };
 
@@ -149,49 +191,28 @@ function BookingPageContent() {
     }
   };
 
-  const handleRecaptchaVerify = async (token) => {
-    if (!token) return;
+  const handleComplete = async (paymentData) => {
+    setIsSubmitting(true);
 
     try {
-      const verifyRes = await fetch('/api/verify-captcha', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ token, user_id: user.id }),
-      });
-      const verifyData = await verifyRes.json();
+      // Get trust score (default to high trust for now)
+      const finalTrustScore = 1.0; // TODO: Implement trust score calculation
 
-      if (verifyData.success) {
-        setShowCaptcha(false);
-        recaptchaRef?.reset();
+      // Proceed with booking completion
+      await completeBooking(paymentData, finalTrustScore);
 
-        // Update trust score di Supabase
-        await fetch('/api/update-trust', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ user_id: user.id, trust_score: 0.4 }),
-        });
-
-        // Lanjutkan booking dengan paymentData yang tersimpan
-        if (pendingPaymentData) {
-          await completeBooking(pendingPaymentData);
-        }
-      } else {
-        console.error('reCAPTCHA Error:', verifyData['error-codes']);
-        alert('Verifikasi captcha gagal. Silakan coba lagi.');
-        recaptchaRef?.reset();
-      }
-    } catch (err) {
-      console.error(err);
-      alert('Terjadi kesalahan. Coba lagi.');
-      recaptchaRef?.reset();
+    } catch (error) {
+      console.error('Error in booking completion process:', error);
+      setIsSubmitting(false);
+      alert('An error occurred. Please try again.');
     }
   };
 
-  const completeBooking = async (paymentData) => {
-    const finalBookingData = { ...bookingData, payment: paymentData };
-    const totalAmount = calculateTotal();
 
+  const completeBooking = async (paymentData, trustScore) => {
     try {
+      const finalBookingData = { ...bookingData, payment: paymentData };
+      const totalAmount = calculateTotal();
       const { data: booking, error: bookingError } = await supabase
         .from('bookings')
         .insert({
@@ -205,6 +226,7 @@ function BookingPageContent() {
           station_cab: finalBookingData.extras.stationCab,
           payment_method: paymentData.paymentMethod,
           payment_details: paymentData.paymentInfo,
+          trust_score: trustScore ? Math.round(trustScore * 100) : null,
         })
         .select()
         .single();
@@ -245,25 +267,9 @@ function BookingPageContent() {
     } catch (error) {
       console.error('Error completing booking:', error);
       alert('An error occurred. Please try again.');
+    } finally {
+      setIsSubmitting(false);
     }
-  };
-
-  const handleComplete = async (paymentData) => {
-    if (!train) {
-      alert('Train information not available. Please try again.');
-      return;
-    }
-
-    // 1️⃣ Jalankan AI behavioral → hardcode dulu
-    const aiScore = 0.4; // nanti diganti AI
-    if (aiScore < 0.5) {
-      setPendingPaymentData(paymentData); // Simpan paymentData untuk digunakan setelah captcha
-      setShowCaptcha(true);
-      return;
-    }
-
-    // Jika trust score tinggi, langsung lanjutkan booking
-    await completeBooking(paymentData);
   };
 
   if (authLoading || trainLoading) {
@@ -283,131 +289,89 @@ function BookingPageContent() {
     <ProtectedRoute>
       <div className="min-h-screen bg-gray-50">
         <Navbar />
-
-        <main className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-          {/* Train Details Header */}
-          <div className="bg-white rounded-lg shadow-sm p-4 mb-4">
-            <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-              <div className="flex items-center gap-4">
-                <div className="text-center">
-                  <div className="text-2xl font-bold text-gray-800">
-                    {train.departure_time.substring(0, 5)}
-                  </div>
-                  <div className="text-sm text-gray-600">
-                    {train.departure_station_code}
-                  </div>
-                </div>
-                <div className="flex items-center">
-                  <div className="w-16 h-px bg-gray-300"></div>
-                </div>
-                <div className="text-center">
-                  <div className="text-2xl font-bold text-gray-800">
-                    {train.arrival_time.substring(0, 5)}
-                  </div>
-                  <div className="text-sm text-gray-600">
-                    {train.arrival_station_code}
-                  </div>
-                </div>
-              </div>
-              <div>
-                <h2 className="text-lg font-bold text-gray-800">
-                  {train.train_name} ({train.train_code})
-                </h2>
-                <p className="text-sm text-gray-600">
-                  {train.departure_station} → {train.arrival_station} • {selectedDate || 'Selected Date'}
-                </p>
-              </div>
+      <main className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        {/* Timer and Price Preview */}
+        <div className="bg-white rounded-lg shadow-sm p-4 mb-6">
+          <div className="grid md:grid-cols-3 gap-4">
+            <div className="flex items-center justify-between md:justify-start md:gap-4">
+              <span className="text-gray-600">Time Remaining:</span>
+              <span className={`text-2xl font-bold ${timeLeft < 60000 ? 'text-red-600' : 'text-[#F27500]'}`}>
+                {formatTime(timeLeft)}
+              </span>
+            </div>
+            <div className="flex items-center justify-center">
+              {/* Trust score display temporarily disabled */}
+            </div>
+            <div className="flex items-center justify-between md:justify-end md:gap-4">
+              <span className="text-gray-600">Total Price:</span>
+              <span className="text-2xl font-bold text-[#F27500]">
+                Rp {calculateTotal().toLocaleString()}
+              </span>
             </div>
           </div>
+        </div>
 
-          {/* Timer and Price Preview */}
-          <div className="bg-white rounded-lg shadow-sm p-4 mb-6">
-            <div className="grid md:grid-cols-2 gap-4">
-              <div className="flex items-center justify-between md:justify-start md:gap-4">
-                <span className="text-gray-600">Time Remaining:</span>
-                <span className={`text-2xl font-bold ${timeLeft < 60000 ? 'text-red-600' : 'text-[#F27500]'}`}>
-                  {formatTime(timeLeft)}
-                </span>
-              </div>
-              <div className="flex items-center justify-between md:justify-end md:gap-4">
-                <span className="text-gray-600">Total Price:</span>
-                <span className="text-2xl font-bold text-[#F27500]">
-                  Rp {calculateTotal().toLocaleString()}
-                </span>
-              </div>
-            </div>
-          </div>
+        {/* Step Tracker */}
+        <StepTracker currentStep={currentStep} onStepClick={handleStepClick} />
 
-          {/* Step Tracker */}
-          <StepTracker currentStep={currentStep} onStepClick={handleStepClick} />
+        {/* Step Content */}
+        <div className="bg-white rounded-lg shadow-sm p-8 mt-6">
+          
 
-          {/* Step Content */}
-          <div className="bg-white rounded-lg shadow-sm p-8 mt-6">
-            {currentStep === 1 && (
-              <PassengerDetails
-                initialData={bookingData.passengers}
-                onNext={handleNext}
-              />
-            )}
-            {currentStep === 2 && (
-              <SeatSelector
-                passengers={bookingData.passengers}
-                initialData={bookingData.selectedSeats}
-                onNext={handleNext}
-                onBack={handleBack}
-                trainId={train.id}
-                availableSeats={train.available_seats}
-              />
-            )}
-            {currentStep === 3 && (
-              <ExtraProtection
-                initialData={bookingData.protections}
-                onNext={handleNext}
-                onBack={handleBack}
-              />
-            )}
-            {currentStep === 4 && (
-              <MealAndCab
-                initialData={bookingData.extras}
-                onNext={handleNext}
-                onBack={handleBack}
-              />
-            )}
-            {currentStep === 5 && (
+          {currentStep === 1 && (
+            <PassengerDetails
+              initialData={bookingData.passengers}
+              onNext={handleNext}
+              onBack={handleBack}
+            />
+          )}
+          {currentStep === 2 && (
+            <SeatSelector
+              passengers={bookingData.passengers}
+              initialData={bookingData.selectedSeats}
+              onNext={handleNext}
+              onBack={handleBack}
+            />
+          )}
+          {currentStep === 3 && (
+            <ExtraProtection
+              initialData={bookingData.protections}
+              onNext={handleNext}
+              onBack={handleBack}
+            />
+          )}
+          {currentStep === 4 && (
+            <MealAndCab
+              initialData={bookingData.extras}
+              onNext={handleNext}
+              onBack={handleBack}
+            />
+          )}
+          {currentStep === 5 && (
+            <>
               <Checkout
                 bookingData={bookingData}
                 train={train}
                 onComplete={handleComplete}
                 onBack={handleBack}
+                isSubmitting={isSubmitting}
               />
-            )}
-          </div>
-        </main>
-      </div>
-
-      {/* Captcha Modal */}
-      {showCaptcha && (
-        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50">
-          <div className="bg-white rounded-2xl p-8 max-w-md w-full mx-4">
-            <h3 className="text-xl font-bold text-gray-800 mb-4">Human Verification</h3>
-            <p className="text-gray-600 mb-6">Complete verification to proceed.</p>
-            <ReCAPTCHA
-              ref={(ref) => setRecaptchaRef(ref)}
-              sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY}
-              onChange={handleRecaptchaVerify}
-            />
-            <button
-              onClick={() => {
-                setShowCaptcha(false);
-                if (recaptchaRef) recaptchaRef.reset();
-              }}
-              className="mt-4 text-gray-500 hover:text-gray-700"
-            >
-              Cancel
-            </button>
-          </div>
+            </>
+          )}
         </div>
-      )}
+      </main>
+
+      {/* Adaptive Captcha with Real-time Trust Score Monitoring */}
+      <AdaptiveCaptcha
+        userId={user?.id}
+        forceVisible={showCaptcha}
+        captchaThreshold={0.45}
+        reason={captchaReason || "Security verification required"}
+        onSuccess={handleCaptchaSuccess}
+        onError={handleCaptchaError}
+        onClose={() => setShowCaptcha(false)}
+      />
+      </div>
     </ProtectedRoute>
   );
 }

@@ -45,4 +45,7 @@ next-env.d.ts
 # local config files
 .claude/
 CLAUDE.md
+database/ai_training/behavior_training_data.json
+behavior_training_data.json
+
 database/

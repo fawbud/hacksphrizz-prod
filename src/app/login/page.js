@@ -113,7 +113,7 @@ export default function LoginPage() {
   const { showToast } = useToast();
   const router = useRouter();
 
-  // ✅ Kalau sudah login, auto redirect ke dashboard
+  // ✅ Redirect to dashboard after login
   useEffect(() => {
     if (user) {
       router.replace('/dashboard');

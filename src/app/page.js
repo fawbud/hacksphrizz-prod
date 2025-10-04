@@ -42,7 +42,7 @@ export default function Home() {
     }
   ];
 
-  // ✅ Auto redirect kalau sudah login
+  // ✅ Auto redirect to dashboard when logged in
   useEffect(() => {
     if (!loading && user) {
       router.push('/dashboard');
@@ -60,7 +60,11 @@ export default function Home() {
   if (loading || user) {
     return (
       <div className="min-h-screen bg-white flex items-center justify-center">
-        <div className="text-brand text-xl">Loading...</div>
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#F27500] mx-auto mb-4"></div>
+          <div className="text-[#F27500] text-xl font-semibold">Loading...</div>
+          <div className="text-gray-500 text-sm mt-2">Please wait while we prepare your experience</div>
+        </div>
       </div>
     );
   }

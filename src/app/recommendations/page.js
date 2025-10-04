@@ -105,7 +105,7 @@ function RecommendationsPageContent() {
               <div className="flex flex-col gap-4">
                 <div>
                   <h1 className="text-2xl font-bold text-gray-800 mb-2">
-                    Recommended Trains for You
+                    ✨ Smart Recommendations
                   </h1>
                   {bookedTrain && (
                     <p className="text-gray-600">
