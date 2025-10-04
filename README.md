@@ -182,15 +182,6 @@ hacksphere/
 
 ---
 
-## Use Cases Beyond Train Ticketing
-
-While optimized for train ticketing, Quikyu works perfectly for:
-- 🎵 Concert and event ticket sales
-- 📝 Event registrations with limited capacity
-- ⚡ Flash sales and limited product drops
-- 🎯 Any high-demand booking scenario
-
----
 
 ## Integration Timeline
 
