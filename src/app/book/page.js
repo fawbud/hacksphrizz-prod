@@ -697,6 +697,7 @@ Detected Patterns: Linear movement, identical timing`);
             <PassengerDetails
               initialData={bookingData.passengers}
               onNext={handleNext}
+              onBack={handleBack}
             />
           )}
           {currentStep === 2 && (
