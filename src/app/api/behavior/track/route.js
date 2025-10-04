@@ -122,21 +122,20 @@ export async function POST(request) {
       }, { status: 500 });
     }
 
-    // Convert trust score to 0-100 for database storage
-    const dbTrustScore = Math.round(trustResult.trustScore * 100);
+    // Keep trust score in 0-1 range (consistent throughout the system)
+    const trustScore = trustResult.trustScore; // Already 0-1 from AI
 
     // Use trust level from AI result if available, otherwise calculate
-    const trustLevel = trustResult.trustLevel || getTrustLevel(trustResult.trustScore);
+    const trustLevel = trustResult.trustLevel || getTrustLevel(trustScore);
 
-    // Use needsCaptcha from AI result if available, otherwise calculate with VERY GENEROUS threshold
+    // Use needsCaptcha from AI result if available, otherwise calculate with GENEROUS threshold
     const needsCaptcha = trustResult.needsCaptcha !== undefined
       ? trustResult.needsCaptcha
-      : trustResult.trustScore <= 0.25; // UPDATED: Very generous (was 0.35)
+      : trustScore <= 0.45; // Consistent with BALANCED threshold
 
     // DEBUG: Log the trust score calculation details
     console.log('📊 Trust Score Calculation Details:');
-    console.log('  - Raw Trust Score:', trustResult.trustScore);
-    console.log('  - DB Trust Score (0-100):', dbTrustScore);
+    console.log('  - Trust Score (0-1):', trustScore);
     console.log('  - Trust Level:', trustLevel);
     console.log('  - Needs Captcha:', needsCaptcha);
     console.log('  - Analysis Method:', analysisMethod);
@@ -145,13 +144,12 @@ export async function POST(request) {
     // Try to save to database only if we have a valid service key
     if (hasValidServiceKey) {
       try {
-        // Update trust score in database (replaces old score, not average)
-        const { data, error } = await supabaseAdmin
-          .from('queue')
-          .upsert({ 
+        // Update trust score in user_trust table (0-1 scale)
+        const { data: trustData, error: trustError } = await supabaseAdmin
+          .from('user_trust')
+          .upsert({
             user_id: userId,
-            trust_score: dbTrustScore, 
-            trust_level: trustLevel,
+            trust_score: trustScore, // Store as 0-1 decimal
             updated_at: new Date().toISOString()
           }, {
             onConflict: 'user_id'
@@ -159,11 +157,27 @@ export async function POST(request) {
           .select()
           .single();
 
-        if (error) {
-          console.error('⚠️ Error updating trust score:', error);
+        if (trustError) {
+          console.error('⚠️ Error updating user_trust:', trustError);
         } else {
-          console.log('✅ Trust score saved to database');
+          console.log('✅ Trust score saved to user_trust table:', trustScore);
           dbSaveSuccess = true;
+        }
+
+        // Also update queue table for backward compatibility (if exists)
+        const { error: queueError } = await supabaseAdmin
+          .from('queue')
+          .upsert({
+            user_id: userId,
+            trust_score: trustScore,
+            trust_level: trustLevel,
+            updated_at: new Date().toISOString()
+          }, {
+            onConflict: 'user_id'
+          });
+
+        if (queueError) {
+          console.warn('⚠️ Queue table update failed (might not exist):', queueError.message);
         }
 
         // Log behavior data for analysis and debugging
@@ -172,7 +186,7 @@ export async function POST(request) {
           .insert([{
             user_id: userId,
             behavior_data: behaviorData,
-            trust_score: dbTrustScore,
+            trust_score: trustScore, // Store as 0-1
             analysis_method: analysisMethod,
             created_at: new Date().toISOString()
           }]);
@@ -192,10 +206,10 @@ export async function POST(request) {
     }
 
     // Return successful response even if database failed
-    return NextResponse.json({ 
+    return NextResponse.json({
       success: true,
       message: dbSaveSuccess ? 'Trust score updated successfully' : 'Trust score calculated (database unavailable)',
-      trustScore: trustResult.trustScore,
+      trustScore: trustScore, // Return 0-1 scale
       trustLevel: trustLevel,
       confidence: trustResult.confidence,
       needsCaptcha: needsCaptcha,
@@ -249,10 +263,10 @@ export async function GET(request) {
       );
     }
 
-    // Default to high trust for new users
-    const trustScore = data ? data.trust_score / 100 : 1.0; // Convert from 0-100 to 0-1
-    const trustLevel = data?.trust_level || 'High';
-    const needsCaptcha = trustScore <= 0.5;
+    // Get trust score from user_trust table (already 0-1 scale)
+    const trustScore = data ? data.trust_score : 0.1; // Default to 0.1 for new users
+    const trustLevel = data?.trust_level || 'very_low';
+    const needsCaptcha = trustScore <= 0.45; // Consistent with BALANCED threshold
 
     return NextResponse.json({
       success: true,

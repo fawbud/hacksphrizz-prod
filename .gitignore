@@ -47,3 +47,5 @@ next-env.d.ts
 CLAUDE.md
 database/ai_training/behavior_training_data.json
 behavior_training_data.json
+
+database/

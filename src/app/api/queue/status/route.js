@@ -61,9 +61,9 @@ export async function GET(request) {
       status: 'waiting',
       totalWaiting: totalWaiting || 0,
       trustLevel: userData.trust_level,
-      trustScore: userData.trust_score,
-      // Kirim flag untuk adaptive verification
-      requiresCaptcha: userData.trust_level === 'Low',
+      trustScore: userData.trust_score, // Already 0-1 scale
+      // Kirim flag untuk adaptive verification based on threshold
+      requiresCaptcha: userData.trust_score <= 0.45,
       estimatedWaitTime: Math.round((count + 1) * 2) // Estimasi: 2 detik per user
     });
 
