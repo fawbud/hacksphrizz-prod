@@ -387,7 +387,7 @@ export default function SimulationDashboard() {
   }, [historicalYear]);
 
   // Colors for charts
-  const colors = ['#8884d8', '#82ca9d', '#ffc658', '#ff7c7c', '#8dd1e1'];
+  const colors = ['#F27500', '#d96600', '#ffb366', '#e65c00', '#ff8533'];
 
   // Prepare data for charts - show all available data based on predictionDays
   const dailyChartData = predictions?.predictions?.daily_totals || [];
@@ -480,7 +480,7 @@ export default function SimulationDashboard() {
                 <select
                   value={predictionDays}
                   onChange={(e) => setPredictionDays(Number(e.target.value))}
-                  className="border border-gray-300 rounded-lg px-4 py-2 pr-10 text-sm bg-white shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 min-w-[140px] appearance-none cursor-pointer hover:border-gray-400 transition-colors"
+                  className="border border-gray-300 rounded-lg px-4 py-2 pr-10 text-sm bg-white shadow-sm focus:ring-2 focus:ring-[#F27500] focus:border-[#F27500] min-w-[140px] appearance-none cursor-pointer hover:border-gray-400 transition-colors"
                   style={{
                     backgroundImage: `url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e")`,
                     backgroundSize: '16px',
@@ -499,7 +499,7 @@ export default function SimulationDashboard() {
               <button
                 onClick={generatePredictions}
                 disabled={loading}
-                className="bg-blue-600 hover:bg-blue-700 disabled:bg-blue-300 text-white px-4 py-2 rounded-md text-sm font-medium transition-colors"
+                className="bg-[#F27500] hover:bg-[#d96600] disabled:bg-gray-300 text-white px-4 py-2 rounded-md text-sm font-medium transition-colors"
               >
                 {loading ? 'Generating...' : 'Refresh Data'}
               </button>
@@ -516,7 +516,7 @@ export default function SimulationDashboard() {
         {loading && (
           <div className="bg-white rounded-lg shadow-sm p-12 mb-6">
             <div className="text-center">
-              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
+              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#F27500] mx-auto mb-4"></div>
               <p className="text-gray-600">Generating predictions...</p>
             </div>
           </div>
@@ -528,8 +528,8 @@ export default function SimulationDashboard() {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
               <div className="bg-white rounded-lg shadow-sm p-6">
                 <div className="flex items-center">
-                  <div className="p-2 bg-blue-100 rounded-lg">
-                    <svg className="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <div className="p-2 bg-orange-100 rounded-lg">
+                    <svg className="w-6 h-6 text-[#F27500]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
                     </svg>
                   </div>
@@ -594,7 +594,7 @@ export default function SimulationDashboard() {
                         {historicalAvg.toLocaleString()}
                       </p>
                       <span className="text-gray-400">vs</span>
-                      <p className="text-lg font-semibold text-blue-600">
+                      <p className="text-lg font-semibold text-[#F27500]">
                         {predictions.predictions?.summary?.avg_daily_predicted?.toLocaleString() || 'N/A'}
                       </p>
                     </div>
@@ -627,8 +627,8 @@ export default function SimulationDashboard() {
                     <Area 
                       type="monotone" 
                       dataKey="predicted_bookings" 
-                      stroke="#8884d8" 
-                      fill="#8884d8" 
+                      stroke="#F27500" 
+                      fill="#F27500" 
                       fillOpacity={0.3}
                     />
                   </AreaChart>
@@ -649,7 +649,7 @@ export default function SimulationDashboard() {
                       labelLine={false}
                       label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
                       outerRadius={80}
-                      fill="#8884d8"
+                      fill="#F27500"
                       dataKey="value"
                     >
                       {pieData.map((entry, index) => (
@@ -675,7 +675,7 @@ export default function SimulationDashboard() {
                     <XAxis dataKey="train_type" tick={{ fontSize: 12 }} />
                     <YAxis tick={{ fontSize: 12 }} />
                     <Tooltip formatter={(value) => value.toLocaleString()} />
-                    <Bar dataKey="bookings" fill="#82ca9d" />
+                    <Bar dataKey="bookings" fill="#d96600" />
                   </BarChart>
                 </ResponsiveContainer>
               </div>
@@ -701,9 +701,9 @@ export default function SimulationDashboard() {
                     <Line 
                       type="monotone" 
                       dataKey="avg_daily_bookings" 
-                      stroke="#ffc658" 
+                      stroke="#F27500" 
                       strokeWidth={3}
-                      dot={{ fill: '#ffc658', strokeWidth: 2, r: 4 }}
+                      dot={{ fill: '#F27500', strokeWidth: 2, r: 4 }}
                     />
                   </LineChart>
                 </ResponsiveContainer>
@@ -750,20 +750,20 @@ export default function SimulationDashboard() {
                   <Line 
                     type="monotone" 
                     dataKey="actual_bookings" 
-                    stroke="#10b981" 
+                    stroke="#F27500" 
                     strokeWidth={3}
                     name="Actual Bookings"
-                    dot={{ fill: '#10b981', strokeWidth: 2, r: 3 }}
+                    dot={{ fill: '#F27500', strokeWidth: 2, r: 3 }}
                     connectNulls={false}
                   />
                   <Line 
                     type="monotone" 
                     dataKey="predicted_bookings" 
-                    stroke="#3b82f6" 
+                    stroke="#d96600" 
                     strokeWidth={3}
                     strokeDasharray="5 5"
                     name="Predicted Bookings"
-                    dot={{ fill: '#3b82f6', strokeWidth: 2, r: 3 }}
+                    dot={{ fill: '#d96600', strokeWidth: 2, r: 3 }}
                     connectNulls={false}
                   />
                 </LineChart>
@@ -787,7 +787,7 @@ export default function SimulationDashboard() {
                   <select
                     value={historicalYear}
                     onChange={(e) => setHistoricalYear(Number(e.target.value))}
-                    className="border border-gray-300 rounded-lg px-4 py-2 pr-10 text-sm bg-white shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 min-w-[100px] appearance-none cursor-pointer hover:border-gray-400 transition-colors"
+                    className="border border-gray-300 rounded-lg px-4 py-2 pr-10 text-sm bg-white shadow-sm focus:ring-2 focus:ring-[#F27500] focus:border-[#F27500] min-w-[100px] appearance-none cursor-pointer hover:border-gray-400 transition-colors"
                     style={{
                       backgroundImage: `url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e")`,
                       backgroundSize: '16px',
@@ -967,7 +967,7 @@ export default function SimulationDashboard() {
                               multiplier > 2.0 ? 'bg-red-100 text-red-800' :
                               multiplier > 1.5 ? 'bg-orange-100 text-orange-800' :
                               multiplier > 1.2 ? 'bg-yellow-100 text-yellow-800' :
-                              day.is_weekend ? 'bg-blue-100 text-blue-800' : 'bg-gray-100 text-gray-800'
+                              day.is_weekend ? 'bg-orange-100 text-orange-800' : 'bg-gray-100 text-gray-800'
                             }`}>
                               {holidayStatus}
                             </span>
@@ -991,7 +991,7 @@ export default function SimulationDashboard() {
                   Prediction Period: {predictions.prediction_period} | 
                   Historical Range: {predictions.historical_data?.date_range}
                 </p>
-                <p className="text-xs mt-1 text-blue-600">
+                <p className="text-xs mt-1 text-[#F27500]">
                   Enhanced Gradient Boosting Model (R² = 0.8126) with 63 Features
                 </p>
                 <div className="mt-3 text-xs text-gray-500">

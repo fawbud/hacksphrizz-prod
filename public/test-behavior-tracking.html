@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Behavior Tracking Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        input, select, textarea {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        button {
+            background: #007bff;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 10px 0;
+        }
+        button:hover {
+            background: #0056b3;
+        }
+        .results {
+            margin-top: 30px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 5px;
+            border-left: 4px solid #007bff;
+        }
+        .score {
+            font-size: 24px;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+        .high { color: #28a745; }
+        .medium { color: #ffc107; }
+        .low { color: #fd7e14; }
+        .suspicious { color: #dc3545; }
+        .metrics {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+        .metric {
+            background: white;
+            padding: 15px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+        }
+        .metric-label {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        .metric-value {
+            font-size: 18px;
+            color: #007bff;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔍 Behavior Tracking Test Suite</h1>
+        <p>This page tests the behavior tracking system. Interact naturally with the form below to see your trust score.</p>
+        
+        <form id="testForm">
+            <div class="form-group">
+                <label for="name">Full Name:</label>
+                <input type="text" id="name" name="name" placeholder="Enter your full name">
+            </div>
+            
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" placeholder="Enter your email">
+            </div>
+            
+            <div class="form-group">
+                <label for="phone">Phone Number:</label>
+                <input type="tel" id="phone" name="phone" placeholder="Enter your phone">
+            </div>
+            
+            <div class="form-group">
+                <label for="destination">Destination:</label>
+                <select id="destination" name="destination">
+                    <option value="">Select destination</option>
+                    <option value="jakarta">Jakarta</option>
+                    <option value="bandung">Bandung</option>
+                    <option value="surabaya">Surabaya</option>
+                    <option value="yogyakarta">Yogyakarta</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="message">Additional Notes:</label>
+                <textarea id="message" name="message" rows="4" placeholder="Any special requests or notes..."></textarea>
+            </div>
+            
+            <button type="button" onclick="analyzeNow()">🤖 Analyze My Behavior</button>
+            <button type="button" onclick="simulateBot()">🎭 Simulate Bot Behavior</button>
+            <button type="button" onclick="clearData()">🔄 Reset</button>
+        </form>
+        
+        <div id="results" class="results" style="display: none;">
+            <h3>📊 Analysis Results</h3>
+            <div id="trustScore" class="score"></div>
+            <div id="trustLevel"></div>
+            <div id="recommendation"></div>
+            
+            <div class="metrics" id="metrics"></div>
+            
+            <details style="margin-top: 20px;">
+                <summary>🔬 Raw Data (Click to expand)</summary>
+                <pre id="rawData" style="background: #f1f1f1; padding: 15px; margin-top: 10px; overflow-x: auto; font-size: 12px;"></pre>
+            </details>
+        </div>
+    </div>
+
+    <script>
+        // Import our behavior tracking classes
+        class BehaviorTracker {
+            constructor() {
+                this.data = {
+                    mouseMovements: [],
+                    keystrokes: [],
+                    formInteractions: [],
+                    touchEvents: [],
+                    scrollEvents: [],
+                    focusEvents: [],
+                    sessionStart: Date.now(),
+                    userAgent: navigator.userAgent,
+                    screenResolution: `${screen.width}x${screen.height}`,
+                    timezone: Intl.DateTimeFormat().resolvedOptions().timeZone
+                };
+                this.isTracking = false;
+                this.setupEventListeners();
+            }
+
+            startTracking() {
+                this.isTracking = true;
+                this.data.sessionStart = Date.now();
+                console.log('🎯 Behavior tracking started');
+            }
+
+            stopTracking() {
+                this.isTracking = false;
+                console.log('⏹️ Behavior tracking stopped');
+            }
+
+            setupEventListeners() {
+                // Mouse movement tracking
+                document.addEventListener('mousemove', (e) => {
+                    if (!this.isTracking) return;
+                    this.data.mouseMovements.push({
+                        x: e.clientX,
+                        y: e.clientY,
+                        timestamp: Date.now()
+                    });
+                    // Keep only last 100 movements to prevent memory issues
+                    if (this.data.mouseMovements.length > 100) {
+                        this.data.mouseMovements.shift();
+                    }
+                });
+
+                // Keystroke tracking
+                document.addEventListener('keydown', (e) => {
+                    if (!this.isTracking) return;
+                    this.data.keystrokes.push({
+                        key: e.key.length === 1 ? 'char' : e.key,
+                        timestamp: Date.now(),
+                        target: e.target.tagName
+                    });
+                });
+
+                // Form interaction tracking
+                document.querySelectorAll('input, select, textarea').forEach(element => {
+                    element.addEventListener('focus', (e) => {
+                        if (!this.isTracking) return;
+                        this.data.formInteractions.push({
+                            type: 'focus',
+                            field: e.target.name || e.target.id,
+                            timestamp: Date.now()
+                        });
+                    });
+
+                    element.addEventListener('blur', (e) => {
+                        if (!this.isTracking) return;
+                        this.data.formInteractions.push({
+                            type: 'blur',
+                            field: e.target.name || e.target.id,
+                            value: e.target.value.length,
+                            timestamp: Date.now()
+                        });
+                    });
+                });
+            }
+
+            getData() {
+                return {
+                    ...this.data,
+                    sessionDuration: Date.now() - this.data.sessionStart
+                };
+            }
+        }
+
+        class TrustScoreAI {
+            static calculateTrustScore(behaviorData) {
+                const scores = {
+                    mouse: this.analyzeMouseBehavior(behaviorData.mouseMovements),
+                    keystroke: this.analyzeKeystrokeBehavior(behaviorData.keystrokes),
+                    form: this.analyzeFormBehavior(behaviorData.formInteractions),
+                    temporal: this.analyzeTemporalPatterns(behaviorData),
+                    diversity: this.analyzeBehaviorDiversity(behaviorData),
+                    suspicious: this.detectSuspiciousPatterns(behaviorData)
+                };
+
+                // Weighted scoring
+                const weights = {
+                    mouse: 0.25,
+                    keystroke: 0.25,
+                    form: 0.20,
+                    temporal: 0.15,
+                    diversity: 0.10,
+                    suspicious: 0.05
+                };
+
+                let totalScore = 0;
+                for (const [component, score] of Object.entries(scores)) {
+                    totalScore += score * weights[component];
+                }
+
+                return {
+                    overallScore: Math.max(0, Math.min(1, totalScore)),
+                    componentScores: scores,
+                    weights: weights
+                };
+            }
+
+            static analyzeMouseBehavior(movements) {
+                if (movements.length < 5) return 0.3;
+
+                let jitterScore = 0;
+                let velocityVariance = 0;
+                let smoothnessScore = 0;
+
+                for (let i = 1; i < movements.length; i++) {
+                    const current = movements[i];
+                    const previous = movements[i - 1];
+                    
+                    const distance = Math.sqrt(
+                        Math.pow(current.x - previous.x, 2) + 
+                        Math.pow(current.y - previous.y, 2)
+                    );
+                    
+                    const timeDiff = current.timestamp - previous.timestamp;
+                    const velocity = timeDiff > 0 ? distance / timeDiff : 0;
+                    
+                    if (distance < 2 && timeDiff < 50) jitterScore += 0.1;
+                    velocityVariance += velocity;
+                }
+
+                jitterScore = Math.min(1, jitterScore / movements.length);
+                velocityVariance = velocityVariance / movements.length;
+                smoothnessScore = velocityVariance > 0.5 ? 0.8 : 0.4;
+
+                return (1 - jitterScore) * 0.4 + smoothnessScore * 0.6;
+            }
+
+            static analyzeKeystrokeBehavior(keystrokes) {
+                if (keystrokes.length < 3) return 0.3;
+
+                let timings = [];
+                for (let i = 1; i < keystrokes.length; i++) {
+                    timings.push(keystrokes[i].timestamp - keystrokes[i - 1].timestamp);
+                }
+
+                const avgTiming = timings.reduce((a, b) => a + b, 0) / timings.length;
+                const variance = timings.reduce((acc, timing) => 
+                    acc + Math.pow(timing - avgTiming, 2), 0) / timings.length;
+
+                // Human-like typing has some variance but not too much
+                const varianceScore = variance > 100 && variance < 5000 ? 0.8 : 0.3;
+                const speedScore = avgTiming > 50 && avgTiming < 500 ? 0.8 : 0.4;
+
+                return (varianceScore + speedScore) / 2;
+            }
+
+            static analyzeFormBehavior(interactions) {
+                if (interactions.length < 2) return 0.3;
+
+                let hesitationCount = 0;
+                let tabSequenceScore = 0.5;
+
+                for (let i = 1; i < interactions.length; i++) {
+                    const current = interactions[i];
+                    const previous = interactions[i - 1];
+                    
+                    if (current.type === 'focus' && previous.type === 'blur') {
+                        const timeBetween = current.timestamp - previous.timestamp;
+                        if (timeBetween > 2000) hesitationCount++;
+                    }
+                }
+
+                const hesitationScore = hesitationCount / interactions.length;
+                return Math.max(0.2, 1 - hesitationScore);
+            }
+
+            static analyzeTemporalPatterns(data) {
+                const sessionDuration = data.sessionDuration || 1000;
+                
+                // Reasonable session duration (not too fast, not too slow)
+                if (sessionDuration < 5000) return 0.2; // Too fast
+                if (sessionDuration > 300000) return 0.4; // Too slow
+                
+                return 0.8; // Good timing
+            }
+
+            static analyzeBehaviorDiversity(data) {
+                let diversityScore = 0;
+                
+                if (data.mouseMovements.length > 0) diversityScore += 0.3;
+                if (data.keystrokes.length > 0) diversityScore += 0.3;
+                if (data.formInteractions.length > 0) diversityScore += 0.4;
+                
+                return diversityScore;
+            }
+
+            static detectSuspiciousPatterns(data) {
+                let suspiciousScore = 1.0;
+                
+                // Check for perfectly linear mouse movements
+                if (data.mouseMovements.length > 10) {
+                    let linearCount = 0;
+                    for (let i = 2; i < data.mouseMovements.length; i++) {
+                        const p1 = data.mouseMovements[i - 2];
+                        const p2 = data.mouseMovements[i - 1];
+                        const p3 = data.mouseMovements[i];
+                        
+                        // Check if three points are perfectly linear
+                        const slope1 = (p2.y - p1.y) / (p2.x - p1.x || 1);
+                        const slope2 = (p3.y - p2.y) / (p3.x - p2.x || 1);
+                        
+                        if (Math.abs(slope1 - slope2) < 0.01) linearCount++;
+                    }
+                    
+                    if (linearCount / data.mouseMovements.length > 0.8) {
+                        suspiciousScore -= 0.5; // Very linear = suspicious
+                    }
+                }
+                
+                // Check for identical keystroke timings
+                if (data.keystrokes.length > 5) {
+                    let timings = [];
+                    for (let i = 1; i < data.keystrokes.length; i++) {
+                        timings.push(data.keystrokes[i].timestamp - data.keystrokes[i - 1].timestamp);
+                    }
+                    
+                    const uniqueTimings = new Set(timings);
+                    if (uniqueTimings.size === 1) {
+                        suspiciousScore -= 0.3; // Identical timings = suspicious
+                    }
+                }
+                
+                return Math.max(0, suspiciousScore);
+            }
+
+            static getTrustLevel(score) {
+                if (score >= 0.8) return 'high';
+                if (score >= 0.6) return 'medium';
+                if (score >= 0.4) return 'low';
+                return 'suspicious';
+            }
+        }
+
+        // Initialize tracker
+        const tracker = new BehaviorTracker();
+        tracker.startTracking();
+
+        function analyzeNow() {
+            const behaviorData = tracker.getData();
+            const analysis = TrustScoreAI.calculateTrustScore(behaviorData);
+            const trustLevel = TrustScoreAI.getTrustLevel(analysis.overallScore);
+            
+            displayResults(analysis, trustLevel, behaviorData);
+        }
+
+        function simulateBot() {
+            // Simulate bot-like behavior for testing
+            const fakeData = {
+                mouseMovements: Array.from({length: 20}, (_, i) => ({
+                    x: i * 10, // Perfectly linear
+                    y: i * 5,  // Perfectly linear
+                    timestamp: Date.now() + i * 100 // Perfectly timed
+                })),
+                keystrokes: Array.from({length: 10}, (_, i) => ({
+                    key: 'char',
+                    timestamp: Date.now() + i * 100, // Identical timings
+                    target: 'INPUT'
+                })),
+                formInteractions: [],
+                sessionDuration: 2000, // Too fast
+                userAgent: navigator.userAgent
+            };
+            
+            const analysis = TrustScoreAI.calculateTrustScore(fakeData);
+            const trustLevel = TrustScoreAI.getTrustLevel(analysis.overallScore);
+            
+            displayResults(analysis, trustLevel, fakeData);
+        }
+
+        function displayResults(analysis, trustLevel, rawData) {
+            const resultsDiv = document.getElementById('results');
+            const trustScoreDiv = document.getElementById('trustScore');
+            const trustLevelDiv = document.getElementById('trustLevel');
+            const recommendationDiv = document.getElementById('recommendation');
+            const metricsDiv = document.getElementById('metrics');
+            const rawDataDiv = document.getElementById('rawData');
+            
+            // Display trust score
+            const score = (analysis.overallScore * 100).toFixed(1);
+            trustScoreDiv.innerHTML = `Trust Score: <span class="${trustLevel}">${score}%</span>`;
+            trustLevelDiv.innerHTML = `Trust Level: <span class="${trustLevel}">${trustLevel.toUpperCase()}</span>`;
+            
+            // Display recommendation
+            let recommendation = '';
+            if (trustLevel === 'suspicious' || analysis.overallScore <= 0.5) {
+                recommendation = '🚨 <strong>Verification Required:</strong> Captcha should be presented';
+            } else if (trustLevel === 'low') {
+                recommendation = '⚠️ <strong>Monitor:</strong> Watch for additional suspicious patterns';
+            } else if (trustLevel === 'medium') {
+                recommendation = '✅ <strong>Proceed:</strong> Normal verification process';
+            } else {
+                recommendation = '🎉 <strong>Trusted User:</strong> Minimal verification needed';
+            }
+            recommendationDiv.innerHTML = recommendation;
+            
+            // Display component scores
+            metricsDiv.innerHTML = '';
+            for (const [component, score] of Object.entries(analysis.componentScores)) {
+                const metricDiv = document.createElement('div');
+                metricDiv.className = 'metric';
+                metricDiv.innerHTML = `
+                    <div class="metric-label">${component.charAt(0).toUpperCase() + component.slice(1)}:</div>
+                    <div class="metric-value">${(score * 100).toFixed(1)}%</div>
+                `;
+                metricsDiv.appendChild(metricDiv);
+            }
+            
+            // Display raw data
+            rawDataDiv.textContent = JSON.stringify({
+                analysis: analysis,
+                rawBehavior: {
+                    ...rawData,
+                    mouseMovements: rawData.mouseMovements.slice(-5), // Show only last 5
+                    keystrokes: rawData.keystrokes.slice(-5) // Show only last 5
+                }
+            }, null, 2);
+            
+            resultsDiv.style.display = 'block';
+        }
+
+        function clearData() {
+            tracker.data = {
+                mouseMovements: [],
+                keystrokes: [],
+                formInteractions: [],
+                touchEvents: [],
+                scrollEvents: [],
+                focusEvents: [],
+                sessionStart: Date.now(),
+                userAgent: navigator.userAgent,
+                screenResolution: `${screen.width}x${screen.height}`,
+                timezone: Intl.DateTimeFormat().resolvedOptions().timeZone
+            };
+            
+            document.getElementById('results').style.display = 'none';
+            document.getElementById('testForm').reset();
+            
+            console.log('🔄 Data cleared, tracking restarted');
+        }
+
+        // Auto-analyze after 30 seconds of interaction
+        setTimeout(() => {
+            if (tracker.data.mouseMovements.length > 0 || tracker.data.keystrokes.length > 0) {
+                console.log('⏰ Auto-analyzing after 30 seconds...');
+                analyzeNow();
+            }
+        }, 30000);
+
+        console.log('🚀 Behavior tracking test page loaded. Interact with the form to generate data!');
+    </script>
+</body>
+</html>
