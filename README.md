@@ -1,6 +1,8 @@
 # Quikyu - Smart Train Ticketing Platform
 
-**🚀 [Live Deployment](#)** | **📊 [Pitch Deck](#)** | **🎥 [Demo Video](#)**
+* **🚀 Live Deployment: [Quikyu.xyz]([#](https://www.quikyu.xyz/))**
+* **📊 Pitch Deck: [url](#)**
+* **🎥 Demo Video: [url](#)**
 
 ---
 
