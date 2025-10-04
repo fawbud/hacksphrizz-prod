@@ -18,7 +18,7 @@
    <div class="ch-container">
 
       <section class="ch-section ch-show" id="ch-logo">
-         <img src="https://www.quikyu.xyz/special-static/images/quikyu-long-logo.png" alt="Quikyu Logo">
+         <img src="https://www.quikyu.xyz/special-static/images/quikyu.png" alt="Quikyu Logo">
       </section>
 
       <section class="ch-section" id="ch-header">
@@ -102,6 +102,14 @@
          </div>
       </section>
 
+      <section class="ch-section ch-hide" id="ch-recommendations">
+         <h3>✨ Smart Recommendations</h3>
+         <p class="ch-rec-subtitle">While you wait, check out these alternative trains for your journey</p>
+         <div id="ch-recommendations-list" class="ch-rec-list">
+            <p class="ch-rec-loading">Loading recommendations...</p>
+         </div>
+      </section>
+
       <section class="ch-section" id="ch-priority">
          <h3>🎟️ Have a Priority Code?</h3>
          <form>
@@ -110,7 +118,7 @@
                   aria-label="Enter priority code">
                <span class="input-group-btn">
                   <button id="ch-priority-btn-action" class="btn btn-default" type="submit">
-                     <span class="ch-show">Apply Code</span>
+                     <span class="ch-show">Apply</span>
                   </button>
                </span>
                <span id="ch-priority-success" class="ch-icon ch-hide ch-priority-group-add-item">
@@ -154,6 +162,7 @@
    </div>
 
    <script src="https://wait.crowdhandler.com/js/latest/main.js?id=ch-public-key"></script>
+   <script src="https://www.quikyu.xyz/special-static/crowdhandler-template.js"></script>
 </body>
 
 </html>

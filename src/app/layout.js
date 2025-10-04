@@ -1,23 +1,21 @@
-import { Geist, Geist_Mono } from "next/font/google";
+import { Poppins } from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
+import { Providers } from "./providers";
 import { AuthProvider } from "@/context/AuthContext";
 import { CrowdHandlerProvider } from "@/context/CrowdHandlerContext";
+import { ToastProvider } from "@/context/ToastContext";
 import EmergencyBypass from "@/components/EmergencyBypass";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const poppins = Poppins({
+  variable: "--font-poppins",
   subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
 });
 
 export const metadata = {
-  title: "Quikyu - Book Your Train Tickets",
-  description: "Book train tickets quickly and easily",
+  title: "Quikyu - Smart Train Ticketing",
+  description: "Pesan tiket kereta cepat, aman, dan nyaman di seluruh Indonesia",
 };
 
 export default function RootLayout({ children }) {
@@ -40,7 +38,7 @@ export default function RootLayout({ children }) {
         />
       </head>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${poppins.variable} font-sans antialiased`}
       >
         {/* Google Tag Manager (noscript) */}
         <noscript>
@@ -53,9 +51,11 @@ export default function RootLayout({ children }) {
         </noscript>
         {/* End Google Tag Manager (noscript) */}
         <EmergencyBypass />
-        <CrowdHandlerProvider>
-          <AuthProvider>{children}</AuthProvider>
-        </CrowdHandlerProvider>
+        <ToastProvider>
+          <CrowdHandlerProvider>
+            <AuthProvider>{children}</AuthProvider>
+          </CrowdHandlerProvider>
+        </ToastProvider>
       </body>
     </html>
   );

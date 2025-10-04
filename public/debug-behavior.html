@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Behavior Tracking Debug Test</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .debug-panel { background: #f0f0f0; padding: 20px; border-radius: 8px; margin: 20px 0; }
+        .test-button { padding: 10px 20px; margin: 10px; background: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer; }
+        .test-button:hover { background: #0056b3; }
+        .log { background: #000; color: #0f0; padding: 15px; font-family: monospace; height: 300px; overflow-y: auto; }
+    </style>
+</head>
+<body>
+    <h1>Behavior Tracking Debug Test</h1>
+    
+    <div class="debug-panel">
+        <h3>Test Controls</h3>
+        <button class="test-button" onclick="initTracking()">Initialize Tracking</button>
+        <button class="test-button" onclick="testSendData()">Send Test Data</button>
+        <button class="test-button" onclick="clearLogs()">Clear Logs</button>
+    </div>
+
+    <div class="debug-panel">
+        <h3>Console Output</h3>
+        <div id="logOutput" class="log"></div>
+    </div>
+
+    <script type="module">
+        import { BehaviorTracker } from '/src/utils/behaviorTracker.js';
+        
+        let tracker = null;
+        
+        // Capture console logs
+        const originalLog = console.log;
+        const originalError = console.error;
+        const originalWarn = console.warn;
+        
+        function addToLog(type, ...args) {
+            const logDiv = document.getElementById('logOutput');
+            const timestamp = new Date().toLocaleTimeString();
+            const message = args.map(arg => 
+                typeof arg === 'object' ? JSON.stringify(arg, null, 2) : String(arg)
+            ).join(' ');
+            
+            logDiv.innerHTML += `<div style="color: ${type === 'error' ? '#ff6b6b' : type === 'warn' ? '#ffd93d' : '#00ff00'}">[${timestamp}] ${type.toUpperCase()}: ${message}</div>`;
+            logDiv.scrollTop = logDiv.scrollHeight;
+        }
+        
+        console.log = (...args) => {
+            originalLog(...args);
+            addToLog('log', ...args);
+        };
+        
+        console.error = (...args) => {
+            originalError(...args);
+            addToLog('error', ...args);
+        };
+        
+        console.warn = (...args) => {
+            originalWarn(...args);
+            addToLog('warn', ...args);
+        };
+        
+        window.initTracking = function() {
+            console.log('🚀 Initializing behavior tracker...');
+            tracker = new BehaviorTracker('debug-user-123');
+            console.log('✅ Tracker initialized:', tracker);
+            
+            // Start tracking
+            tracker.startTracking();
+            console.log('📊 Tracking started');
+            
+            // Simulate some events
+            setTimeout(() => {
+                console.log('🎯 Simulating mouse events...');
+                for (let i = 0; i < 5; i++) {
+                    tracker.trackMouse({ 
+                        clientX: 100 + i * 10, 
+                        clientY: 200 + i * 5, 
+                        type: 'mousemove',
+                        timestamp: Date.now() + i 
+                    });
+                }
+                console.log('🎯 Mouse events added');
+            }, 1000);
+        };
+        
+        window.testSendData = async function() {
+            if (!tracker) {
+                console.error('❌ Tracker not initialized. Click "Initialize Tracking" first.');
+                return;
+            }
+            
+            console.log('📤 Sending behavior data...');
+            try {
+                const result = await tracker.sendToServer();
+                console.log('✅ Send result:', result);
+            } catch (error) {
+                console.error('❌ Send failed:', error);
+            }
+        };
+        
+        window.clearLogs = function() {
+            document.getElementById('logOutput').innerHTML = '';
+        };
+        
+        console.log('🔧 Debug page loaded. Click "Initialize Tracking" to start.');
+    </script>
+</body>
+</html>

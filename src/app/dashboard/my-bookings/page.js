@@ -6,6 +6,7 @@ import { useAuth } from '@/context/AuthContext';
 import { supabase } from '@/lib/supabase';
 import Navbar from '@/components/Navbar';
 import Modal from '@/components/Modal';
+import Link from 'next/link';
 
 export default function BookingsPage() {
   const router = useRouter();
@@ -134,6 +135,17 @@ export default function BookingsPage() {
       <Navbar />
 
       <main className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        {/* Breadcrumbs */}
+        <nav className="mb-6 flex items-center text-sm">
+          <Link href="/dashboard" className="text-brand hover:text-brand-hover transition-colors font-medium">
+            Dashboard
+          </Link>
+          <svg className="w-4 h-4 mx-2 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+          </svg>
+          <span className="text-gray-600">My Bookings</span>
+        </nav>
+
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-gray-900 mb-2">My Bookings</h1>
           <p className="text-gray-600">View and manage your train ticket bookings</p>
@@ -354,12 +366,44 @@ export default function BookingsPage() {
                     {getPaymentMethodLabel(selectedBooking.payment_method)}
                   </p>
                 </div>
-                {selectedBooking.payment_details && (
-                  <div className="text-sm text-gray-600">
-                    <p className="mb-1">Payment Details:</p>
-                    <pre className="bg-white p-3 rounded border border-gray-200 overflow-x-auto">
-                      {JSON.stringify(selectedBooking.payment_details, null, 2)}
-                    </pre>
+                {selectedBooking.payment_details && typeof selectedBooking.payment_details === 'object' && (
+                  <div className="space-y-2">
+                    {selectedBooking.payment_details.cardNumber && (
+                      <div className="flex justify-between text-sm">
+                        <span className="text-gray-600">Card Number:</span>
+                        <span className="font-medium text-gray-900">•••• •••• •••• {selectedBooking.payment_details.cardNumber.slice(-4)}</span>
+                      </div>
+                    )}
+                    {selectedBooking.payment_details.cardHolder && (
+                      <div className="flex justify-between text-sm">
+                        <span className="text-gray-600">Card Holder:</span>
+                        <span className="font-medium text-gray-900">{selectedBooking.payment_details.cardHolder}</span>
+                      </div>
+                    )}
+                    {selectedBooking.payment_details.bankName && (
+                      <div className="flex justify-between text-sm">
+                        <span className="text-gray-600">Bank:</span>
+                        <span className="font-medium text-gray-900">{selectedBooking.payment_details.bankName}</span>
+                      </div>
+                    )}
+                    {selectedBooking.payment_details.accountNumber && (
+                      <div className="flex justify-between text-sm">
+                        <span className="text-gray-600">Account:</span>
+                        <span className="font-medium text-gray-900">•••• {selectedBooking.payment_details.accountNumber.slice(-4)}</span>
+                      </div>
+                    )}
+                    {selectedBooking.payment_details.ewalletProvider && (
+                      <div className="flex justify-between text-sm">
+                        <span className="text-gray-600">Provider:</span>
+                        <span className="font-medium text-gray-900">{selectedBooking.payment_details.ewalletProvider}</span>
+                      </div>
+                    )}
+                    {selectedBooking.payment_details.phoneNumber && (
+                      <div className="flex justify-between text-sm">
+                        <span className="text-gray-600">Phone:</span>
+                        <span className="font-medium text-gray-900">{selectedBooking.payment_details.phoneNumber}</span>
+                      </div>
+                    )}
                   </div>
                 )}
               </div>

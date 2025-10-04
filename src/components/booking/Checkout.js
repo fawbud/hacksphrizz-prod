@@ -2,8 +2,9 @@
 
 import { useState } from 'react';
 
-export default function Checkout({ bookingData, onComplete, onBack }) {
+export default function Checkout({ bookingData, train, onComplete, onBack }) {
   const [paymentMethod, setPaymentMethod] = useState('credit-card');
+  // const [detectionMethod, setDetectionMethod] = useState('rule-based'); // Bot detection toggle - commented out
   const [paymentInfo, setPaymentInfo] = useState({
     cardNumber: '',
     cardName: '',
@@ -16,7 +17,8 @@ export default function Checkout({ bookingData, onComplete, onBack }) {
 
   // Calculate total price
   const calculateTotal = () => {
-    let total = 150000; // Base ticket price per passenger
+    if (!train) return 0;
+    let total = train.base_price;
     total *= bookingData.passengers.length;
 
     if (bookingData.protections.personalAccident) {
@@ -60,7 +62,7 @@ export default function Checkout({ bookingData, onComplete, onBack }) {
       }
     }
 
-    onComplete({ paymentMethod, paymentInfo });
+        onComplete({ paymentMethod, paymentInfo });
   };
 
   return (
@@ -284,7 +286,7 @@ export default function Checkout({ bookingData, onComplete, onBack }) {
             <div className="space-y-2 mb-4 pb-4 border-b border-orange-400">
               <div className="flex justify-between text-sm">
                 <span>Base Fare ({bookingData.passengers.length}x)</span>
-                <span>Rp {(150000 * bookingData.passengers.length).toLocaleString()}</span>
+                <span>Rp {(train?.base_price * bookingData.passengers.length).toLocaleString()}</span>
               </div>
               {bookingData.protections.personalAccident && (
                 <div className="flex justify-between text-sm">

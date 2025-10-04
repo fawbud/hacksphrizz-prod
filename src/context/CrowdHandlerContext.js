@@ -1,6 +1,7 @@
 'use client';
 
 import { createContext, useContext, useEffect, useState } from 'react';
+import { usePathname } from 'next/navigation';
 
 const CrowdHandlerContext = createContext();
 
@@ -8,10 +9,14 @@ export function CrowdHandlerProvider({ children }) {
   const [isPromoted, setIsPromoted] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [gatekeeper, setGatekeeper] = useState(null);
+  const pathname = usePathname();
 
   useEffect(() => {
     const initializeCrowdHandler = async () => {
       try {
+        // Reset state when route changes
+        setIsLoading(true);
+
         // Only run on client side
         if (typeof window === 'undefined') {
           setIsLoading(false);
@@ -20,8 +25,10 @@ export function CrowdHandlerProvider({ children }) {
         }
 
         // Check if current page should be protected
-        const currentPath = window.location.pathname;
+        const currentPath = pathname || window.location.pathname;
         const isProtectedRoute = currentPath.startsWith('/book');
+
+        console.log('CrowdHandler: Route changed to:', currentPath, '| Protected:', isProtectedRoute);
 
         if (!isProtectedRoute) {
           console.log('CrowdHandler: Not a protected route, allowing access');
@@ -127,14 +134,34 @@ export function CrowdHandlerProvider({ children }) {
         if (!result.promoted) {
           console.log('CrowdHandler: User not promoted, using SDK redirect method');
           console.log('Validation result:', result);
-          
+
+          // Store train ID and route info in sessionStorage for waiting room
+          const urlParams = new URLSearchParams(window.location.search);
+          const trainId = urlParams.get('train');
+          const date = urlParams.get('date');
+
+          if (trainId) {
+            sessionStorage.setItem('ch_train_id', trainId);
+            console.log('Stored train ID for waiting room:', trainId);
+          }
+          if (date) {
+            sessionStorage.setItem('ch_train_date', date);
+          }
+
+          // Get original route info from URL for return link
+          const currentPath = window.location.pathname;
+          const searchParams = window.location.search;
+          if (currentPath && searchParams) {
+            sessionStorage.setItem('ch_return_url', currentPath + searchParams);
+          }
+
           // Use the SDK's built-in redirect method
           try {
             gate.redirectIfNotPromoted();
             return; // This should redirect and stop execution
           } catch (redirectError) {
             console.error('CrowdHandler redirect error:', redirectError);
-            
+
             // Fallback: manual redirect if SDK method fails
             if (result.targetURL) {
               console.log('CrowdHandler: Fallback redirect to:', result.targetURL);
@@ -168,7 +195,7 @@ export function CrowdHandlerProvider({ children }) {
     };
 
     initializeCrowdHandler();
-  }, []);
+  }, [pathname]);
 
   const recordPerformance = async (options = {}) => {
     if (typeof window === 'undefined') return;

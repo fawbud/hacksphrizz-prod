@@ -21,7 +21,7 @@ CREATE INDEX IF NOT EXISTS idx_queue_user_id ON queue(user_id);
 CREATE INDEX IF NOT EXISTS idx_queue_status ON queue(status);
 ```
 
-### 2. Behavior Logs Table (Optional, untuk analytics)
+### 2. Behavior Logs Table (For comprehensive behavior analysis)
 ```sql
 CREATE TABLE IF NOT EXISTS behavior_logs (
   id BIGSERIAL PRIMARY KEY,
@@ -36,6 +36,17 @@ CREATE TABLE IF NOT EXISTS behavior_logs (
 -- Index untuk queries
 CREATE INDEX IF NOT EXISTS idx_behavior_logs_user_id ON behavior_logs(user_id);
 CREATE INDEX IF NOT EXISTS idx_behavior_logs_created_at ON behavior_logs(created_at);
+CREATE INDEX IF NOT EXISTS idx_behavior_logs_trust_score ON behavior_logs(trust_score);
+```
+
+### 3. Bookings Table Enhancement
+```sql
+-- Add trust_score column to existing bookings table
+ALTER TABLE bookings ADD COLUMN IF NOT EXISTS trust_score INTEGER CHECK (trust_score >= 0 AND trust_score <= 100);
+ALTER TABLE bookings ADD COLUMN IF NOT EXISTS behavior_verified BOOLEAN DEFAULT false;
+
+-- Index for trust score analysis
+CREATE INDEX IF NOT EXISTS idx_bookings_trust_score ON bookings(trust_score);
 ```
 
 ### 3. Config Table
