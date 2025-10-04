@@ -234,13 +234,19 @@ export default function Dashboard() {
             </div>
           </div>
 
-          {/* My Bookings Button */}
-          <div className="mt-12 text-center">
+          {/* Action Buttons */}
+          <div className="mt-12 flex flex-col sm:flex-row gap-4 justify-center items-center">
             <button
               onClick={() => router.push('/dashboard/my-bookings')}
               className="bg-white text-brand px-8 py-4 rounded-xl font-semibold text-lg hover:bg-gray-50 transition shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 border-2 border-brand"
             >
               🎫 View My Bookings
+            </button>
+            <button
+              onClick={() => router.push('/admin')}
+              className="bg-brand text-white px-8 py-4 rounded-xl font-semibold text-lg hover:bg-brand-hover transition shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
+            >
+              ⚙️ Open Admin App
             </button>
           </div>
         </div>
